@@ -29,6 +29,13 @@ tlk::Ticket tlk::Player_mrx::getTicketForMrx(tlk::ConnectionType usedTransportat
 {
     Ticket used = TicketStack::getTicketFor(usedTransportation);
 
+    if (tickets.ticketCount(used) == 0 
+    && tickets.ticketCount(BLACK_Ti) > 0)
+    {
+        std::cout << "Using Black Ticket to travel as it's the only option!" << std::endl;
+        return BLACK_Ti;
+    }
+
     if (!tickets.isAdvancedTicketAvailable())
     {
         std::cout << "Using ticket for: " << used << std::endl;
@@ -61,7 +68,7 @@ tlk::Ticket tlk::Player_mrx::getTicketForMrx(tlk::ConnectionType usedTransportat
         std::cout << "No black tickets were availabe so default is used!" << std::endl;
 
     default:
-        std::cout << "No valid selection made, using default ticket!" << std::endl;
+        std::cout << "No valid selection made, using " << used << "!" << std::endl;
         break;
     }
     

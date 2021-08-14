@@ -1,6 +1,5 @@
 #pragma once
 
-
 namespace tlk
 {
     enum Team
@@ -14,7 +13,7 @@ namespace tlk
         TAXI_Ti,
         BUS_Ti,
         UNDERGROUND_Ti,
-        DOUBLE_Ti,
-        BLACK_Ti
+        BLACK_Ti,
+        DOUBLE_Ti
     };
 }

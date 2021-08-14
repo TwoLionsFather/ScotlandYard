@@ -32,8 +32,8 @@ namespace tlk
         };
 
         bool isAllowedToUse(ConnectionType type) const
-        {           // either correct ticket type available or use Black Ticket. //TODO Fix so black Ticket must be used in that case
-            return tickets.getTicketFor(type) > 0 || tickets.getTicketFor(BOAT) > 0;
+        {   
+            return tickets.isAllowedToUse(type);
         }
 
     protected:

@@ -51,6 +51,9 @@ void tlk::Game::play()
             
         for (Entity* e : sly_units)
         {
+            if (e->getPos() == 0) //If unit isn't activated it can be ignored
+                continue;
+
             const Connections& options =  gameMap->getMovesFor(e, getEntityLocations());
             if (options.empty())
                 continue;

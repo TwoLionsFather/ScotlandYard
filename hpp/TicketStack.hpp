@@ -15,17 +15,17 @@ namespace tlk
             //TODO make better:
             if (t == tlk::SLY)
             {
-                counts[0] = 10;
-                counts[1] = 8;
-                counts[2] = 4;
+                counts[TAXI_Ti] = 10;
+                counts[BUS_Ti] = 8;
+                counts[UNDERGROUND_Ti] = 4;
             }
             else
             {
-                counts[0] = 4;
-                counts[1] = 3;
-                counts[2] = 3;
-                counts[3] = 2;
-                counts[4] = 3;
+                counts[TAXI_Ti] = 4;
+                counts[BUS_Ti] = 3;
+                counts[UNDERGROUND_Ti] = 3;
+                counts[DOUBLE_Ti] = 2;
+                counts[BLACK_Ti] = 3;
             }
         };
 
@@ -39,12 +39,18 @@ namespace tlk
             counts[typeAdded]++;
         };
 
-        bool isAdvancedTicketAvailable()
+        bool isAllowedToUse(ConnectionType t) const
+        {// either correct ticket type available or use Black Ticket.
+            return (counts[TicketStack::getTicketFor(t)] > 0) 
+                || (counts[BLACK_Ti] > 0);
+        }
+
+        bool isAdvancedTicketAvailable() const
         {
-            return counts[3] || counts[4];
+            return counts[DOUBLE_Ti] || counts[BLACK_Ti];
         }
         
-        int ticketCount(Ticket type)
+        int ticketCount(Ticket type) const
         {
             return counts[type];
         }
@@ -64,6 +70,20 @@ namespace tlk
         };
 
     private:
+        // int convertTypeToIDX(Ticket t) const
+        // {
+        //     switch (t)
+        //     {
+        //     case TAXI_Ti:           return 0;
+        //     case BUS_Ti:            return 1;
+        //     case UNDERGROUND_Ti:    return 2;
+        //     case BLACK_Ti:          return 3;
+        //     case DOUBLE_Ti:         return 4;    
+            
+        //     default:
+        //         throw std::runtime_error("Unknown Connection Type used, can't dereference Ticket!");
+        //     }  
+        // }
         int counts[5];
     }; 
 }
