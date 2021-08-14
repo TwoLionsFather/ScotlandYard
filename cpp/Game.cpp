@@ -6,9 +6,9 @@ tlk::Game::Game():
     , sly_units(std::vector<Entity*>())
     , gameState(tlk::MOVE_MRX)
 { 
-    sly_units.emplace_back(new Sly_bot());
-    sly_units.emplace_back(new Sly_bot());
-    sly_units.emplace_back(new Sly_bot());
+    sly_units.emplace_back(new Bot_sly());
+    sly_units.emplace_back(new Bot_sly());
+    sly_units.emplace_back(new Bot_sly());
 }
 
 tlk::Game::~Game()
@@ -33,6 +33,7 @@ void tlk::Game::setup()
 {    
     mrx->setStartingPos(1);
     sly_units[0]->setStartingPos(2);
+    sly_units[1]->setStartingPos(3);
 }
 
 void tlk::Game::play()
@@ -40,13 +41,27 @@ void tlk::Game::play()
     std::cout << "Das Spiel kann beginnen: " << std::endl;
 
     do {
-        const Connections& options =  gameMap->getMovesFor(*mrx, getEntityLocations());
+        const Connections& options =  gameMap->getMovesFor(mrx, getEntityLocations());
+        if (options.empty())
+        {
+            gameState = WON_SLY;
+            break;
+        }
         const std::pair<Connection, Ticket>& used = mrx->move(options);
+            
+        for (Entity* e : sly_units)
+        {
+            const Connections& options =  gameMap->getMovesFor(e, getEntityLocations());
+            if (options.empty())
+                continue;
 
-        std::cout << used.first << " using: " << used.second << std::endl;
-        std::cout << gameMap;
+            const std::pair<Connection, Ticket>& used = e->move(options); 
+        }
 
     } while (true);
     
+    if (gameState == WON_SLY)
+        std::cout << "Game has finished and Scotland Yard won!" << std::endl;
+
 }
 

@@ -21,7 +21,7 @@ namespace tlk
         Map(std::string path);
         ~Map();
         
-        const Connections getMovesFor(const Entity& e, const std::vector<unsigned int>& occupiedPos) const;
+        const Connections getMovesFor(const Entity* e, const std::vector<unsigned int>& occupiedPos) const;
 
         const std::map<int, std::unique_ptr<Connections>>& getGameFields() const
         {

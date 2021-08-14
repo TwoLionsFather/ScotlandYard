@@ -2,7 +2,7 @@
 
 #include "Map.hpp"
 #include "Player_mrx.hpp"
-#include "Sly_bot.hpp"
+#include "Bot_sly.hpp"
 #include <iostream>
 
 namespace tlk

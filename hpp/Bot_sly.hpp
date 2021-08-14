@@ -4,11 +4,11 @@
 
 namespace tlk
 {
-    class Sly_bot : public Entity
+    class Bot_sly : public Entity
     {
     public:
-        Sly_bot() : Entity(Team::SLY) { };
-        virtual ~Sly_bot() { };
+        Bot_sly() : Entity(Team::SLY) { };
+        virtual ~Bot_sly() { };
 
     protected:
         virtual const Connection& getSelectionForMrx(const Connections& options) override;
