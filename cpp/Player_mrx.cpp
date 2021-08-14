@@ -12,7 +12,8 @@ const tlk::Connection& tlk::Player_mrx::getSelectionForMrx(const Connections& op
             printf("%2d [%3d to %3d] via: ", selection++, pos, c.target);
             std::cout << c.type << std::endl;
         }
-            
+        std::cout << "You have the Following Tickets: " << std::endl;
+        std::cout << this->tickets;
         std::cout << "Please select using the number infront of the connection: ";
         std::cin >> selection;
 

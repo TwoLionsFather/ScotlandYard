@@ -88,4 +88,5 @@ namespace tlk
     }; 
 }
 
-std::ostream& operator<<(std::ostream& out, const tlk::Ticket& ticket);
+std::ostream& operator<<(std::ostream& out, const tlk::Ticket& rhs);
+std::ostream& operator<<(std::ostream& out, const tlk::TicketStack& rhs);

@@ -13,7 +13,7 @@ namespace tlk
         TAXI_Ti,
         BUS_Ti,
         UNDERGROUND_Ti,
-        BLACK_Ti,
-        DOUBLE_Ti
+        DOUBLE_Ti,
+        BLACK_Ti
     };
 }
