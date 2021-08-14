@@ -32,6 +32,7 @@ std::vector<unsigned int> tlk::Game::getEntityLocations()
 void tlk::Game::setup()
 {    
     mrx->setStartingPos(1);
+    sly_units[0]->setStartingPos(2);
 }
 
 void tlk::Game::play()
@@ -39,7 +40,8 @@ void tlk::Game::play()
     std::cout << "Das Spiel kann beginnen: " << std::endl;
 
     do {
-        const std::pair<Connection, Ticket>& used = mrx->move(gameMap->getMovesFor(*mrx, getEntityLocations()));
+        const Connections& options =  gameMap->getMovesFor(*mrx, getEntityLocations());
+        const std::pair<Connection, Ticket>& used = mrx->move(options);
 
         std::cout << used.first << " using: " << used.second << std::endl;
         std::cout << gameMap;

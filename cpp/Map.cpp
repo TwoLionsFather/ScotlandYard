@@ -66,17 +66,18 @@ tlk::Map::~Map()
 
 const tlk::Connections tlk::Map::getMovesFor(const Entity& e, const std::vector<unsigned int>& occupiedPos) const
 {
-    const auto& temp = gameFields.find(e.getPos())->second;
+    //TODO test if copy or reference is used
+    Connections selection = *gameFields.find(e.getPos())->second;
 
-    if (temp == gameFields.end()->second)
+    if (selection.empty())
         throw std::invalid_argument("No options were found for an entity inside of Maps Connectin search function!!");
     
-    Connections selection;
+    Connections tmp;
+    std::remove_copy_if(selection.begin(), selection.end(), std::back_inserter(tmp),
+                        [&](auto connection) {return !e.isAllowedToUse(connection.type);});
 
-    std::remove_copy_if(temp->begin(), temp->end(), std::back_inserter(selection),
-                        [&](auto connection) {return e.isAllowedToUse(connection.type);});
-
-    std::remove_copy_if(selection.begin(), selection.end(), std::back_inserter(selection),
+    selection.clear();
+    std::remove_copy_if(tmp.begin(), tmp.end(), std::back_inserter(selection),
                         [&](auto connection) {  for (unsigned int ui : occupiedPos)
                                                     if (ui == connection.target)
                                                         return true;
