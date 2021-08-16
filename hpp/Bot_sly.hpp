@@ -3,7 +3,7 @@
 #include "Entity.hpp"
 #include "VirtualMap.hpp"
 #include <random>
-#include <ctime>
+#include <chrono>
 
 namespace tlk
 {

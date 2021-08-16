@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <string>
+#include <array>
 
 // class Example : public olc::PixelGameEngine
 // {
@@ -38,10 +39,39 @@ int main(int argc, char const *argv[])
 
 	// return 0;
 
-    tlk::Game g;
+    int results[3] = {0, 0, 0};
+    std::array<int, 22> length;
+    length.fill(0);
+    srand(time(NULL));
 
-    g.setup();
-    g.play();
+    for (int i = 0; i < 10000; i++)
+    {
+        tlk::Game g;
+        g.setup();
+        tlk::Statistics stats = g.play();
+
+        length[stats.finalRound-1]++;
+        switch (stats.endState)
+        {
+        case tlk::WON_SLY:
+            results[0]++;
+            break;
+
+        case tlk::WON_MRX:
+            results[1]++;
+            break;
+        
+        default:
+            results[2]++;
+            break;
+        }
+    }
+    std::cout << "Siege SLY: " << results[0] << " MRX: " << results[1] << " ERRORS: " << results[2] << std::endl; 
+
+    for (int i = 0; i < 22; ++i)
+    {
+        std::cout << length[i] << " " << std::endl;
+    }
 
     return 0;
 }

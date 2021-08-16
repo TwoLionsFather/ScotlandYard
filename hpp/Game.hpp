@@ -7,17 +7,35 @@
 #include "Player_sly.hpp"
 #include "Bot_sly.hpp"
 #include "Bot_mrx.hpp"
+
 #include <iostream>
 #include <algorithm>
 #include <random>
-#include <ctime>
+#include <chrono>
 
 namespace tlk
 {
-    enum State {WON_MRX
-                , WON_SLY
-                , PLAYING
-                , ERROR};
+    enum State {
+        WON_MRX
+        , WON_SLY
+        , PLAYING
+        , ERROR
+    };
+
+    enum Debug {
+        NONE
+        , LOW
+        , NORMAL
+    };
+
+    struct Statistics
+    {
+        Statistics(State winner, int round) 
+            : endState(winner), finalRound(round) { };
+        const tlk::State endState = ERROR;
+        const int finalRound = 0;
+        //Possibly More
+    };
 
     class Game
     {
@@ -26,7 +44,9 @@ namespace tlk
         ~Game();
 
         void setup();
-        void play();
+        Statistics play();
+
+        const Debug loglevel = NONE;
 
     private: 
         const Map  gameMap;

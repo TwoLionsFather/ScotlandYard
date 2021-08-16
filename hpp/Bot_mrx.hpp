@@ -2,7 +2,7 @@
 
 #include "Entity.hpp"
 #include <random>
-#include <ctime>
+#include <chrono>
 
 namespace tlk
 {

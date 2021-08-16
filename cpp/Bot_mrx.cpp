@@ -2,7 +2,7 @@
 
 const tlk::Connection& tlk::Bot_mrx::getSelectionForMrx(const Connections& options) 
 {
-    auto rng = std::default_random_engine(std::time(0));
+    auto rng = std::default_random_engine(std::time(NULL));
     return options[rng() % options.size()];
 }
 
@@ -23,7 +23,7 @@ tlk::Ticket tlk::Bot_mrx::getTicketForMrx(tlk::ConnectionType usedTransportation
         return BLACK_Ti;
     
 
-    auto rng = std::default_random_engine(std::time(0));
+    auto rng = std::default_random_engine(std::time(NULL));
     uint rand = rng();
 
     if (tickets.ticketCount(BLACK_Ti) > 0
