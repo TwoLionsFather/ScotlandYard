@@ -9,6 +9,7 @@ tlk::Game::Game():
     , gameState(tlk::PLAYING)
 { 
     sly_units.emplace_back(new Bot_sly());
+    sly_units.emplace_back(new Player_sly());
 }
 
 tlk::Game::~Game()
@@ -22,6 +23,7 @@ void tlk::Game::setup()
 {    
     vMap.updatePosition(mrx, 1);
     vMap.updatePosition(sly_units[0], 2);
+    vMap.updatePosition(sly_units[1], 5);
 }
 
 void tlk::Game::play()
@@ -33,8 +35,8 @@ void tlk::Game::play()
         printRoundStart();
         playMrx();
 
-        if (round-3 % 5 == 0)
-            std::cout << "Postion von MRX in : "<< round << " is " << vMap.getLocationOf(mrx) << " -------------------------------------------";
+        if ((round+2) % 5 == 0)
+            std::cout << "Postion von MRX in Round: " << round << " is " << vMap.getLocationOf(mrx) << " -------------------------------------------" << std::endl;
 
         if (gameState != WON_SLY)
             playSly();

@@ -3,7 +3,9 @@
 #include "Map.hpp"
 #include "VirtualMap.hpp"
 #include "Player_mrx.hpp"
+#include "Player_sly.hpp"
 #include "Bot_sly.hpp"
+#include "Bot_mrx.hpp"
 #include <iostream>
 
 namespace tlk
