@@ -2,7 +2,8 @@
 
 const tlk::Connection& tlk::Bot_mrx::getSelectionForMrx(const Connections& options) 
 {
-    return *options.begin();
+    auto rng = std::default_random_engine(std::time(0));
+    return options[rng() % options.size()];
 }
 
 const tlk::Connection& tlk::Bot_mrx::getSelectionForSly(const Connections& options) 
@@ -12,5 +13,26 @@ const tlk::Connection& tlk::Bot_mrx::getSelectionForSly(const Connections& optio
 
 tlk::Ticket tlk::Bot_mrx::getTicketForMrx(tlk::ConnectionType usedTransportation)
 {
-    return TicketStack::getTicketFor(usedTransportation);
+   Ticket used = TicketStack::getTicketFor(usedTransportation);
+
+    if (!tickets.isAdvancedTicketAvailable())
+        return used;
+    
+    if (tickets.ticketCount(used) == 0 
+    && tickets.ticketCount(BLACK_Ti) > 0)
+        return BLACK_Ti;
+    
+
+    auto rng = std::default_random_engine(std::time(0));
+    uint rand = rng();
+
+    if (tickets.ticketCount(BLACK_Ti) > 0
+    && rand % 100 < 10)
+        return BLACK_Ti;
+    
+    if (tickets.ticketCount(DOUBLE_Ti) > 0
+    && rand % 100 < 10)
+        return DOUBLE_Ti;
+    
+    return used;
 }

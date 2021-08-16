@@ -7,7 +7,8 @@ const tlk::Connection& tlk::Bot_sly::getSelectionForMrx(const Connections& optio
 
 const tlk::Connection& tlk::Bot_sly::getSelectionForSly(const Connections& options) 
 {
-    return *options.begin();
+    auto rng = std::default_random_engine(std::time(0));
+    return options[rng() % options.size()];
 }
 
 tlk::Ticket tlk::Bot_sly::getTicketForMrx(tlk::ConnectionType usedTransportation)

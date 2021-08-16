@@ -9,12 +9,6 @@ namespace tlk::PlayerInput
     {
         Ticket used = TicketStack::getTicketFor(type);
 
-        if (tickets.ticketCount(used) == 0 
-        && tickets.ticketCount(BLACK_Ti) > 0)
-        {
-            std::cout << "Using Black Ticket to travel as it's the only option!" << std::endl;
-            return BLACK_Ti;
-        }
 
         if (!tickets.isAdvancedTicketAvailable())
         {
@@ -22,6 +16,13 @@ namespace tlk::PlayerInput
             return used;
         }
 
+        if (tickets.ticketCount(used) == 0 
+        && tickets.ticketCount(BLACK_Ti) > 0)
+        {
+            std::cout << "Using Black Ticket to travel as it's the only option!" << std::endl;
+            return BLACK_Ti;
+        }
+        
         // std::cout << "You would use a Ticked for " << used << std::endl;
         char selection = '_';
 

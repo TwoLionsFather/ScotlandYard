@@ -56,6 +56,12 @@ tlk::Map::Map(std::string path)
         }
     }
 
+    // print connections count for fields
+    // for (const auto& entry : gameFields)
+    // {
+    //     std::cout << "From: " << entry.first << " " << entry.second->size() << " Connections" << std::endl;
+    // }
+
     file.close();
 }
 
@@ -64,7 +70,7 @@ tlk::Map::~Map()
     gameFields.clear();
 }
 
-const tlk::Connections tlk::Map::getMovesFor(const Entity* e, const VirtualMap* vMap) const
+const tlk::Connections tlk::Map::getMovesFor(const Entity* e, const EntityTracker* vMap) const
 {
     //TODO test if copy or reference is used
     Connections selection = *gameFields.find(vMap->getLocationOf(e))->second;

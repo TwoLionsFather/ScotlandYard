@@ -1,12 +1,15 @@
 #pragma once
 
 #include "Map.hpp"
-#include "VirtualMap.hpp"
+#include "EntityTracker.hpp"
 #include "Player_mrx.hpp"
 #include "Player_sly.hpp"
 #include "Bot_sly.hpp"
 #include "Bot_mrx.hpp"
 #include <iostream>
+#include <algorithm>
+#include <random>
+#include <ctime>
 
 namespace tlk
 {
@@ -26,7 +29,7 @@ namespace tlk
 
     private: 
         const Map  gameMap;
-        VirtualMap vMap;
+        EntityTracker vMap;
 
         Entity* const mrx;
         std::vector<Entity*> sly_units;

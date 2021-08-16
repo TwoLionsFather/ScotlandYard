@@ -2,8 +2,8 @@
 
 tlk::Game::Game():
     gameMap(tlk::Map("../assets/connections.txt"))
-    , vMap(tlk::VirtualMap())
-    , mrx(new tlk::Player_mrx())
+    , vMap(tlk::EntityTracker())
+    , mrx(new tlk::Bot_mrx())
     , sly_units(std::vector<Entity*>())
     , round(0)
     , gameState(tlk::PLAYING)
@@ -21,9 +21,18 @@ tlk::Game::~Game()
 
 void tlk::Game::setup()
 {    
-    vMap.updatePosition(mrx, 1);
-    vMap.updatePosition(sly_units[0], 2);
-    vMap.updatePosition(sly_units[1], 5);
+    auto rng = std::default_random_engine(std::time(0));
+    std::vector<uint> startingOptions = {13, 29, 46, 58, 67, 105, 140, 142, 153, 159}; //und weitere aber die haben alle >10 Options
+    std::shuffle(startingOptions.begin(), startingOptions.end(), rng);
+
+    vMap.updatePosition(mrx, *startingOptions.rbegin());
+    startingOptions.pop_back();
+
+    vMap.updatePosition(sly_units[0], *startingOptions.rbegin());
+    startingOptions.pop_back();
+
+    vMap.updatePosition(sly_units[1], *startingOptions.rbegin());
+    startingOptions.pop_back();
 }
 
 void tlk::Game::play()

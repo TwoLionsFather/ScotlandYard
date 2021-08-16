@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Entity.hpp"
+#include <random>
+#include <ctime>
 
 namespace tlk
 {
