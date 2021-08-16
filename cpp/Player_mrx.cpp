@@ -14,7 +14,8 @@ const tlk::Connection& tlk::Player_mrx::getSelectionForMrx(const Connections& op
         }
         std::cout << "You have the Following Tickets: " << std::endl;
         std::cout << this->tickets;
-        std::cout << "Please select using the number infront of the connection: ";
+        std::cout << "Please select using the number infront of the connection: " << std::endl;
+        std::cout << "Selection: ";
         std::cin >> selection;
 
     } while(selection < 0 || selection >= options.size());
@@ -53,6 +54,7 @@ tlk::Ticket tlk::Player_mrx::getTicketForMrx(tlk::ConnectionType usedTransportat
     if (tickets.ticketCount(tlk::BLACK_Ti) > 0)
         std::cout << "[b] one of " << tickets.ticketCount(tlk::BLACK_Ti) << " black tickets?" << std::endl;
 
+    std::cout << "Selection: ";
     std::cin >> selection;
 
     switch (selection)

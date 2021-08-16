@@ -9,7 +9,13 @@
                 "-g",
                 "${workspaceFolder}/cpp/**.cpp",
                 "-o",
-                "${workspaceFolder}/sly"
+                "${workspaceFolder}/sly",
+                "-lX11",
+                "-lGL",
+                "-lpthread",
+                "-lpng",
+                "-lstdc++fs",
+                "-std=c++17"
             ],
             "options": {
                 "cwd": "${fileDirname}"

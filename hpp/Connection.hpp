@@ -20,7 +20,7 @@ namespace tlk
             target(target), type(type) {  };  
 
         const unsigned int    target = 0;  
-        const ConnectionType            type = ConnectionType::UNDEFINED;
+        const ConnectionType  type = ConnectionType::UNDEFINED;
     };
     typedef std::vector<Connection> Connections;
 }

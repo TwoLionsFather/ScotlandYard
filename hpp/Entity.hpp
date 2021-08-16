@@ -15,7 +15,7 @@ namespace tlk
         Entity(Team t): team(t), pos(0), tickets(TicketStack(t)) { };
         virtual ~Entity() { };
 
-        std::pair<Connection, Ticket> move(const Connections& options);
+        std::pair<const tlk::Connection*, tlk::Ticket> move(const Connections& options);
 
         //call this once to select where the entity starts on the map
         void setStartingPos(unsigned int start)
@@ -26,10 +26,22 @@ namespace tlk
             pos = start;
         }
 
+        //If is Mrx tickets get added
+        void addTicket(const tlk::Ticket& type)
+        {
+            if (isMrx())
+                tickets.addTicket(type);
+        }
+
         unsigned int getPos() const
         { 
             return pos;
-        };
+        }
+
+        bool isMrx() const
+        {
+            return team == tlk::MRX;
+        }
 
         bool isAllowedToUse(ConnectionType type) const
         {   

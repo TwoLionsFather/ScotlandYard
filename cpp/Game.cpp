@@ -1,9 +1,11 @@
 #include "../hpp/Game.hpp"
 
 tlk::Game::Game():
-    gameMap(new tlk::Map("../assets/connections.txt"))
+    gameMap(tlk::Map("../assets/connections.txt"))
+    , vMap(tlk::VirtualMap(gameMap))
     , mrx(new tlk::Player_mrx())
     , sly_units(std::vector<Entity*>())
+    , round(0)
     , gameState(tlk::MOVE_MRX)
 { 
     sly_units.emplace_back(new Bot_sly());
@@ -13,52 +15,57 @@ tlk::Game::Game():
 
 tlk::Game::~Game()
 {
-    delete gameMap;
     delete mrx;
     for (Entity* e : sly_units)
         delete e;
 }
 
-std::vector<unsigned int> tlk::Game::getEntityLocations()
-{
-    std::vector<unsigned int> positions;
-    positions.push_back(mrx->getPos());
-    for (Entity* e : sly_units)
-        positions.push_back(e->getPos());
-
-    return positions;
-}
-
 void tlk::Game::setup()
 {    
     mrx->setStartingPos(1);
-    sly_units[0]->setStartingPos(2);
-    sly_units[1]->setStartingPos(3);
+    vMap.updatePosition(mrx, 1);
+
+    sly_units[0]->setStartingPos(8);
+    vMap.updatePosition(sly_units[0], 8);
+
+    sly_units[1]->setStartingPos(9);
+    vMap.updatePosition(sly_units[1], 9);
 }
 
 void tlk::Game::play()
 {
     std::cout << "Das Spiel kann beginnen: " << std::endl;
 
+    std::pair<const tlk::Connection*, tlk::Ticket> used;
     do {
-        const Connections& options =  gameMap->getMovesFor(mrx, getEntityLocations());
-        if (options.empty())
-        {
-            gameState = WON_SLY;
+        round++;
+        printRoundStart();
+        do {
+            const Connections& options =  gameMap.getMovesFor(mrx, vMap.getEntityLocations(false));
+            if (options.empty())
+            {
+                gameState = WON_SLY;
+                break;
+            }
+            used = mrx->move(options);
+            vMap.updatePosition(mrx, used.first);
+        } while (used.second == tlk::DOUBLE_Ti);
+
+        if (gameState == WON_SLY)
             break;
-        }
-        const std::pair<Connection, Ticket>& used = mrx->move(options);
-            
+
         for (Entity* e : sly_units)
         {
             if (e->getPos() == 0) //If unit isn't activated it can be ignored
                 continue;
 
-            const Connections& options =  gameMap->getMovesFor(e, getEntityLocations());
+            const Connections& options =  gameMap.getMovesFor(e, vMap.getEntityLocations(false));
             if (options.empty())
                 continue;
 
-            const std::pair<Connection, Ticket>& used = e->move(options); 
+            used = e->move(options);
+            vMap.updatePosition(e, used.first); 
+            mrx->addTicket(used.second);
         }
 
     } while (true);
@@ -68,3 +75,10 @@ void tlk::Game::play()
 
 }
 
+void tlk::Game::printRoundStart()
+{
+    std::cout << "Round: " << round << " Positions [MrX, sly0, sly1 ...]: ";
+    for (unsigned int ui : vMap.getEntityLocations(true))
+        std::cout << ui << " ";
+    std::cout << std::endl;
+}

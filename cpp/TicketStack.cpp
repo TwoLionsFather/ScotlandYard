@@ -18,11 +18,11 @@ std::ostream& operator<<(std::ostream& out, const tlk::Ticket& rhs)
 
 std::ostream& operator<<(std::ostream& out, const tlk::TicketStack& rhs)
 {
-    for (int ticketID = tlk::TAXI_Ti; ticketID != tlk::BLACK_Ti; ++ticketID)
-    {
-        tlk::Ticket tmp = static_cast<tlk::Ticket>(ticketID);
-        out << rhs.ticketCount(tmp) << " " << tmp << "s available." << std::endl; 
-    }
-    out << rhs.ticketCount(tlk::BLACK_Ti) << " " << tlk::BLACK_Ti << "s available." << std::endl; 
+    out << "[T, B, U, Double, Black]" << std::endl << "[";
+    out << rhs.ticketCount(tlk::TAXI_Ti)        << ", " ; 
+    out << rhs.ticketCount(tlk::BUS_Ti)         << ", " ; 
+    out << rhs.ticketCount(tlk::UNDERGROUND_Ti) << ", " ; 
+    out << rhs.ticketCount(tlk::DOUBLE_Ti)      << "     , " ; 
+    out << rhs.ticketCount(tlk::BLACK_Ti)       << "]\n" ; 
     return out;
 }
