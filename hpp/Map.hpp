@@ -3,6 +3,7 @@
 #include "Entity.hpp"
 #include "Connection.hpp"
 #include "TicketStack.hpp"
+#include "VirtualMap.hpp"
 
 #include <string>
 #include <fstream>
@@ -21,7 +22,7 @@ namespace tlk
         Map(std::string path);
         ~Map();
         
-        const Connections getMovesFor(const Entity* e, const std::vector<unsigned int>& occupiedPos) const;
+        const Connections getMovesFor(const Entity* e, const VirtualMap* vMap) const;
 
         const std::map<int, std::unique_ptr<Connections>>& getGameFields() const
         {

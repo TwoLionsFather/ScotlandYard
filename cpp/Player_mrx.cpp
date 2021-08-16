@@ -8,10 +8,8 @@ const tlk::Connection& tlk::Player_mrx::getSelectionForMrx(const Connections& op
         selection = 0;
         std::cout << "From the current position you have the following options: " << std::endl;
         for (Connection c : options)
-        {
-            printf("%2d [%3d to %3d] via: ", selection++, pos, c.target);
-            std::cout << c.type << std::endl;
-        }
+            std::cout << "[" << selection++ << "] " << c << std::endl;
+        
         std::cout << "You have the Following Tickets: " << std::endl;
         std::cout << this->tickets;
         std::cout << "Please select using the number infront of the connection: " << std::endl;

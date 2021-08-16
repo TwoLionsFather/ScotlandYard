@@ -8,7 +8,10 @@
 
 namespace tlk
 {
-    enum State {WON_MRX, WON_SLY, MOVE_MRX, MOVE_SLY, ERROR};
+    enum State {WON_MRX
+                , WON_SLY
+                , PLAYING
+                , ERROR};
 
     class Game
     {
@@ -30,5 +33,7 @@ namespace tlk
         State gameState;
 
         void printRoundStart();
+        void playMrx();
+        void playSly();
     };
 }
