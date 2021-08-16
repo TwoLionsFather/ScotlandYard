@@ -41,8 +41,19 @@ void tlk::Game::play()
 
     } while (gameState == tlk::State::PLAYING);
     
-    if (gameState == WON_SLY)
+    switch (gameState) {
+    case tlk::WON_SLY:
         std::cout << "Game has finished and Scotland Yard won!" << std::endl;
+        break;
+
+    case tlk::WON_MRX:
+        std::cout << "Game has finished and MrX won!" << std::endl;
+        break;
+
+    default:
+        std::cout << "Looks like there might be an issue... no clue what though :/" << std::endl;
+
+    }
 }
 
 void tlk::Game::playMrx()
@@ -85,7 +96,10 @@ void tlk::Game::playSly()
     }
 
     if (noOfficerMoved)
+    {
+        std::cout << "Officers dind't move!" << std::endl;
         gameState = WON_MRX;
+    }
 }
 
 void tlk::Game::printRoundStart()

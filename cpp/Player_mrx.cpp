@@ -10,9 +10,9 @@ const tlk::Connection& tlk::Player_mrx::getSelectionForMrx(const Connections& op
         for (Connection c : options)
             std::cout << "[" << selection++ << "] " << c << std::endl;
         
-        std::cout << "You have the Following Tickets: " << std::endl;
+        // std::cout << "You have the Following Tickets: " << std::endl;
         std::cout << this->tickets;
-        std::cout << "Please select using the number infront of the connection: " << std::endl;
+        std::cout << "Please select using the number infront of the connection" << std::endl;
         std::cout << "Selection: ";
         std::cin >> selection;
 
@@ -42,10 +42,10 @@ tlk::Ticket tlk::Player_mrx::getTicketForMrx(tlk::ConnectionType usedTransportat
         return used;
     }
         
-    std::cout << "You would use a Ticked for " << used << std::endl;
+    // std::cout << "You would use a Ticked for " << used << std::endl;
     char selection = '_';
 
-    std::cout << "Do you instead want to use: " << std::endl;
+    std::cout << "Do you want to use: " << std::endl;
     if (tickets.ticketCount(tlk::DOUBLE_Ti) > 0)
         std::cout << "[d] one of " << tickets.ticketCount(tlk::DOUBLE_Ti) << " double Move tickets?" << std::endl;
     

@@ -77,7 +77,7 @@ const tlk::Connections tlk::Map::getMovesFor(const Entity* e, const VirtualMap* 
                         [&](auto connection) {return !e->isAllowedToUse(connection.type);});
 
     selection.clear();
-    auto occupiedPos = vMap->getEntityLocations(false);
+    auto occupiedPos = vMap->getEntityLocations(true);
     std::remove_copy_if(tmp.begin(), tmp.end(), std::back_inserter(selection),
                         [&](auto connection) {  for (unsigned int ui : occupiedPos)
                                                     if (ui == connection.target)
