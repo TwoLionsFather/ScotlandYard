@@ -53,7 +53,8 @@
         "list": "cpp",
         "ratio": "cpp",
         "iomanip": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "set": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }

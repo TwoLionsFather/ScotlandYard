@@ -7,8 +7,17 @@ const tlk::Connection& tlk::Bot_sly::getSelectionForMrx(const Connections& optio
 
 const tlk::Connection& tlk::Bot_sly::getSelectionForSly(const Connections& options) 
 {
-    auto rng = std::default_random_engine(std::time(0));
-    return options[rng() % options.size()];
+    const Connection* bestCon = &options[0];
+    uint minDistance = virtualMap.getDistanceToMrx(options[0].target);
+
+    for (const Connection& c : options)
+        if (minDistance > virtualMap.getDistanceToMrx(c.target))
+        {
+            bestCon = &c;
+            minDistance = virtualMap.getDistanceToMrx(c.target);
+        }
+
+    return *bestCon;
 }
 
 tlk::Ticket tlk::Bot_sly::getTicketForMrx(tlk::ConnectionType usedTransportation)

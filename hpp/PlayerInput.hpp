@@ -69,7 +69,7 @@ namespace tlk::PlayerInput
             
             // std::cout << "You have the Following Tickets: " << std::endl;
             std::cout << tickets;
-            std::cout << "Please select using the number infront of the connection" << std::endl;
+            std::cout << "Please select using the number in front of the connection" << std::endl;
             std::cout << "Selection: ";
             std::cin >> selection;
 

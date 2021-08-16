@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Map.hpp"
+#include "VirtualMap.hpp"
 #include "EntityTracker.hpp"
 #include "Player_mrx.hpp"
 #include "Player_sly.hpp"
@@ -29,7 +30,8 @@ namespace tlk
 
     private: 
         const Map  gameMap;
-        EntityTracker vMap;
+        EntityTracker posTrack;
+        const VirtualMap vMap;
 
         Entity* const mrx;
         std::vector<Entity*> sly_units;

@@ -22,7 +22,7 @@ namespace tlk
         Map(std::string path);
         ~Map();
         
-        const Connections getMovesFor(const Entity* e, const EntityTracker* vMap) const;
+        const Connections getMovesFor(const Entity* e, const EntityTracker* posTrack) const;
 
         const std::map<int, std::unique_ptr<Connections>>& getGameFields() const
         {

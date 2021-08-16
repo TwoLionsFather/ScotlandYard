@@ -1,25 +1,31 @@
 #pragma once
 
 #include "Map.hpp"
+#include "Connection.hpp"
+#include "EntityTracker.hpp"
 #include "TicketStack.hpp"
 
-#include <vector>
+#include <algorithm>
+#include <set>
 
 namespace tlk
 {
     class VirtualMap
     {
     public:
-        VirtualMap(const Map& original): originalMap(original) {};
-        ~VirtualMap();
+        VirtualMap(const Map& original, const EntityTracker& tracker)
+            : originalMap(original), tracker(tracker) { };
+        ~VirtualMap() { };
 
-        uint getDistanceBetween(uint pos, uint target);
+        uint getDistanceToMrx(uint pos) const;
+        uint getDistanceBetween(uint pos, uint target, bool blockUsedPositions) const;
 
-        std::vector<uint> getPossibleLocationsAfter(uint pos, int roundCount);
-        std::vector<uint> getPossibleLocationsAfter(uint pos, int roundCount, const TicketStack& tickets);
+        std::set<uint> getPossibleLocationsAfter(uint pos, int roundCount, bool blockUsedPositions) const;
+        std::set<uint> getPossibleLocationsAfter(uint pos, int roundCount, const TicketStack& tickets) const;
 
     private:
         const Map& originalMap;
+        const EntityTracker& tracker;
     };
     
 } // namespace tlk

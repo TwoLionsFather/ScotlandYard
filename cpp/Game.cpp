@@ -2,13 +2,14 @@
 
 tlk::Game::Game():
     gameMap(tlk::Map("../assets/connections.txt"))
-    , vMap(tlk::EntityTracker())
+    , posTrack(tlk::EntityTracker())
+    , vMap(gameMap, posTrack)
     , mrx(new tlk::Bot_mrx())
     , sly_units(std::vector<Entity*>())
     , round(0)
     , gameState(tlk::PLAYING)
 { 
-    sly_units.emplace_back(new Bot_sly());
+    sly_units.emplace_back(new Bot_sly(vMap));
     sly_units.emplace_back(new Player_sly());
 }
 
@@ -25,13 +26,14 @@ void tlk::Game::setup()
     std::vector<uint> startingOptions = {13, 29, 46, 58, 67, 105, 140, 142, 153, 159}; //und weitere aber die haben alle >10 Options
     std::shuffle(startingOptions.begin(), startingOptions.end(), rng);
 
-    vMap.updatePosition(mrx, *startingOptions.rbegin());
+    posTrack.updatePosition(mrx, *startingOptions.rbegin());
+    posTrack.setMrxLocation(*startingOptions.rbegin());
     startingOptions.pop_back();
 
-    vMap.updatePosition(sly_units[0], *startingOptions.rbegin());
+    posTrack.updatePosition(sly_units[0], *startingOptions.rbegin());
     startingOptions.pop_back();
 
-    vMap.updatePosition(sly_units[1], *startingOptions.rbegin());
+    posTrack.updatePosition(sly_units[1], *startingOptions.rbegin());
     startingOptions.pop_back();
 }
 
@@ -45,8 +47,11 @@ void tlk::Game::play()
         playMrx();
 
         if ((round+2) % 5 == 0)
-            std::cout << "Postion von MRX in Round: " << round << " is " << vMap.getLocationOf(mrx) << " -------------------------------------------" << std::endl;
-
+        {
+            std::cout << "Postion von MRX in Round: " << round << " is " << posTrack.getLocationOf(mrx) << " -------------------------------------------" << std::endl;
+            posTrack.setMrxLocation(posTrack.getLocationOf(mrx));
+        }
+            
         if (gameState != WON_SLY)
             playSly();
 
@@ -71,14 +76,14 @@ void tlk::Game::playMrx()
 {
     std::pair<const tlk::Connection*, tlk::Ticket> used;
     do {
-        const Connections& options =  gameMap.getMovesFor(mrx, &vMap);
+        const Connections& options =  gameMap.getMovesFor(mrx, &posTrack);
         if (options.empty())
         {
             gameState = WON_SLY;
             return;
         }
         used = mrx->move(options);
-        vMap.updatePosition(mrx, used.first);
+        posTrack.updatePosition(mrx, used.first);
     } while (used.second == tlk::DOUBLE_Ti);
 }
 
@@ -89,19 +94,19 @@ void tlk::Game::playSly()
 
     for (Entity* e : sly_units)
     {
-        const Connections& options =  gameMap.getMovesFor(e, &vMap);
+        const Connections& options =  gameMap.getMovesFor(e, &posTrack);
         if (options.empty())
             continue;
         
         used = e->move(options);
 
-        if (vMap.getLocationOf(mrx) == used.first->target)
+        if (posTrack.getLocationOf(mrx) == used.first->target)
         {
             gameState = WON_SLY;
             return;
         }
 
-        vMap.updatePosition(e, used.first); 
+        posTrack.updatePosition(e, used.first); 
         mrx->addTicket(used.second);
         noOfficerMoved = false;
     }
@@ -116,7 +121,7 @@ void tlk::Game::playSly()
 void tlk::Game::printRoundStart()
 {
     std::cout << "Round: " << round << " Positions [MrX, sly0, sly1 ...]: ";
-    for (unsigned int ui : vMap.getEntityLocations(false))
+    for (unsigned int ui : posTrack.getEntityLocations(false))
         std::cout << ui << " ";
     std::cout << std::endl;
 }
