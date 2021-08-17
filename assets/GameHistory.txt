@@ -1,0 +1,114 @@
+Das Spiel kann beginnen: 
+Round: 1 Positions [MrX, sly0, sly1 ...]: 140 153 67 
+MRX Moved to: 126
+SLY Unit Moved to: 89
+SLY Unit Moved to: 140
+Round: 2 Positions [MrX, sly0, sly1 ...]: 126 140 89 
+MRX Moved to: 114
+SLY Unit Moved to: 105
+SLY Unit Moved to: 89
+Round: 3 Positions [MrX, sly0, sly1 ...]: 114 89 105 
+MRX Moved to: 113
+Postion von MRX in Round: 3 is 113 -------------------------------------------
+SLY Unit Moved to: 87
+SLY Unit Moved to: 67
+Round: 4 Positions [MrX, sly0, sly1 ...]: 113 67 87 
+MRX Moved to: 125
+SLY Unit Moved to: 86
+SLY Unit Moved to: 82
+Round: 5 Positions [MrX, sly0, sly1 ...]: 125 82 86 
+MRX Moved to: 131
+SLY Unit Moved to: 102
+SLY Unit Moved to: 100
+Round: 6 Positions [MrX, sly0, sly1 ...]: 131 100 102 
+MRX Moved to: 130
+SLY Unit Moved to: 115
+SLY Unit Moved to: 113
+Round: 7 Positions [MrX, sly0, sly1 ...]: 130 113 115 
+MRX Moved to: 124
+SLY Unit Moved to: 114
+SLY Unit Moved to: 100
+Round: 8 Positions [MrX, sly0, sly1 ...]: 124 100 114 
+MRX Moved to: 77
+Postion von MRX in Round: 8 is 77 -------------------------------------------
+SLY Unit Moved to: 131
+SLY Unit Moved to: 111
+Round: 9 Positions [MrX, sly0, sly1 ...]: 77 111 131 
+MRX Moved to: 58
+SLY Unit Moved to: 130
+SLY Unit Moved to: 124
+Round: 10 Positions [MrX, sly0, sly1 ...]: 58 124 130 
+MRX Moved to: 1
+SLY Unit Moved to: 131
+SLY Unit Moved to: 77
+Round: 11 Positions [MrX, sly0, sly1 ...]: 1 77 131 
+MRX Moved to: 8
+SLY Unit Moved to: 130
+SLY Unit Moved to: 58
+Round: 12 Positions [MrX, sly0, sly1 ...]: 8 58 130 
+MRX Moved to: 18
+SLY Unit Moved to: 124
+SLY Unit Moved to: 77
+Round: 13 Positions [MrX, sly0, sly1 ...]: 18 77 124 
+MRX Moved to: 8
+Postion von MRX in Round: 13 is 8 -------------------------------------------
+SLY Unit Moved to: 111
+SLY Unit Moved to: 58
+Round: 14 Positions [MrX, sly0, sly1 ...]: 8 58 111 
+MRX Moved to: 18
+SLY Unit Moved to: 79
+SLY Unit Moved to: 1
+Round: 15 Positions [MrX, sly0, sly1 ...]: 18 1 79 
+MRX Moved to: 31
+SLY Unit Moved to: 46
+SLY Unit Moved to: 8
+Round: 16 Positions [MrX, sly0, sly1 ...]: 31 8 46 
+MRX Moved to: 43
+SLY Unit Moved to: 1
+SLY Unit Moved to: 18
+Round: 17 Positions [MrX, sly0, sly1 ...]: 43 18 1 
+MRX Moved to: 57
+SLY Unit Moved to: 8
+SLY Unit Moved to: 31
+Round: 18 Positions [MrX, sly0, sly1 ...]: 57 31 8 
+MRX Moved to: 73
+Postion von MRX in Round: 18 is 73 -------------------------------------------
+SLY Unit Moved to: 43
+Round: 19 Positions [MrX, sly0, sly1 ...]: 73 43 8 
+MRX Moved to: 92
+SLY Unit Moved to: 57
+Round: 20 Positions [MrX, sly0, sly1 ...]: 92 57 8 
+MRX Moved to: 93
+SLY Unit Moved to: 73
+Round: 21 Positions [MrX, sly0, sly1 ...]: 93 73 8 
+MRX Moved to: 79
+SLY Unit Moved to: 57
+Round: 22 Positions [MrX, sly0, sly1 ...]: 79 57 8 
+MRX Moved to: 62
+Officers dind't move!
+Game has finished and MrX won!
+Round count was: 22
+Siege SLY: 0 MRX: 1 ERRORS: 0
+0 
+0 
+0 
+0 
+0 
+0 
+0 
+0 
+0 
+0 
+0 
+0 
+0 
+0 
+0 
+0 
+0 
+0 
+0 
+0 
+0 
+1 
+Avg 21.000 Rounds

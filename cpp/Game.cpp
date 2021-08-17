@@ -9,8 +9,8 @@ tlk::Game::Game():
     , round(0)
     , gameState(tlk::PLAYING)
 { 
-    sly_units.emplace_back(new Bot_sly(vMap));
-    sly_units.emplace_back(new Bot_sly(vMap));
+    for (int i = 0; i < PLAYER_COUNT; ++i)
+        sly_units.emplace_back(new Bot_sly(vMap));
 }
 
 tlk::Game::~Game()
@@ -29,46 +29,66 @@ void tlk::Game::setup()
     posTrack.updatePosition(mrx, *startingOptions.rbegin());
     startingOptions.pop_back();
 
-    posTrack.setMrxLocation(*startingOptions.rbegin());     
-    startingOptions.pop_back();
+    posTrack.setMrxLocation(65);    //set more intelegently
 
-    posTrack.updatePosition(sly_units[0], *startingOptions.rbegin());
-    startingOptions.pop_back();
 
-    posTrack.updatePosition(sly_units[1], *startingOptions.rbegin());
-    startingOptions.pop_back();
+    for (int i = 0; i < PLAYER_COUNT; ++i)
+    {
+        posTrack.updatePosition(sly_units[i], *startingOptions.rbegin());
+        startingOptions.pop_back();
+    }
 }
 
 tlk::Statistics tlk::Game::play()
 {
-    if (tlk::Game::loglevel >= tlk::LOW)
+    if (tlk::LOG_LEVEL >= tlk::LOW)
         std::cout << "Das Spiel kann beginnen: " << std::endl;
 
-    do {
-        round++;
+    auto start = std::chrono::high_resolution_clock::now();
 
-        if (tlk::Game::loglevel >= tlk::NORMAL)
+    do {
+        auto startr = std::chrono::high_resolution_clock::now();
+
+        round++;
+        if (tlk::LOG_LEVEL >= tlk::NORMAL)
             printRoundStart();
 
         playMrx();
+
+        auto finish = std::chrono::high_resolution_clock::now();
+        if (tlk::LOG_LEVEL >= tlk::HIGH)
+        {
+            std::chrono::duration<double, std::milli> elapsed = finish - startr;
+            std::cout << "Mrx calculations took: " << elapsed.count() << std::endl;
+        }
 
         if ((round+2) % 5 == 0)
         {
             posTrack.setMrxLocation(posTrack.getLocationOf(mrx));
 
-            if (tlk::Game::loglevel >= tlk::NORMAL)
+            if (tlk::LOG_LEVEL == tlk::NORMAL)
                 std::cout << "Postion von MRX in Round: " << round << " is " << posTrack.getLocationOf(mrx) << " -------------------------------------------" << std::endl;
         }
             
         if (gameState != WON_SLY)
             playSly();
 
+        finish = std::chrono::high_resolution_clock::now();
+        if (tlk::LOG_LEVEL >= tlk::HIGH)
+        {
+            std::chrono::duration<double, std::milli> elapsed = finish - startr;
+            std::cout << "SLY calculations took: " << elapsed.count() << std::endl;
+        }
+
         if (round == 22)
             gameState = WON_MRX;
 
     } while (gameState == tlk::State::PLAYING);
     
-    if (tlk::Game::loglevel >= tlk::NORMAL)
+    auto finish = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed = finish - start;
+
+    if (tlk::LOG_LEVEL >= tlk::NORMAL)
     {
         switch (gameState) {
         case tlk::WON_SLY:
@@ -85,8 +105,11 @@ tlk::Statistics tlk::Game::play()
         }
     }
 
-    if (tlk::Game::loglevel >= tlk::LOW)
-        std::cout << "Round count was: " << round << std::endl;
+    if (tlk::LOG_LEVEL >= tlk::LOW)
+    {
+        std::cout << "Round count was: " << round << " "; 
+        std::cout << "Elapsed Time: " << elapsed.count() << " ms" << std::endl;
+    }
 
     return Statistics(gameState, round);
 }
@@ -103,10 +126,10 @@ void tlk::Game::playMrx()
         }
         used = mrx->move(options);
 
-        if (tlk::Game::loglevel >= tlk::NORMAL)
+        if (tlk::LOG_LEVEL >= tlk::HIGH)
             std::cout << "MRX Moved to: " << used.first->target << std::endl;
 
-        posTrack.updatePosition(mrx, used.first);
+        posTrack.updatePosition(mrx, used.first, used.second);
     } while (used.second == tlk::DOUBLE_Ti);
 }
 
@@ -123,7 +146,7 @@ void tlk::Game::playSly()
         
         used = e->move(options);
 
-        if (tlk::Game::loglevel >= tlk::NORMAL)
+        if (tlk::LOG_LEVEL >= tlk::HIGH)
             std::cout << "SLY Unit Moved to: " << used.first->target << std::endl;
 
         if (posTrack.getLocationOf(mrx) == used.first->target)
@@ -132,7 +155,7 @@ void tlk::Game::playSly()
             return;
         }
 
-        posTrack.updatePosition(e, used.first); 
+        posTrack.updatePosition(e, used.first, used.second); 
         mrx->addTicket(used.second);
         noOfficerMoved = false;
     }
@@ -141,7 +164,7 @@ void tlk::Game::playSly()
     {
         gameState = WON_MRX;
 
-        if (tlk::Game::loglevel >= tlk::NORMAL)
+        if (tlk::LOG_LEVEL >= tlk::NORMAL)
             std::cout << "Officers dind't move!" << std::endl;
     }
 }

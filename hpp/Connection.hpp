@@ -1,18 +1,11 @@
 #pragma once
 
+#include "ConstsAndEnums.hpp"
 #include <vector>
 #include <iostream>
 
 namespace tlk 
 {
-    enum ConnectionType
-    {
-        TAXI,
-        BUS,
-        UNDERGROUND,
-        BOAT,
-        UNDEFINED
-    };
 
     struct Connection
     {

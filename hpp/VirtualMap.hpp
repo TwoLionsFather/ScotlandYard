@@ -6,6 +6,7 @@
 #include "TicketStack.hpp"
 
 #include <algorithm>
+#include <list>
 #include <set>
 
 namespace tlk

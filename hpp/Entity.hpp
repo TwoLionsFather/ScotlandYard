@@ -2,7 +2,7 @@
 
 #include "TicketStack.hpp"
 #include "Connection.hpp"
-#include "RandomEnums.hpp"
+#include "ConstsAndEnums.hpp"
 
 namespace tlk
 {
@@ -40,6 +40,7 @@ namespace tlk
         virtual Ticket getTicketForMrx(ConnectionType usedTransportation) = 0;
 
         const Team team = SLY;
+        // int round = 0;
         TicketStack tickets;
     };
 }

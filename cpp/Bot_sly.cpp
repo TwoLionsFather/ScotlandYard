@@ -43,26 +43,26 @@ const tlk::Connection& tlk::Bot_sly::getMinDistanceToMrxCon(const Connections& o
 
 const tlk::Connection& tlk::Bot_sly::getSelectionForSly(const Connections& options) 
 {
-    return getMinDistanceToMrxCon(options);
+    // return getMinDistanceToMrxCon(options);
 
-    // const Connection* bestCon = &options[0];
+    const Connection* bestCon = &options[0];
 
-    // if (virtualMap.getDistanceToMrx(this) > 2)
-    //     return getMinDistanceToMrxCon(options);
+    if (virtualMap.getDistanceToMrx(this) > 2)
+        return getMinDistanceToMrxCon(options);
 
-    // uint minMrxLocationsCount = virtualMap.getMrxPossibleLocationsAfter(this, bestCon).size();
+    uint minMrxLocationsCount = virtualMap.getMrxPossibleLocationsAfter(this, bestCon).size();
 
-    // for (const Connection& c : options)
-    // {
-    //     uint mrxLocationsCount = virtualMap.getMrxPossibleLocationsAfter(this, &c).size();
-    //     if (minMrxLocationsCount > mrxLocationsCount)
-    //     {
-    //         bestCon = &c;
-    //         minMrxLocationsCount = mrxLocationsCount;
-    //     }
-    // }
+    for (const Connection& c : options)
+    {
+        uint mrxLocationsCount = virtualMap.getMrxPossibleLocationsAfter(this, &c).size();
+        if (minMrxLocationsCount > mrxLocationsCount)
+        {
+            bestCon = &c;
+            minMrxLocationsCount = mrxLocationsCount;
+        }
+    }
 
-    // return *bestCon;
+    return *bestCon;
 }
 
 tlk::Ticket tlk::Bot_sly::getTicketForMrx(tlk::ConnectionType usedTransportation)

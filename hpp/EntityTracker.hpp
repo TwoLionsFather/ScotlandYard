@@ -3,6 +3,7 @@
 #include "Entity.hpp"
 #include <algorithm>
 #include <vector>
+#include <list>
 #include <map>
 
 namespace tlk
@@ -14,14 +15,15 @@ namespace tlk
         ~EntityTracker() { };
 
         void updatePosition(const Entity* e, uint startingPos);
-        void updatePosition(const Entity* e, const Connection* moved);
+        void updatePosition(const Entity* e, const Connection* moved, const Ticket used);
 
         uint getLocationOf(const Entity* e) const;
-        std::vector<unsigned int> getEntityLocations(bool hideMrX) const;
+        std::list<uint> getEntityLocations(bool hideMrX) const;
 
         void setMrxLocation(uint loc)
         {
             mrxLastSeenLocation = loc;
+            mrx_publicHistory.clear();
         }
 
         uint getMrxLastSeenLocation() const

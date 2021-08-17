@@ -73,10 +73,11 @@ int main(int argc, char const *argv[])
     double avg = 0;
     for (int i = 0; i < 22; ++i)
     {
-        std::cout << length[i] << " " << std::endl;
-        avg += length[i] * i/gameCount;
+        std::cout << "[" <<  i << " " << length[i] << "] ";
+        avg += (double) (length[i] * i);
     }
-    printf("Avg %.3f Rounds\n", avg);
+    std::cout << std::endl;
+    printf("Avg %.3f Rounds\n", avg/(double) gameCount);
 
     return 0;
 }

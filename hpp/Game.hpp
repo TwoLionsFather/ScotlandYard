@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ConstsAndEnums.hpp"
 #include "Map.hpp"
 #include "VirtualMap.hpp"
 #include "EntityTracker.hpp"
@@ -15,18 +16,6 @@
 
 namespace tlk
 {
-    enum State {
-        WON_MRX
-        , WON_SLY
-        , PLAYING
-        , ERROR
-    };
-
-    enum Debug {
-        NONE
-        , LOW
-        , NORMAL
-    };
 
     struct Statistics
     {
@@ -45,8 +34,6 @@ namespace tlk
 
         void setup();
         Statistics play();
-
-        const Debug loglevel = NONE;
 
     private: 
         const Map  gameMap;

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Connection.hpp"
-#include "RandomEnums.hpp"
+#include "ConstsAndEnums.hpp"
 
 namespace tlk
 {

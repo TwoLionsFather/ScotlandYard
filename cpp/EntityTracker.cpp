@@ -13,16 +13,18 @@ void tlk::EntityTracker::updatePosition(const Entity* e, unsigned int startingPo
     entityMovementHistory.emplace(e, cons);
 }
 
-void tlk::EntityTracker::updatePosition(const Entity* e, const Connection* moved)
+void tlk::EntityTracker::updatePosition(const Entity* e, const Connection* moved, const Ticket used)
 {
     if (positions.find(e) == positions.end())
         throw std::runtime_error("Can't update the position if entity wasn't initialized inside of EntityTracker::updatePosition!");
 
     positions.find(e)->second = moved->target;
     entityMovementHistory.find(e)->second.push_back(*moved);
+    if (e->isMrx())
+        mrx_publicHistory.push_back(used);
 }
 
-unsigned int tlk::EntityTracker::getLocationOf(const Entity* e) const
+uint tlk::EntityTracker::getLocationOf(const Entity* e) const
 {
     if (positions.find(e) == positions.end())
         throw std::runtime_error("Can't get the position of entity that wasn't initialized inside of EntityTracker::getLocationOf!");
@@ -30,12 +32,12 @@ unsigned int tlk::EntityTracker::getLocationOf(const Entity* e) const
     return positions.find(e)->second;
 }
 
-std::vector<unsigned int> tlk::EntityTracker::getEntityLocations(bool hideMrX) const
+std::list<uint> tlk::EntityTracker::getEntityLocations(bool hideMrX) const
 {
-    std::vector<unsigned int> location;
+    std::list<uint> location(PLAYER_COUNT);//TODO use count
     std::transform(positions.begin(), positions.end(), std::back_inserter(location)
                     ,  [&](auto entry) {if (hideMrX && entry.first->isMrx())     //SLY Officers need to be able to move onto Mrxs location
-                                            return (unsigned int) (0);
+                                            return (uint) (0);
                                         else
                                             return entry.second;} );
 

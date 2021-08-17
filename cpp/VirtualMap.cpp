@@ -12,7 +12,7 @@ uint tlk::VirtualMap::getDistanceToMrx(const Entity* ent) const
 
 uint tlk::VirtualMap::getDistanceToClosestSly(uint pos) const
 {
-    const std::vector<uint>& locations = tracker.getEntityLocations(true);
+    const std::list<uint>& locations = tracker.getEntityLocations(true);
     uint min = 500;
 
     for (uint loc : locations)
@@ -70,7 +70,7 @@ std::set<uint> tlk::VirtualMap::getPossibleLocationsAfter(const uint pos, int ro
     for (const tlk::Connection c : *(map.find(pos)->second.get()))
         initialLocations.emplace(c.target);
     
-    std::vector<uint> posons = tracker.getEntityLocations(false); //TODO check if correct
+    const std::list<uint>& posons = tracker.getEntityLocations(false); //TODO check if correct
     if (blockUsedPositions)
         for (uint ui : posons)
             initialLocations.erase(ui);
@@ -105,14 +105,15 @@ std::set<uint> tlk::VirtualMap::getMrxPossibleLocationsAfter(const Entity* ent, 
         return initialLocations;
 
     auto histIterator = history.begin();
+    Ticket used = *histIterator++;
     for (const tlk::Connection c : *(map.find(tracker.getMrxLastSeenLocation())->second.get()))
-        if (TicketStack::isAllowedConnection(*histIterator++, c.type))
+        if (TicketStack::isAllowedConnection(used, c.type))
             initialLocations.emplace(c.target);
     
     uint entPos = tracker.getLocationOf(ent);
-    std::vector<uint> posons = tracker.getEntityLocations(true);
-    std::remove_if(posons.begin(), posons.end(), [entPos](uint ui) {return ui == entPos || ui == 0;});
-    posons.push_back(con->target);
+    std::list<uint> posons = tracker.getEntityLocations(true);
+    posons.erase(std::remove_if(posons.begin(), posons.end(), [entPos](uint ui) {return ui == entPos || ui == 0;}), posons.end());
+    posons.push_front(con->target);
 
     for (uint ui : posons)
         initialLocations.erase(ui);
@@ -122,9 +123,10 @@ std::set<uint> tlk::VirtualMap::getMrxPossibleLocationsAfter(const Entity* ent, 
 
     std::set<uint> possibleLocations;
     do {
+        used = *histIterator++;
         for (uint ui : initialLocations)
             for (const tlk::Connection c : *(map.find(ui)->second.get()))
-                if (TicketStack::isAllowedConnection(*histIterator++, c.type))
+                if (TicketStack::isAllowedConnection(used, c.type))
                     possibleLocations.emplace(c.target);
         
         for (uint ui : posons)
