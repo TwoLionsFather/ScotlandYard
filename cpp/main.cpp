@@ -39,12 +39,14 @@ int main(int argc, char const *argv[])
 
 	// return 0;
 
+    const int gameCount = 100;
+
     int results[3] = {0, 0, 0};
     std::array<int, 22> length;
     length.fill(0);
     srand(time(NULL));
 
-    for (int i = 0; i < 10000; i++)
+    for (int i = 0; i < gameCount; i++)
     {
         tlk::Game g;
         g.setup();
@@ -68,10 +70,13 @@ int main(int argc, char const *argv[])
     }
     std::cout << "Siege SLY: " << results[0] << " MRX: " << results[1] << " ERRORS: " << results[2] << std::endl; 
 
+    double avg = 0;
     for (int i = 0; i < 22; ++i)
     {
         std::cout << length[i] << " " << std::endl;
+        avg += length[i] * i/gameCount;
     }
+    printf("Avg %.3f Rounds\n", avg);
 
     return 0;
 }

@@ -21,5 +21,8 @@ namespace tlk
 
     private:
         const VirtualMap& virtualMap; 
+        
+        const Connection& getMinDistanceToMrxCon(const Connections& options);
+        const Connection& randomGetSelectionForSly(const Connections& options);
     };
 } // namespace tlk

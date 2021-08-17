@@ -18,10 +18,12 @@ namespace tlk
         ~VirtualMap() { };
 
         uint getDistanceToMrx(uint pos) const;
+        uint getDistanceToMrx(const Entity* ent) const;
+        uint getDistanceToClosestSly(uint pos) const;
         uint getDistanceBetween(uint pos, uint target, bool blockUsedPositions) const;
 
+        std::set<uint> getMrxPossibleLocationsAfter(const Entity* ent, const Connection* con) const;
         std::set<uint> getPossibleLocationsAfter(uint pos, int roundCount, bool blockUsedPositions) const;
-        std::set<uint> getPossibleLocationsAfter(uint pos, int roundCount, const TicketStack& tickets) const;
 
     private:
         const Map& originalMap;

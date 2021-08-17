@@ -55,7 +55,14 @@ namespace tlk
             return counts[type];
         }
 
-        static Ticket getTicketFor(ConnectionType t)
+        static bool isAllowedConnection(const Ticket& tick, const ConnectionType& type)
+        {
+            return ((tick == BLACK_Ti)
+                || (tick == DOUBLE_Ti && type != BOAT)
+                || (tick == TicketStack::getTicketFor(type)));
+        }
+
+        static Ticket getTicketFor(const ConnectionType& t)
         {
             switch (t)
             {
@@ -70,20 +77,6 @@ namespace tlk
         };
 
     private:
-        // int convertTypeToIDX(Ticket t) const
-        // {
-        //     switch (t)
-        //     {
-        //     case TAXI_Ti:           return 0;
-        //     case BUS_Ti:            return 1;
-        //     case UNDERGROUND_Ti:    return 2;
-        //     case BLACK_Ti:          return 3;
-        //     case DOUBLE_Ti:         return 4;    
-            
-        //     default:
-        //         throw std::runtime_error("Unknown Connection Type used, can't dereference Ticket!");
-        //     }  
-        // }
         int counts[5];
     }; 
 }

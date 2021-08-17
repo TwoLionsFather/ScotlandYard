@@ -29,9 +29,14 @@ namespace tlk
             return mrxLastSeenLocation;
         }
 
+        const std::vector<Ticket>& getMrxHistory() const
+        {
+            return mrx_publicHistory;
+        }
+
     private:
         uint mrxLastSeenLocation = 0;
-        std::vector<tlk::ConnectionType> mrx_publicHistory;
+        std::vector<tlk::Ticket> mrx_publicHistory;
 
         std::map<const Entity*, uint> positions; //TODO Add count of players to this 
         std::map<const Entity*, Connections> entityMovementHistory;

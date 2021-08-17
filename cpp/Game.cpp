@@ -4,7 +4,7 @@ tlk::Game::Game():
     gameMap(tlk::Map("../assets/connections.txt"))
     , posTrack(tlk::EntityTracker())
     , vMap(gameMap, posTrack)
-    , mrx(new tlk::Bot_mrx())
+    , mrx(new tlk::Bot_mrx(vMap))
     , sly_units(std::vector<Entity*>())
     , round(0)
     , gameState(tlk::PLAYING)
