@@ -4,6 +4,7 @@
 #include "../hpp/ConstsAndEnums.hpp"
 
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <array>
 
@@ -41,8 +42,9 @@ int main(int argc, char const *argv[])
 	// return 0;
 
     const int gameCount = tlk::GAME_COUNT;
+    std::ofstream resultFile("/home/tlk/Documents/Code/VSCode/ScotlandYard/assets/simresults.txt", std::ios::app);
 
-    std::cout << gameCount << " Games calculating!" << std::endl;
+    resultFile << gameCount << " Games calculating!" << std::endl;
 
     int results[3] = {0, 0, 0};
     std::array<int, 22> length;
@@ -71,16 +73,16 @@ int main(int argc, char const *argv[])
             break;
         }
     }
-    std::cout << "Siege SLY: " << results[0] << " MRX: " << results[1] << " ERRORS: " << results[2] << std::endl; 
+    resultFile << "Siege SLY: " << results[0] << " MRX: " << results[1] << " ERRORS: " << results[2] << std::endl; 
 
     double avg = 0;
     for (int i = 0; i < 22; ++i)
     {
-        std::cout << "[" <<  i+1 << " " << length[i] << "] ";
+        resultFile << "[" <<  i+1 << " " << length[i] << "] ";
         avg += (double) (length[i] * i);
     }
-    std::cout << std::endl;
-    printf("Avg %.3f Rounds\n", avg/(double) gameCount);
+    resultFile << "Avg " << avg/(double) gameCount << " Rounds" << std::endl;
 
+    resultFile.close();
     return 0;
 }
