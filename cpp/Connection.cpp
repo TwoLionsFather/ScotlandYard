@@ -4,11 +4,11 @@ std::ostream& operator<<(std::ostream &out, const tlk::ConnectionType& rhs)
 {
     switch (rhs)
     {
-    case tlk::TAXI: out         << "TAXI"; break;
-    case tlk::BUS: out          << "BUS"; break;
-    case tlk::UNDERGROUND: out  << "UNDERGROUND"; break;
-    case tlk::BOAT: out         << "BOAT"; break;
-    case tlk::UNDEFINED: out    << "UNDEFINED"; break;
+    case tlk::TAXI:         out << "TAXI"; break;
+    case tlk::BUS:          out << "BUS"; break;
+    case tlk::UNDERGROUND:  out << "UNDERGROUND"; break;
+    case tlk::BOAT:         out << "BOAT"; break;
+    case tlk::UNDEFINED:    out << "UNDEFINED"; break;
     
     default:
         break;

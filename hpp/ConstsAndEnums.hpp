@@ -44,7 +44,7 @@ namespace tlk
     static const Debug LOG_LEVEL = NONE;
     static const int PLAYER_COUNT = 3;
     static const bool PLAYER_PLAYING = false;
-    static const int GAME_COUNT = 100;//std::pow(10, (3-LOG_LEVEL));
+    static const int GAME_COUNT = 1000;//std::pow(10, (3-LOG_LEVEL));
 } // namespace tlk
 
 

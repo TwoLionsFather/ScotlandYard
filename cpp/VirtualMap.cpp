@@ -1,13 +1,13 @@
 #include "../hpp/VirtualMap.hpp"
 
-uint tlk::VirtualMap::getDistanceToMrx(uint pos) const
+uint tlk::VirtualMap::getDistanceToMrxReport(uint pos) const
 {
     return getDistanceBetween(pos, tracker.getMrxLastSeenLocation(), false);
 }
 
-uint tlk::VirtualMap::getDistanceToMrx(const Entity* ent) const
+uint tlk::VirtualMap::getDistanceToMrxReport(const Entity* ent) const
 {
-    return getDistanceToMrx(tracker.getLocationOf(ent));
+    return getDistanceToMrxReport(tracker.getLocationOf(ent));
 }
 
 uint tlk::VirtualMap::getDistanceToClosestSly(uint pos) const
@@ -20,7 +20,7 @@ uint tlk::VirtualMap::getDistanceToClosestSly(uint pos) const
         if (loc == 0)
             continue;
 
-        const uint dist = getDistanceBetween(pos, loc, false); 
+        const uint dist = getDistanceBetween(pos, loc, false);
         if (min > dist)
             min = dist;
     }
@@ -67,18 +67,19 @@ std::set<uint> tlk::VirtualMap::getPossibleLocationsAfter(const uint pos, int ro
     if (roundCount > 200)
         roundCount = 200; //Max distance to next info is 5
     
-    for (const tlk::Connection c : *(map.find(pos)->second.get()))
+    for (const Connection c : *(map.find(pos)->second.get()))
         initialLocations.emplace(c.target);
     
-    const std::list<uint>& posons = tracker.getEntityLocations(false); //TODO check if correct
+    const std::list<uint>& posons = tracker.getEntityLocations(false); //TODO check if correct and fix so that only future moves are effected
     if (blockUsedPositions)
         for (uint ui : posons)
             initialLocations.erase(ui);
     
-    if (roundCount-- == 1)
+    if (--roundCount == 0)
         return initialLocations;
 
     std::set<uint> possibleLocations;
+    //TODO make more efficent
     do {
         for (uint ui : initialLocations)
             for (const tlk::Connection c : *(map.find(ui)->second.get()))
@@ -112,7 +113,7 @@ std::set<uint> tlk::VirtualMap::getMrxPossibleLocationsAfter(const Entity* ent, 
     
     uint entPos = tracker.getLocationOf(ent);
     std::list<uint> posons = tracker.getEntityLocations(true);
-    posons.erase(std::remove_if(posons.begin(), posons.end(), [entPos](uint ui) {return ui == entPos || ui == 0;}), posons.end());
+    posons.erase(std::remove_if(posons.begin(), posons.end(), [entPos](uint ui) {return ui == entPos;}), posons.end());
     posons.push_front(con->target);
 
     for (uint ui : posons)

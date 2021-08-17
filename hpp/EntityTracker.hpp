@@ -12,11 +12,17 @@ namespace tlk
     {
     public:
         EntityTracker() { };
-        ~EntityTracker() { };
+        ~EntityTracker() 
+        {
+            mrx_publicHistory.clear();
+            positions.clear();
+            entityHistory.clear();
+        };
 
         void updatePosition(const Entity* e, uint startingPos);
         void updatePosition(const Entity* e, const Connection* moved, const Ticket used);
 
+        uint getLocationOfMrx() const;
         uint getLocationOf(const Entity* e) const;
         std::list<uint> getEntityLocations(bool hideMrX) const;
 
@@ -41,7 +47,7 @@ namespace tlk
         std::vector<tlk::Ticket> mrx_publicHistory;
 
         std::map<const Entity*, uint> positions; //TODO Add count of players to this 
-        std::map<const Entity*, Connections> entityMovementHistory;
+        std::map<const Entity*, Connections> entityHistory;
     };
     
 } // namespace tlk

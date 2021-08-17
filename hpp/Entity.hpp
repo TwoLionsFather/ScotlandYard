@@ -15,7 +15,15 @@ namespace tlk
         Entity(Team t): team(t), tickets(TicketStack(t)) { };
         virtual ~Entity() { };
 
-        std::pair<const tlk::Connection*, tlk::Ticket> move(const Connections& options);
+        std::pair<const tlk::Connection*, tlk::Ticket> move(const Connections& options)
+        {
+            const Connection& selected = (isMrx())? getSelectionForMrx(options) : getSelectionForSly(options);
+            Ticket used = (isMrx())? getTicketForMrx(selected.type) : TicketStack::getTicketFor(selected.type);
+            
+            tickets.useTicket(used);
+
+            return std::make_pair(&selected, used);
+        }
 
         //If is Mrx tickets get added
         void addTicket(const tlk::Ticket& type)

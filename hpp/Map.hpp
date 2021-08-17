@@ -34,5 +34,4 @@ namespace tlk
     };
 } // namespace tlk
 
-
 std::ostream& operator<<(std::ostream &out, const tlk::Map& rhs);

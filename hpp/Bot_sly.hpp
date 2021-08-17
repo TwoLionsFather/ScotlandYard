@@ -11,7 +11,7 @@ namespace tlk
     {
     public:
         Bot_sly(const VirtualMap& map) : Entity(Team::SLY)
-                                        , virtualMap(map) { };
+                                        , vMap(map) { };
         virtual ~Bot_sly() { };
         
     protected:
@@ -20,9 +20,9 @@ namespace tlk
         virtual Ticket getTicketForMrx(ConnectionType usedTransportation) override;
 
     private:
-        const VirtualMap& virtualMap; 
+        const VirtualMap& vMap; 
         
-        const Connection& getMinDistanceToMrxCon(const Connections& options);
-        const Connection& randomGetSelectionForSly(const Connections& options);
+        const Connection& minDist(const Connections& options);
+        const Connection& random(const Connections& options);
     };
 } // namespace tlk

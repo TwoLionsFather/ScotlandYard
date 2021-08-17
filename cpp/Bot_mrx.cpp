@@ -1,18 +1,18 @@
 #include "../hpp/Bot_mrx.hpp"
 
-const tlk::Connection& tlk::Bot_mrx::randomGetSelectionForMrx(const Connections& options) 
+const tlk::Connection& tlk::Bot_mrx::random(const Connections& options) 
 {
     return options[rand()%options.size()];
 }
 
-const tlk::Connection& tlk::Bot_mrx::getSelectionForMrx(const Connections& options) 
+const tlk::Connection& tlk::Bot_mrx::maxDistToSLY(const Connections& options) 
 {
     const Connection* best = &options[0];
-    uint maxDistance = virtualMap.getDistanceToClosestSly(best->target);
+    uint maxDistance = vMap.getDistanceToClosestSly(best->target);
 
     for (const Connection& con : options)
     {
-        uint distance = virtualMap.getDistanceToClosestSly(con.target);
+        uint distance = vMap.getDistanceToClosestSly(con.target);
         if (maxDistance < distance)
         {
             best = &con;
@@ -21,6 +21,11 @@ const tlk::Connection& tlk::Bot_mrx::getSelectionForMrx(const Connections& optio
     }
 
     return *best;
+}
+
+const tlk::Connection& tlk::Bot_mrx::getSelectionForMrx(const Connections& options) 
+{
+    return maxDistToSLY(options);
 }
 
 const tlk::Connection& tlk::Bot_mrx::getSelectionForSly(const Connections& options) 
@@ -39,16 +44,14 @@ tlk::Ticket tlk::Bot_mrx::randomGetTicketForMrx(tlk::ConnectionType usedTranspor
     && tickets.ticketCount(BLACK_Ti) > 0)
         return BLACK_Ti;
     
-
-    auto rng = std::default_random_engine(std::time(NULL));
-    uint rand = rng();
-
+    uint rand = std::rand() % 100;
     if (tickets.ticketCount(BLACK_Ti) > 0
-    && rand % 100 < 10)
+    && rand < 10)
         return BLACK_Ti;
     
+    rand = std::rand() % 100;
     if (tickets.ticketCount(DOUBLE_Ti) > 0
-    && rand % 100 < 10)
+    && rand < 10)
         return DOUBLE_Ti;
     
     return used;

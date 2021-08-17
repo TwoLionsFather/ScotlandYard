@@ -18,8 +18,8 @@ namespace tlk
             : originalMap(original), tracker(tracker) { };
         ~VirtualMap() { };
 
-        uint getDistanceToMrx(uint pos) const;
-        uint getDistanceToMrx(const Entity* ent) const;
+        uint getDistanceToMrxReport(uint pos) const;
+        uint getDistanceToMrxReport(const Entity* ent) const;
         uint getDistanceToClosestSly(uint pos) const;
         uint getDistanceBetween(uint pos, uint target, bool blockUsedPositions) const;
 

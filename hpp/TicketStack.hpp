@@ -41,7 +41,7 @@ namespace tlk
 
         bool isAllowedToUse(ConnectionType t) const
         {// either correct ticket type available or use Black Ticket.
-            return (counts[TicketStack::getTicketFor(t)] > 0) 
+            return (counts[getTicketFor(t)] > 0) 
                 || (counts[BLACK_Ti] > 0);
         }
 
@@ -59,7 +59,7 @@ namespace tlk
         {
             return ((tick == BLACK_Ti)
                 || (tick == DOUBLE_Ti && type != BOAT)
-                || (tick == TicketStack::getTicketFor(type)));
+                || (tick == getTicketFor(type)));
         }
 
         static Ticket getTicketFor(const ConnectionType& t)

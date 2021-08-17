@@ -1,45 +1,58 @@
 #include "../hpp/EntityTracker.hpp"
 
 
-void tlk::EntityTracker::updatePosition(const Entity* e, unsigned int startingPos)
+void tlk::EntityTracker::updatePosition(const Entity* e, uint startingPos)
 {
     bool newEntry = positions.emplace(e, startingPos).second;
 
     if (!newEntry)
         throw std::runtime_error("The Position wasn't initialized because the entity was already found inside the map when calling EntityTracker::updatePosition!");
 
-    Connections cons;
-    cons.emplace_back(Connection(startingPos, tlk::UNDEFINED));
-    entityMovementHistory.emplace(e, cons);
+    Connections moves;
+    moves.emplace_back(startingPos, tlk::UNDEFINED);
+    entityHistory.emplace(e, moves);
 }
 
-void tlk::EntityTracker::updatePosition(const Entity* e, const Connection* moved, const Ticket used)
+void tlk::EntityTracker::updatePosition(const Entity* e, const Connection* move, const Ticket used)
 {
-    if (positions.find(e) == positions.end())
-        throw std::runtime_error("Can't update the position if entity wasn't initialized inside of EntityTracker::updatePosition!");
+    positions.at(e) = move->target;
+    entityHistory.find(e)->second.emplace_back(*move);
 
-    positions.find(e)->second = moved->target;
-    entityMovementHistory.find(e)->second.push_back(*moved);
     if (e->isMrx())
-        mrx_publicHistory.push_back(used);
+        mrx_publicHistory.emplace_back(used);
 }
 
 uint tlk::EntityTracker::getLocationOf(const Entity* e) const
 {
-    if (positions.find(e) == positions.end())
-        throw std::runtime_error("Can't get the position of entity that wasn't initialized inside of EntityTracker::getLocationOf!");
+    return positions.at(e);
+}
 
-    return positions.find(e)->second;
+uint tlk::EntityTracker::getLocationOfMrx() const
+{
+    for (const auto& e : positions)
+        if (e.first->isMrx())
+            return e.second;
+
+    throw std::runtime_error("EntityTracker::getLocationOfMrx No MrX was found!");
 }
 
 std::list<uint> tlk::EntityTracker::getEntityLocations(bool hideMrX) const
 {
-    std::list<uint> location(0);//TODO use count
-    std::transform(positions.begin(), positions.end(), std::back_inserter(location)
-                    ,  [&](auto entry) {if (hideMrX && entry.first->isMrx())     //SLY Officers need to be able to move onto Mrxs location
-                                            return (uint) (0);
-                                        else
-                                            return entry.second;} );
+    std::list<uint> location;//TODO use count
+    for (const auto& e : positions)
+    {
+        if (hideMrX && e.first->isMrx())
+            continue;
 
+        location.emplace_back(e.second);
+    }
     return location;
+
+    // std::transform(positions.begin(), positions.end(), std::back_inserter(location)
+    //                 ,  [&](auto entry) {if (hideMrX && entry.first->isMrx())     //SLY Officers need to be able to move onto Mrxs location
+    //                                         return (uint) (0);
+    //                                     else
+    //                                         return entry.second;} );
+
+    // return location;
 }

@@ -6,18 +6,18 @@
 
 namespace tlk 
 {
-
+    //TODO Make const again
     struct Connection
     {
-        Connection(const unsigned int target, const ConnectionType type): 
-            target(target), type(type) {  };  
+        Connection (const uint target, const ConnectionType type)
+            : target(target), type(type) {  };  
 
-        const unsigned int    target = 0;  
-        const ConnectionType  type = ConnectionType::UNDEFINED;
+        uint target = 0;  
+        ConnectionType type = ConnectionType::UNDEFINED;
     };
-    typedef std::vector<Connection> Connections;
+    typedef std::vector<Connection> Connections; //TODO Make Const
 }
 
-std::ostream& operator<<(std::ostream &out, const tlk::ConnectionType& rhs);
 std::ostream& operator<<(std::ostream &out, const tlk::Connection& rhs);
 std::ostream& operator<<(std::ostream &out, const tlk::Connections& rhs);
+std::ostream& operator<<(std::ostream &out, const tlk::ConnectionType& rhs);

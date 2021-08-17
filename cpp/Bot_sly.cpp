@@ -5,14 +5,14 @@ const tlk::Connection& tlk::Bot_sly::getSelectionForMrx(const Connections& optio
     throw std::runtime_error("getSelectionForMrx is not to be called for sly units!");
 }
 
-const tlk::Connection& tlk::Bot_sly::randomGetSelectionForSly(const Connections& options) 
+const tlk::Connection& tlk::Bot_sly::random(const Connections& options) 
 {
     const Connection* bestCon = &options[0];
-    uint minDistance = virtualMap.getDistanceToMrx(options[0].target);
+    uint minDistance = vMap.getDistanceToMrxReport(options[0].target);
 
     for (const Connection& c : options)
     {
-        uint distance = virtualMap.getDistanceToMrx(c.target);
+        uint distance = vMap.getDistanceToMrxReport(c.target);
         if (minDistance > distance)
         {
             bestCon = &c;
@@ -23,14 +23,14 @@ const tlk::Connection& tlk::Bot_sly::randomGetSelectionForSly(const Connections&
     return *bestCon;
 }
 
-const tlk::Connection& tlk::Bot_sly::getMinDistanceToMrxCon(const Connections& options)
+const tlk::Connection& tlk::Bot_sly::minDist(const Connections& options)
 {
     const Connection* bestCon = &options[0];
-    uint minDistance = virtualMap.getDistanceToMrx(bestCon->target);
+    uint minDistance = vMap.getDistanceToMrxReport(bestCon->target);
 
     for (const Connection& c : options)
     {
-        uint distance = virtualMap.getDistanceToMrx(c.target);
+        uint distance = vMap.getDistanceToMrxReport(c.target);
         if (minDistance > distance)
         {
             bestCon = &c;
@@ -43,22 +43,19 @@ const tlk::Connection& tlk::Bot_sly::getMinDistanceToMrxCon(const Connections& o
 
 const tlk::Connection& tlk::Bot_sly::getSelectionForSly(const Connections& options) 
 {
-    // return getMinDistanceToMrxCon(options);
+    if (vMap.getDistanceToMrxReport(this) > 2)
+        return minDist(options);
 
     const Connection* bestCon = &options[0];
-
-    if (virtualMap.getDistanceToMrx(this) > 2)
-        return getMinDistanceToMrxCon(options);
-
-    uint minMrxLocationsCount = virtualMap.getMrxPossibleLocationsAfter(this, bestCon).size();
+    uint minMrxLocCount = vMap.getMrxPossibleLocationsAfter(this, bestCon).size();
 
     for (const Connection& c : options)
     {
-        uint mrxLocationsCount = virtualMap.getMrxPossibleLocationsAfter(this, &c).size();
-        if (minMrxLocationsCount > mrxLocationsCount)
+        uint mrxLocCount = vMap.getMrxPossibleLocationsAfter(this, &c).size();
+        if (minMrxLocCount > mrxLocCount)
         {
             bestCon = &c;
-            minMrxLocationsCount = mrxLocationsCount;
+            minMrxLocCount = mrxLocCount;
         }
     }
 

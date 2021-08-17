@@ -51,6 +51,7 @@ int main(int argc, char const *argv[])
     length.fill(0);
     srand(time(NULL));
 
+    auto begin = std::chrono::high_resolution_clock::now();
     for (int i = 0; i < gameCount; i++)
     {
         tlk::Game g;
@@ -73,8 +74,9 @@ int main(int argc, char const *argv[])
             break;
         }
     }
-    resultFile << "Siege SLY: " << results[0] << " MRX: " << results[1] << " ERRORS: " << results[2] << std::endl; 
+    auto finish = std::chrono::high_resolution_clock::now();
 
+    resultFile << "Siege SLY: " << results[0] << " MRX: " << results[1] << " ERRORS: " << results[2] << std::endl; 
     double avg = 0;
     for (int i = 0; i < 22; ++i)
     {
@@ -84,5 +86,9 @@ int main(int argc, char const *argv[])
     resultFile << "Avg " << avg/(double) gameCount << " Rounds" << std::endl;
 
     resultFile.close();
+
+    std::chrono::duration<double, std::milli> elapsed = finish - begin;
+    std::cout << "Calculations took: " << elapsed.count() << "ms" << std::endl;
+
     return 0;
 }
