@@ -25,30 +25,14 @@ tlk::Game::~Game()
 
 void tlk::Game::setup()
 {    
-    // std::map<size_t, std::vector<uint>> connectionCounts;
-    // std::vector<uint> startingOptions;
-
-    // for (uint i = 1; i < 200; ++i)
-    // {
-    //     size_t connectionCount = gameMap.getGameFields().find(i)->second.get()->size();
-    //     if (connectionCount == 7 || connectionCount == 8)
-    //         startingOptions.emplace_back(i);
-
-    //     // if (connectionCounts.find(connectionCount) == connectionCounts.end())
-    //     //     connectionCounts.insert(std::make_pair(connectionCount, std::vector<uint>()));
-        
-    //     // connectionCounts.find(connectionCount)->second.emplace_back(i);
-    // }
-
-
     auto rng = std::default_random_engine(rand());
-    std::vector<uint> startingOptions = {58, 34, 14, 29, 52, 94, 78, 66, 86, 105, 100, 137, 154, 157, 135, 144, 180, 199}; 
+    std::vector<uint> startingOptions = {103, 112, 34, 155, 94, 117, 132, 53, 174, 198, 50, 91, 26, 29, 141, 13, 138, 197};//{58, 34, 14, 29, 52, 94, 78, 66, 86, 105, 100, 137, 154, 157, 135, 144, 180, 199}; 
     std::shuffle(startingOptions.begin(), startingOptions.end(), rng);
 
     posTrack.updatePosition(mrx, *startingOptions.rbegin());
     startingOptions.pop_back();
 
-    posTrack.setMrxLocation(65);    //set more intelegently
+    posTrack.setMrxLocation(100);    //set more intelegently
 
     for (int i = 0; i < PLAYER_COUNT; ++i)
     {
