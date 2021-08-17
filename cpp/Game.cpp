@@ -11,6 +11,9 @@ tlk::Game::Game():
 { 
     for (int i = 0; i < PLAYER_COUNT; ++i)
         sly_units.emplace_back(new Bot_sly(vMap));
+
+    if (PLAYER_PLAYING)
+        sly_units.emplace_back(new Player_sly());
 }
 
 tlk::Game::~Game()
@@ -22,8 +25,24 @@ tlk::Game::~Game()
 
 void tlk::Game::setup()
 {    
+    // std::map<size_t, std::vector<uint>> connectionCounts;
+    // std::vector<uint> startingOptions;
+
+    // for (uint i = 1; i < 200; ++i)
+    // {
+    //     size_t connectionCount = gameMap.getGameFields().find(i)->second.get()->size();
+    //     if (connectionCount == 7 || connectionCount == 8)
+    //         startingOptions.emplace_back(i);
+
+    //     // if (connectionCounts.find(connectionCount) == connectionCounts.end())
+    //     //     connectionCounts.insert(std::make_pair(connectionCount, std::vector<uint>()));
+        
+    //     // connectionCounts.find(connectionCount)->second.emplace_back(i);
+    // }
+
+
     auto rng = std::default_random_engine(rand());
-    std::vector<uint> startingOptions = {13, 29, 46, 58, 67, 105, 140, 142, 153, 159}; //und weitere aber die haben alle >10 Options
+    std::vector<uint> startingOptions = {58, 34, 14, 29, 52, 94, 78, 66, 86, 105, 100, 137, 154, 157, 135, 144, 180, 199}; 
     std::shuffle(startingOptions.begin(), startingOptions.end(), rng);
 
     posTrack.updatePosition(mrx, *startingOptions.rbegin());
@@ -31,12 +50,14 @@ void tlk::Game::setup()
 
     posTrack.setMrxLocation(65);    //set more intelegently
 
-
     for (int i = 0; i < PLAYER_COUNT; ++i)
     {
         posTrack.updatePosition(sly_units[i], *startingOptions.rbegin());
         startingOptions.pop_back();
     }
+
+    if (PLAYER_PLAYING)
+        posTrack.updatePosition(sly_units[PLAYER_COUNT], *startingOptions.rbegin());
 }
 
 tlk::Statistics tlk::Game::play()
@@ -50,7 +71,7 @@ tlk::Statistics tlk::Game::play()
         auto startr = std::chrono::high_resolution_clock::now();
 
         round++;
-        if (tlk::LOG_LEVEL >= tlk::NORMAL)
+        if (tlk::LOG_LEVEL >= tlk::NORMAL || PLAYER_PLAYING)
             printRoundStart();
 
         playMrx();
@@ -66,7 +87,7 @@ tlk::Statistics tlk::Game::play()
         {
             posTrack.setMrxLocation(posTrack.getLocationOf(mrx));
 
-            if (tlk::LOG_LEVEL == tlk::NORMAL)
+            if (tlk::LOG_LEVEL == tlk::NORMAL || PLAYER_PLAYING)
                 std::cout << "Postion von MRX in Round: " << round << " is " << posTrack.getLocationOf(mrx) << " -------------------------------------------" << std::endl;
         }
             
@@ -129,6 +150,9 @@ void tlk::Game::playMrx()
         if (tlk::LOG_LEVEL >= tlk::HIGH)
             std::cout << "MRX Moved to: " << used.first->target << std::endl;
 
+        if (PLAYER_PLAYING)
+            std::cout << "MrX used: " << used.second << std::endl;
+
         posTrack.updatePosition(mrx, used.first, used.second);
     } while (used.second == tlk::DOUBLE_Ti);
 }
@@ -140,13 +164,16 @@ void tlk::Game::playSly()
 
     for (Entity* e : sly_units)
     {
+        // if (PLAYER_PLAYING)
+        //     std::cout << "SLY Unit on: " << posTrack.getLocationOf(e) << std::endl;
+
         const Connections& options =  gameMap.getMovesFor(e, &posTrack);
         if (options.empty())
             continue;
         
         used = e->move(options);
 
-        if (tlk::LOG_LEVEL >= tlk::HIGH)
+        if (tlk::LOG_LEVEL >= tlk::HIGH || PLAYER_PLAYING)
             std::cout << "SLY Unit Moved to: " << used.first->target << std::endl;
 
         if (posTrack.getLocationOf(mrx) == used.first->target)

@@ -1,6 +1,7 @@
 #define OLC_PGE_APPLICATION
 // #include "../hpp/olcPixelGameEngine.h"
 #include "../hpp/Game.hpp"
+#include "../hpp/ConstsAndEnums.hpp"
 
 #include <iostream>
 #include <string>
@@ -39,7 +40,9 @@ int main(int argc, char const *argv[])
 
 	// return 0;
 
-    const int gameCount = 100;
+    const int gameCount = tlk::GAME_COUNT;
+
+    std::cout << gameCount << " Games calculating!" << std::endl;
 
     int results[3] = {0, 0, 0};
     std::array<int, 22> length;
@@ -73,7 +76,7 @@ int main(int argc, char const *argv[])
     double avg = 0;
     for (int i = 0; i < 22; ++i)
     {
-        std::cout << "[" <<  i << " " << length[i] << "] ";
+        std::cout << "[" <<  i+1 << " " << length[i] << "] ";
         avg += (double) (length[i] * i);
     }
     std::cout << std::endl;

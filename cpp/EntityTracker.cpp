@@ -34,7 +34,7 @@ uint tlk::EntityTracker::getLocationOf(const Entity* e) const
 
 std::list<uint> tlk::EntityTracker::getEntityLocations(bool hideMrX) const
 {
-    std::list<uint> location(PLAYER_COUNT);//TODO use count
+    std::list<uint> location(0);//TODO use count
     std::transform(positions.begin(), positions.end(), std::back_inserter(location)
                     ,  [&](auto entry) {if (hideMrX && entry.first->isMrx())     //SLY Officers need to be able to move onto Mrxs location
                                             return (uint) (0);

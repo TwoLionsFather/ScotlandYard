@@ -1,4 +1,5 @@
 #pragma once
+#include <math.h>
 
 namespace tlk
 {
@@ -40,9 +41,10 @@ namespace tlk
         MRX
     };
 
-    static const Debug LOG_LEVEL = LOW;
+    static const Debug LOG_LEVEL = NONE;
     static const int PLAYER_COUNT = 3;
-
+    static const bool PLAYER_PLAYING = true;
+    static const int GAME_COUNT = std::pow(10, (3-LOG_LEVEL));
 } // namespace tlk
 
 
