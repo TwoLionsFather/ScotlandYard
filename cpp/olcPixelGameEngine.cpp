@@ -67,6 +67,7 @@ public:
 			game = new tlk::Game();
 			game->setup();
 			drawableMap.link(game->getGameLiveInfo());
+			state = tlk::PLAYING;
 		}
 
 

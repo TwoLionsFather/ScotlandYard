@@ -165,15 +165,15 @@ void tlk::Game::playSly()
         if (tlk::LOG_LEVEL >= tlk::HIGH || PLAYER_PLAYING)
             std::cout << "SLY Unit Moved to: " << used.first->target << std::endl;
 
+        tracker.updatePosition(e, used.first, used.second); 
+        mrx->addTicket(used.second);
+        noOfficerMoved = false;
+
         if (tracker.getLocationOfMrx() == used.first->target)
         {
             gameState = WON_SLY;
             return;
         }
-
-        tracker.updatePosition(e, used.first, used.second); 
-        mrx->addTicket(used.second);
-        noOfficerMoved = false;
     }
 
     if (noOfficerMoved)
