@@ -3,7 +3,7 @@
 double tlk::Bot_mrx::scoreCon(const tlk::Connection& c)
 {
     int distanceToReveal = 4 - (*round + 1) % 5;
-    std::cout << "MrX Round: " << distanceToReveal << std::endl;
+    // std::cout << "MrX Round: " << distanceToReveal << std::endl;
     return vMap.getDistanceToClosestSly(c.target);
 }
 

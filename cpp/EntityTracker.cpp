@@ -16,7 +16,7 @@ void tlk::EntityTracker::updatePosition(const Entity* e, uint startingPos)
 void tlk::EntityTracker::updatePosition(const Entity* e, const Connection* move, const Ticket used)
 {
     positions.at(e) = move->target;
-    entityHistory.find(e)->second.emplace_back(*move);
+    entityHistory.at(e).emplace_back(*move);
 
     if (e->isMrx())
         mrx_publicHistory.emplace_back(used);

@@ -60,7 +60,7 @@ namespace tlk
 
         olc::vi2d getMrxLocation() const
         {
-            return locations[gameInfo.tracker->getLocationOfMrx()-1];
+            return locations[gameInfo.tracker->getLocationOf(gameInfo.mrx)-1];
         }
 
     private:

@@ -9,7 +9,7 @@ tlk::Game::Game():
     , sly_units(std::vector<Entity*>())
     , gameState(tlk::PLAYING)
 { 
-    for (int i = 0; i < PLAYER_COUNT; ++i)
+    for (int i = 1; i < PLAYER_COUNT; ++i)
         sly_units.emplace_back(new Bot_sly(vMap));
 
     if (PLAYER_PLAYING)
@@ -40,7 +40,7 @@ void tlk::Game::setup()
 
     tracker.setMrxLocation(100);    //set more intelegently
 
-    for (int i = 0; i < PLAYER_COUNT; ++i)
+    for (int i = 0; i < sly_units.size(); ++i)
     {
         tracker.updatePosition(sly_units[i], *startingOptions.rbegin());
         startingOptions.pop_back();
