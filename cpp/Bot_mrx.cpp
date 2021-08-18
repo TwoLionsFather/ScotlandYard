@@ -1,36 +1,10 @@
 #include "../hpp/Bot_mrx.hpp"
 
-const tlk::Connection& tlk::Bot_mrx::random(const Connections& options) 
+double tlk::Bot_mrx::scoreCon(const tlk::Connection& c)
 {
-    return options[rand()%options.size()];
-}
-
-const tlk::Connection& tlk::Bot_mrx::maxDistToSLY(const Connections& options) 
-{
-    const Connection* best = &options[0];
-    uint maxDistance = vMap.getDistanceToClosestSly(best->target);
-
-    for (const Connection& con : options)
-    {
-        uint distance = vMap.getDistanceToClosestSly(con.target);
-        if (maxDistance < distance)
-        {
-            best = &con;
-            maxDistance = distance;
-        }
-    }
-
-    return *best;
-}
-
-const tlk::Connection& tlk::Bot_mrx::getSelectionForMrx(const Connections& options) 
-{
-    return maxDistToSLY(options);
-}
-
-const tlk::Connection& tlk::Bot_mrx::getSelectionForSly(const Connections& options) 
-{
-    throw std::runtime_error("getSelectionForSly is not to be called for mrx units!");
+    int distanceToReveal = 4 - (*round + 1) % 5;
+    std::cout << "MrX Round: " << distanceToReveal << std::endl;
+    return vMap.getDistanceToClosestSly(c.target);
 }
 
 tlk::Ticket tlk::Bot_mrx::randomGetTicketForMrx(tlk::ConnectionType usedTransportation)
@@ -55,9 +29,4 @@ tlk::Ticket tlk::Bot_mrx::randomGetTicketForMrx(tlk::ConnectionType usedTranspor
         return DOUBLE_Ti;
     
     return used;
-}
-
-tlk::Ticket tlk::Bot_mrx::getTicketForMrx(tlk::ConnectionType usedTransportation)
-{
-   return randomGetTicketForMrx(usedTransportation);
 }

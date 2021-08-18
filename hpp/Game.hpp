@@ -56,10 +56,10 @@ namespace tlk
         EntityTracker tracker;
         const VirtualMap vMap;
 
+        int round = 0;
         Entity* const mrx;
         std::vector<Entity*> sly_units;
 
-        unsigned int round = 0;
         State gameState;
 
         void printRoundStart();

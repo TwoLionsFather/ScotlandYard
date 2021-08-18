@@ -4,9 +4,9 @@ tlk::Game::Game():
     gameMap(tlk::Map("../assets/connections.txt"))
     , tracker(tlk::EntityTracker())
     , vMap(gameMap, tracker)
-    , mrx(new tlk::Bot_mrx(vMap))
-    , sly_units(std::vector<Entity*>())
     , round(0)
+    , mrx(new tlk::Bot_mrx(vMap, &round))
+    , sly_units(std::vector<Entity*>())
     , gameState(tlk::PLAYING)
 { 
     for (int i = 0; i < PLAYER_COUNT; ++i)
@@ -111,7 +111,7 @@ tlk::State tlk::Game::playSingleRound()
     {
         tracker.setMrxLocation(tracker.getLocationOf(mrx));
 
-        if (tlk::LOG_LEVEL == tlk::NORMAL || PLAYER_PLAYING)
+        if (tlk::LOG_LEVEL >= tlk::NORMAL || PLAYER_PLAYING)
             std::cout << "Postion von MRX in Round: " << round << " is " << tracker.getLocationOf(mrx) << " -------------------------------------------" << std::endl;
     }
         
@@ -169,7 +169,7 @@ void tlk::Game::playSly()
         mrx->addTicket(used.second);
         noOfficerMoved = false;
 
-        if (tracker.getLocationOfMrx() == used.first->target)
+        if (tracker.getLocationOf(mrx) == used.first->target)
         {
             gameState = WON_SLY;
             return;

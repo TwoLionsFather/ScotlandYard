@@ -15,9 +15,10 @@ namespace tlk
         virtual ~Bot_sly() { };
         
     protected:
-        virtual const Connection& getSelectionForMrx(const Connections& options) override;
-        virtual const Connection& getSelectionForSly(const Connections& options) override;
-        virtual Ticket getTicketForMrx(ConnectionType usedTransportation) override;
+        virtual double scoreCon(const Connection& c) 
+        {
+            return -vMap.getDistanceToMrxReport(c.target);
+        };
 
     private:
         const VirtualMap& vMap; 

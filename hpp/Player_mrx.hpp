@@ -15,17 +15,12 @@ namespace tlk
         virtual ~Player_mrx() { };
 
     protected:
-        virtual const Connection& getSelectionForMrx(const Connections& options)
+        virtual const Connection& getSelection(const Connections& options) override
         {
             return tlk::PlayerInput::consoleSelectMoveFromOptions(options, tickets);
         }
 
-        virtual const Connection& getSelectionForSly(const Connections& options)
-        {
-            throw std::runtime_error("A Player in MRXs Role shouldn't select moves like a Sly unit! wrong Method called for move selection on Player_mrx");;
-        }   
-
-        virtual Ticket getTicketForMrx(ConnectionType usedTransportation)
+        virtual Ticket getTicket(ConnectionType usedTransportation) override
         {
             return tlk::PlayerInput::consoleSelectTicket(usedTransportation, tickets);
         };

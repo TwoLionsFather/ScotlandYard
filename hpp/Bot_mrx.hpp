@@ -10,20 +10,21 @@ namespace tlk
     class Bot_mrx : public Entity
     {
     public:
-        Bot_mrx(const VirtualMap& vMap) 
-            : Entity(Team::MRX), vMap(vMap) { };
+        Bot_mrx(const VirtualMap& vMap, const int* round) 
+            : Entity(Team::MRX), vMap(vMap), round(round) { };
         virtual ~Bot_mrx() { };
 
     protected:
-        virtual const Connection& getSelectionForMrx(const Connections& options) override;
-        virtual const Connection& getSelectionForSly(const Connections& options) override;
-        virtual Ticket getTicketForMrx(ConnectionType usedTransportation) override;
+        virtual double scoreCon(const Connection& c) override;
+        virtual Ticket getTicket(ConnectionType usedTransportation) 
+        {
+            return randomGetTicketForMrx(usedTransportation);
+        };
 
     private:
         const VirtualMap& vMap; 
+        const int* round = 0;
 
-        const tlk::Connection& random(const Connections& options);
-        const tlk::Connection& maxDistToSLY(const Connections& options);
         tlk::Ticket randomGetTicketForMrx(tlk::ConnectionType usedTransportation);
     };
 } // namespace tlk

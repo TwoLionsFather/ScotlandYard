@@ -10,6 +10,12 @@ namespace tlk
     //To set a MRX entity set the Team to MRX
     class Entity
     {
+    protected:
+        virtual double scoreCon(const Connection& c) { return ((double) random())/rand(); }
+        virtual const Connection& getSelection(const Connections& options) { return getBestSelection(options); }
+
+        virtual Ticket getTicket(ConnectionType usedTransportation) { return TicketStack::getTicketFor(usedTransportation); }
+
     public:
         Entity(): team(tlk::SLY), tickets(TicketStack(tlk::SLY)) { };
         Entity(Team t): team(t), tickets(TicketStack(t)) { };
@@ -17,9 +23,8 @@ namespace tlk
 
         std::pair<const tlk::Connection*, tlk::Ticket> move(const Connections& options)
         {
-            const Connection& selected = (isMrx())? getSelectionForMrx(options) : getSelectionForSly(options);
-            Ticket used = (isMrx())? getTicketForMrx(selected.type) : TicketStack::getTicketFor(selected.type);
-            
+            const Connection& selected = getSelection(options);
+            Ticket used = getTicket(selected.type);
             tickets.useTicket(used);
 
             return std::make_pair(&selected, used);
@@ -43,12 +48,27 @@ namespace tlk
         }
 
     protected:
-        virtual const Connection& getSelectionForMrx(const Connections& options) = 0;
-        virtual const Connection& getSelectionForSly(const Connections& options) = 0;
-        virtual Ticket getTicketForMrx(ConnectionType usedTransportation) = 0;
-
-        const Team team = SLY;
-        // int round = 0;
         TicketStack tickets;
+
+    private:
+        const Team team = SLY;
+
+        const Connection& getBestSelection(const Connections& options)
+        {
+            const Connection* best = &options[0];
+            double bestScore = scoreCon(*best);
+
+            for (const Connection& con : options)
+            {
+                uint score = scoreCon(con);
+                if (bestScore < score)
+                {
+                    best = &con;
+                    bestScore = score;
+                }
+            }
+
+            return *best;
+        }
     };
 }
