@@ -44,7 +44,7 @@ uint tlk::VirtualMap::getDistanceBetween(const uint pos, const uint target, cons
 
     int distance = 0;
     
-    std::set<uint> locationsInRange;
+    std::unordered_set<uint> locationsInRange;
 
     do {
         locationsInRange = getPossibleLocationsAfter(pos, distance++, blockUsedPositions);
@@ -57,9 +57,9 @@ uint tlk::VirtualMap::getDistanceBetween(const uint pos, const uint target, cons
 }
 
 //Limited to 5 rounds to keep pc from dying
-std::set<uint> tlk::VirtualMap::getPossibleLocationsAfter(const uint pos, int roundCount, bool blockUsedPositions) const
+std::unordered_set<uint> tlk::VirtualMap::getPossibleLocationsAfter(const uint pos, int roundCount, bool blockUsedPositions) const
 {
-    std::set<uint> initialLocations;
+    std::unordered_set<uint> initialLocations;
 
     const auto& map = originalMap.getGameFields();
 
@@ -83,7 +83,7 @@ std::set<uint> tlk::VirtualMap::getPossibleLocationsAfter(const uint pos, int ro
     if (--roundCount == 0)
         return initialLocations;
 
-    std::set<uint> possibleLocations;
+    std::unordered_set<uint> possibleLocations;
     //TODO make more efficent
     do {
         for (uint ui : initialLocations)
@@ -100,22 +100,21 @@ std::set<uint> tlk::VirtualMap::getPossibleLocationsAfter(const uint pos, int ro
     return initialLocations;
 }
 
-std::set<uint> tlk::VirtualMap::getMrxPossibleLocationsAfter(const Entity* ent, const Connection* con) const
+std::unordered_set<uint> tlk::VirtualMap::getMrxPossibleLocationsAfter(const Entity* ent, const Connection* con) const
 {
     const auto& map = originalMap.getGameFields();
-    const std::vector<Ticket>& history = tracker.getMrxHistory();
+    std::vector<Ticket> history = tracker.getMrxHistory();
+    std::unordered_set<uint> initialLocations;
 
-    std::set<uint> initialLocations;
-    
     if (history.empty())
-        return initialLocations;
+        return  initialLocations;   
 
-    auto histIterator = history.begin();
-    Ticket used = *histIterator++;
-    for (const tlk::Connection c : *(map.find(tracker.getMrxLastSeenLocation())->second.get()))
-        if (TicketStack::isAllowedConnection(used, c.type))
+    int ticketRound = 0;
+
+    for (const tlk::Connection c : *(map.at(tracker.getMrxLastSeenLocation()).get()))
+        if (TicketStack::isAllowedConnection(history[ticketRound], c.type))
             initialLocations.emplace(c.target);
-    
+
     uint entPos = tracker.getLocationOf(ent);
     std::list<uint> posons = tracker.getEntityLocations(true);
     posons.erase(std::remove_if(posons.begin(), posons.end(), [entPos](uint ui) {return ui == entPos;}), posons.end());
@@ -124,22 +123,24 @@ std::set<uint> tlk::VirtualMap::getMrxPossibleLocationsAfter(const Entity* ent, 
     for (uint ui : posons)
         initialLocations.erase(ui);
 
-    if (histIterator == history.end())
+    if (++ticketRound == history.size())
         return initialLocations;
 
-    std::set<uint> possibleLocations;
+    std::unordered_set<uint> possibleLocations;
     do {
-        used = *histIterator++;
         for (uint ui : initialLocations)
-            for (const tlk::Connection c : *(map.find(ui)->second.get()))
-                if (TicketStack::isAllowedConnection(used, c.type))
+            for (const tlk::Connection& c : *(map.at(ui).get()))
+                if (TicketStack::isAllowedConnection(history[ticketRound], c.type))
                     possibleLocations.emplace(c.target);
         
         for (uint ui : posons)
             possibleLocations.erase(ui);
 
         initialLocations = possibleLocations;
-    } while (histIterator != history.end());
+    } while (++ticketRound != history.size() && ticketRound < 5);
+
+    if (ticketRound > 5)
+        throw std::runtime_error("VirtualMap::getMrxPossibleLocationsAfter simulated to many rounds!");
 
     return initialLocations;
 }

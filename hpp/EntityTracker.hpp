@@ -29,7 +29,8 @@ namespace tlk
         void setMrxLocation(uint loc)
         {
             mrxLastSeenLocation = loc;
-            mrx_publicHistory.clear();
+            if (!mrx_publicHistory.empty())
+                mrx_publicHistory.erase(mrx_publicHistory.cbegin(), --mrx_publicHistory.cend());
         }
 
         uint getMrxLastSeenLocation() const

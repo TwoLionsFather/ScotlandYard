@@ -15,20 +15,22 @@ namespace tlk
         virtual ~Bot_sly() { };
         
     protected:
-        virtual double scoreCon(const Connection& c) 
-        {
-            if (*round < 3)
-                return minDistStart(c);
-            return minDist(c);
-        }
+        virtual double scoreCon(const Connection& c) override;
 
     private:
         const VirtualMap& vMap; 
         const int* round = 0;
         std::vector<int>* startingOptions;
         
-        double minDistStart(const Connection& options);
+        //give slight edge if more tickets are available
+        inline double ticketFactor(ConnectionType type)
+        {
+            return 0.01 * tickets.ticketCount(TicketStack::getTicketFor(type));
+        }
+
+        //Connection with highest score is selected!
         double minDist(const Connection& options);
-        double minOptions(const Connection& options);
+        double minDistStart(const Connection& options);
+        double minOptionsCount(const Connection& options);
     };
 } // namespace tlk

@@ -60,7 +60,7 @@ namespace tlk
 
             for (const Connection& con : options)
             {
-                uint score = scoreCon(con);
+                double score = scoreCon(con);
                 if (bestScore < score)
                 {
                     best = &con;

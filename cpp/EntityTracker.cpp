@@ -47,12 +47,4 @@ std::list<uint> tlk::EntityTracker::getEntityLocations(bool hideMrX) const
         location.emplace_back(e.second);
     }
     return location;
-
-    // std::transform(positions.begin(), positions.end(), std::back_inserter(location)
-    //                 ,  [&](auto entry) {if (hideMrX && entry.first->isMrx())     //SLY Officers need to be able to move onto Mrxs location
-    //                                         return (uint) (0);
-    //                                     else
-    //                                         return entry.second;} );
-
-    // return location;
 }

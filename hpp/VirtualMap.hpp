@@ -7,7 +7,7 @@
 
 #include <algorithm>
 #include <list>
-#include <set>
+#include <unordered_set>
 
 namespace tlk
 {
@@ -24,8 +24,8 @@ namespace tlk
         uint getDistanceBetween(uint pos, uint target, bool blockUsedPositions) const;
         uint getDistanceBetween(const Entity* e, const uint target, const bool blockUsedPositions) const;
 
-        std::set<uint> getMrxPossibleLocationsAfter(const Entity* ent, const Connection* con) const;
-        std::set<uint> getPossibleLocationsAfter(uint pos, int roundCount, bool blockUsedPositions) const;
+        std::unordered_set<uint> getMrxPossibleLocationsAfter(const Entity* ent, const Connection* con) const;
+        std::unordered_set<uint> getPossibleLocationsAfter(uint pos, int roundCount, bool blockUsedPositions) const;
 
     private:
         const Map& originalMap;

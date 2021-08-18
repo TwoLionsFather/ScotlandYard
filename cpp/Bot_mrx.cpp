@@ -4,13 +4,14 @@ double tlk::Bot_mrx::scoreCon(const tlk::Connection& c)
 {
     int roundsTillReveal = 4 - (*round + 1) % 5;
     int distanceToClosestSLY = vMap.getDistanceToClosestSly(c.target);
+    int outgoingCount = vMap.getPossibleLocationsAfter(c.target, 1, true).size();
 
     if (roundsTillReveal > 2 && distanceToClosestSLY > 2)
     {
         return 0.5 * distanceToClosestSLY + vMap.getDistanceToMrxReport(c.target);
     }
 
-    return distanceToClosestSLY;
+    return distanceToClosestSLY + 0.25 * outgoingCount;
 }
 
 tlk::Ticket tlk::Bot_mrx::randomGetTicketForMrx(tlk::ConnectionType usedTransportation)

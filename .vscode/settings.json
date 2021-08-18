@@ -55,7 +55,8 @@
         "iomanip": "cpp",
         "thread": "cpp",
         "set": "cpp",
-        "forward_list": "cpp"
+        "forward_list": "cpp",
+        "unordered_set": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }

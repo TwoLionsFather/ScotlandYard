@@ -2,6 +2,7 @@
 #include "../hpp/olcPixelGameEngine.h"
 
 #include "../hpp/Game.hpp"
+#include "../hpp/Simulation.hpp"
 #include "../hpp/DrawableMap.hpp"
 #include "../hpp/ConstsAndEnums.hpp"
 
@@ -114,11 +115,18 @@ private:
 
 int main(int argc, char const *argv[])
 {	
-	SLY_Viewer demo;
+	if (tlk::GRAPHICAL_INTERFACE)
+	{
+		SLY_Viewer demo;
 
-	if (demo.Construct(1444, 1124, 1, 1))
-		demo.Start();
-
+		if (demo.Construct(1444, 1124, 1, 1))
+			demo.Start();
+	}
+	else
+	{
+		tlk::Simulation sim;
+		sim.start();
+	}
 
 	return 0;
 }
