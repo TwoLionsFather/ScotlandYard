@@ -26,6 +26,19 @@ namespace tlk
         //Possibly More
     };
 
+    struct GameLiveInfo
+    {
+        GameLiveInfo() { };
+        GameLiveInfo(const EntityTracker *tracker
+                    , const Entity *mrx
+                    , const std::vector<Entity*> *sly) 
+            : tracker(tracker), mrx(mrx), sly(sly) { };
+
+        const EntityTracker *tracker = nullptr;
+        const Entity *mrx = nullptr;
+        const std::vector<Entity*> *sly = nullptr;
+    };
+
     class Game
     {
     public:
@@ -34,10 +47,13 @@ namespace tlk
 
         void setup();
         Statistics play();
+        State playSingleRound();
+
+        GameLiveInfo getGameLiveInfo() const;
 
     private: 
         const Map  gameMap;
-        EntityTracker posTrack;
+        EntityTracker tracker;
         const VirtualMap vMap;
 
         Entity* const mrx;

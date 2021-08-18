@@ -62,10 +62,10 @@ tlk::Map::~Map()
     gameFields.clear();
 }
 
-const tlk::Connections tlk::Map::getMovesFor(const Entity* e, const EntityTracker* posTrack) const
+const tlk::Connections tlk::Map::getMovesFor(const Entity* e, const EntityTracker* tracker) const
 {
-    const Connections& options = *gameFields.at(posTrack->getLocationOf(e)).get();
-    const std::list<uint>& occPos = posTrack->getEntityLocations(true);
+    const Connections& options = *gameFields.at(tracker->getLocationOf(e)).get();
+    const std::list<uint>& occPos = tracker->getEntityLocations(true);
 
     if (options.empty())
         throw std::invalid_argument("No options were found for an entity inside of Map::getMovesFor function!!");
