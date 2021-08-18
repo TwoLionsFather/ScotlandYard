@@ -17,7 +17,7 @@ tlk::ConnectionType get_type_from_char(char type)
 }
 
 //Read MAp File and create Paths in both directions ordered by node
-tlk::Map::Map(std::string path)
+tlk::Map::Map(const std::string& path)
 {
     std::ifstream file(path, std::ios::in);
 

@@ -19,7 +19,7 @@ namespace tlk
     class Map
     {
     public:
-        Map(std::string path);
+        Map(const std::string& path);
         ~Map();
         
         const Connections getMovesFor(const Entity* e, const EntityTracker* posTrack) const;
