@@ -19,6 +19,20 @@ public:
 		delete game;
 	}
 
+	void DrawThickLine(olc::vi2d p1, olc::vi2d p2, olc::Pixel p)
+	{
+		olc::vi2d top (0, -1);
+		olc::vi2d bot (0, 1);
+		olc::vi2d left (-1, 0);
+		olc::vi2d right (1, 0);
+
+		DrawLine(p1, p2, p);
+		DrawLine(p1 + top, p2 + top, p);
+		DrawLine(p1 + bot, p2 + bot, p);
+		DrawLine(p1 + left, p2 + left, p);
+		DrawLine(p1 + right, p2 + right, p);
+	}
+
 	bool OnUserCreate() override
 	{
 		game = new tlk::Game();
@@ -43,6 +57,24 @@ public:
 		// 	DrawString(pos-olc::vi2d(7, 6), std::to_string(idxCount++), olc::WHITE, 1);
 		// }
 
+
+		if (GetMouse(olc::Mouse::LEFT).bPressed && state == tlk::PLAYING)
+			state = game->playSingleRound();
+
+		if (GetMouse(olc::Mouse::RIGHT).bPressed)
+		{
+			delete game;
+			game = new tlk::Game();
+			game->setup();
+			drawableMap.link(game->getGameLiveInfo());
+		}
+
+
+		for (const tlk::DrawableConneciton& dc : drawableMap.getConnectionHistories())
+		{
+			DrawThickLine(dc.pos1, dc.pos2, dc.p);
+		}
+
 		FillCircle(drawableMap.getMrxLocation(), 15, olc::BLACK);
 		FillCircle(drawableMap.getMrxLocation(), 10, olc::Pixel(200, 100, 0));
 
@@ -51,11 +83,6 @@ public:
 			FillCircle(pos, 15, olc::DARK_BLUE);
 			FillCircle(pos, 10, olc::WHITE);
 		}
-
-
-		if (GetMouse(olc::Mouse::LEFT).bPressed && state == tlk::PLAYING)
-			state = game->playSingleRound();
-		
 
 		switch (state)
 		{

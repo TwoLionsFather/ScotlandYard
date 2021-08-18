@@ -30,6 +30,7 @@ tlk::GameLiveInfo tlk::Game::getGameLiveInfo() const
 
 void tlk::Game::setup()
 {    
+    srand(std::chrono::high_resolution_clock::now().time_since_epoch().count());
     auto rng = std::default_random_engine(rand());
     std::vector<uint> startingOptions = {103, 112, 34, 155, 94, 117, 132, 53, 174, 198, 50, 91, 26, 29, 141, 13, 138, 197};//{58, 34, 14, 29, 52, 94, 78, 66, 86, 105, 100, 137, 154, 157, 135, 144, 180, 199}; 
     std::shuffle(startingOptions.begin(), startingOptions.end(), rng);
@@ -74,7 +75,6 @@ tlk::Statistics tlk::Game::play()
 
     if (tlk::LOG_LEVEL >= tlk::NORMAL)
     {
-
         switch (gameState) {
         case tlk::WON_SLY:
             std::cout << "Game has finished and Scotland Yard won!" << std::endl;
@@ -165,7 +165,7 @@ void tlk::Game::playSly()
         if (tlk::LOG_LEVEL >= tlk::HIGH || PLAYER_PLAYING)
             std::cout << "SLY Unit Moved to: " << used.first->target << std::endl;
 
-        if (tracker.getLocationOf(mrx) == used.first->target)
+        if (tracker.getLocationOfMrx() == used.first->target)
         {
             gameState = WON_SLY;
             return;

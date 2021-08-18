@@ -42,6 +42,11 @@ namespace tlk
             return mrx_publicHistory;
         }
 
+        const Connections getEntityHistorie(const Entity* e) const
+        {
+            return entityHistory.at(e);
+        }
+
     private:
         uint mrxLastSeenLocation = 0;
         std::vector<tlk::Ticket> mrx_publicHistory;

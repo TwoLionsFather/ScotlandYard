@@ -10,6 +10,13 @@
 
 namespace tlk
 {
+    struct DrawableConneciton
+    {
+        olc::vi2d pos1;
+        olc::vi2d pos2;
+        olc::Pixel p;
+    };
+
     class DrawableMap
     {
     public:
@@ -24,17 +31,29 @@ namespace tlk
             return locations;
         }
 
-        // const std::array<std::pair<olc::vi2d, olc::vi2d>, tlk::PLAYER_COUNT+1> getConnectionHistories()
-        // {
+        const std::vector<DrawableConneciton> getConnectionHistories()
+        {
+            std::vector<DrawableConneciton> outCons;
 
-        // }
+            const Connections mrxHist = gameInfo.tracker->getEntityHistorie(gameInfo.mrx);
+            for (int i = 1; i < mrxHist.size(); ++i)
+            {
+                DrawableConneciton dc;
+                dc.pos1 = locations[mrxHist[i-1].target - 1];
+                dc.pos2 = locations[mrxHist[i].target - 1];
+                dc.p = getColorFor(mrxHist[i].type);
+                outCons.push_back(dc);
+            }
+
+            return outCons;
+        }
 
         const std::array<olc::vi2d, tlk::PLAYER_COUNT> getSLYLocations() const
         {
             std::array<olc::vi2d, tlk::PLAYER_COUNT> locs;
             auto locsItr = locs.begin();
-            for (const Entity* e : *gameInfo.sly)
-                *locsItr++ = locations[gameInfo.tracker->getLocationOf(e)];
+            for (uint ui : gameInfo.tracker->getEntityLocations(true))
+                *locsItr++ = locations[ui-1];
             
             return locs;
         }
@@ -47,6 +66,27 @@ namespace tlk
     private:
         GameLiveInfo gameInfo;
         std::array<olc::vi2d, 200> locations;
+
+        static olc::Pixel getColorFor(ConnectionType type)
+        {
+            switch (type)
+            {
+            case tlk::TAXI:
+                return olc::YELLOW;
+
+            case tlk::BUS:
+                return olc::DARK_GREEN;
+
+            case tlk::UNDERGROUND:
+                return olc::DARK_RED;
+                
+            case tlk::BOAT:
+                return olc::DARK_BLUE;
+            
+            default:
+                return olc::MAGENTA;
+            }
+        }
     };
 
     void DrawableMap::link(GameLiveInfo liveInfo)
