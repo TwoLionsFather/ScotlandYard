@@ -10,7 +10,7 @@ tlk::Game::Game():
     , gameState(tlk::PLAYING)
 { 
     for (int i = 1; i < PLAYER_COUNT; ++i)
-        sly_units.emplace_back(new Bot_sly(vMap));
+        sly_units.emplace_back(new Bot_sly(vMap, &round, &startingOptions));
 
     if (PLAYER_PLAYING)
         sly_units.emplace_back(new Player_sly());
@@ -21,6 +21,9 @@ tlk::Game::~Game()
     delete mrx;
     for (Entity* e : sly_units)
         delete e;
+
+    startingOptions.clear();
+    sly_units.clear();
 }
 
 tlk::GameLiveInfo tlk::Game::getGameLiveInfo() const
@@ -32,7 +35,6 @@ void tlk::Game::setup()
 {    
     srand(std::chrono::high_resolution_clock::now().time_since_epoch().count());
     auto rng = std::default_random_engine(rand());
-    std::vector<uint> startingOptions = {103, 112, 34, 155, 94, 117, 132, 53, 174, 198, 50, 91, 26, 29, 141, 13, 138, 197};//{58, 34, 14, 29, 52, 94, 78, 66, 86, 105, 100, 137, 154, 157, 135, 144, 180, 199}; 
     std::shuffle(startingOptions.begin(), startingOptions.end(), rng);
 
     tracker.updatePosition(mrx, *startingOptions.rbegin());
@@ -45,6 +47,7 @@ void tlk::Game::setup()
         tracker.updatePosition(sly_units[i], *startingOptions.rbegin());
         startingOptions.pop_back();
     }
+    startingOptions.emplace_back(tracker.getLocationOf(mrx));
 
     if (PLAYER_PLAYING)
         tracker.updatePosition(sly_units[PLAYER_COUNT], *startingOptions.rbegin());

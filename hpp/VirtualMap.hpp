@@ -22,6 +22,7 @@ namespace tlk
         uint getDistanceToMrxReport(const Entity* ent) const;
         uint getDistanceToClosestSly(uint pos) const;
         uint getDistanceBetween(uint pos, uint target, bool blockUsedPositions) const;
+        uint getDistanceBetween(const Entity* e, const uint target, const bool blockUsedPositions) const;
 
         std::set<uint> getMrxPossibleLocationsAfter(const Entity* ent, const Connection* con) const;
         std::set<uint> getPossibleLocationsAfter(uint pos, int roundCount, bool blockUsedPositions) const;

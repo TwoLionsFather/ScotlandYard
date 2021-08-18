@@ -28,6 +28,11 @@ uint tlk::VirtualMap::getDistanceToClosestSly(uint pos) const
     return min;
 }
 
+uint tlk::VirtualMap::getDistanceBetween(const Entity* e, const uint target, const bool blockUsedPositions) const
+{
+    return getDistanceBetween(tracker.getLocationOf(e), target, blockUsedPositions);
+}
+
 uint tlk::VirtualMap::getDistanceBetween(const uint pos, const uint target, const bool blockUsedPositions) const
 {
     if (pos == target)

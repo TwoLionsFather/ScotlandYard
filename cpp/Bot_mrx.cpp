@@ -2,9 +2,15 @@
 
 double tlk::Bot_mrx::scoreCon(const tlk::Connection& c)
 {
-    int distanceToReveal = 4 - (*round + 1) % 5;
-    // std::cout << "MrX Round: " << distanceToReveal << std::endl;
-    return vMap.getDistanceToClosestSly(c.target);
+    int roundsTillReveal = 4 - (*round + 1) % 5;
+    int distanceToClosestSLY = vMap.getDistanceToClosestSly(c.target);
+
+    if (roundsTillReveal > 2 && distanceToClosestSLY > 2)
+    {
+        return 0.5 * distanceToClosestSLY + vMap.getDistanceToMrxReport(c.target);
+    }
+
+    return distanceToClosestSLY;
 }
 
 tlk::Ticket tlk::Bot_mrx::randomGetTicketForMrx(tlk::ConnectionType usedTransportation)

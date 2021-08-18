@@ -55,7 +55,8 @@ namespace tlk
         const Map  gameMap;
         EntityTracker tracker;
         const VirtualMap vMap;
-
+        
+        std::vector<int> startingOptions = {103, 112, 34, 155, 94, 117, 132, 53, 174, 198, 50, 91, 26, 29, 141, 13, 138, 197};//{58, 34, 14, 29, 52, 94, 78, 66, 86, 105, 100, 137, 154, 157, 135, 144, 180, 199}; 
         int round = 0;
         Entity* const mrx;
         std::vector<Entity*> sly_units;
