@@ -42,12 +42,12 @@ namespace tlk
         MRX
     };
 
-    static const Debug LOG_LEVEL = HIGH;
+    static const Debug LOG_LEVEL = NONE;
     static const int STARTING_OPTIONS = 18;
     static const int PLAYER_COUNT = 3;
     static const bool PLAYER_PLAYING = false;
-    static const bool GRAPHICAL_INTERFACE = true;
-    static const int GAME_COUNT = 100;//std::pow(10, (3-LOG_LEVEL));static const 
+    static const bool GRAPHICAL_INTERFACE = false;
+    static const int GAME_COUNT = std::min(1000, (int) std::pow(10, (3-LOG_LEVEL))); 
 	static const std::string ASSETPATH = "/home/tlk/Documents/Code/VSCode/ScotlandYard/assets/";
 } // namespace tlk
 

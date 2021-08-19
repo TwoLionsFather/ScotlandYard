@@ -25,7 +25,7 @@ namespace tlk
         //give slight edge if more tickets are available
         inline double ticketFactor(ConnectionType type)
         {
-            return 0.01 * tickets.ticketCount(TicketStack::getTicketFor(type));
+            return (*round / 22) *  0.01 * tickets.ticketCount(TicketStack::getTicketFor(type));
         }
 
         //Connection with highest score is selected!
