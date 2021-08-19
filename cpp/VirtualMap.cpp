@@ -25,6 +25,12 @@ std::unordered_set<int> tlk::VirtualMap::getMrxPossibleLocationsAfter(int roundC
     return getPossibleLocationsAfter(tracker.getMrxLastSeenLocation(), roundCount, blockUsed);
 }
 
+
+int tlk::VirtualMap::getInitialTarget (const Entity* e) const
+{
+    return tlk::INITIAL_TARGETS.at(tracker.getLocationOf(e));
+}
+
 int tlk::VirtualMap::getDistanceToClosestSly(int pos) const
 {
     const std::vector<int>& locations = tracker.getEntityLocations(true);

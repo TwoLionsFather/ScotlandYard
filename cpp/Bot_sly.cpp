@@ -28,18 +28,8 @@ double tlk::Bot_sly::minDist(const Connection& c)
 
 double tlk::Bot_sly::minDistStart(const Connection& c)
 {
-    int startingTarget = (*startingOptions)[0];
+    if (initialTarget == -1)
+        initialTarget = vMap.getInitialTarget(this);
 
-    double minDist = vMap.getDistanceBetween(this, startingTarget, false);
-    for (int pos : *startingOptions)
-    {
-        double dist = vMap.getDistanceBetween(this, pos, false);
-        if (minDist > dist)
-        {
-            startingTarget = pos;
-            minDist = dist;
-        }
-    }
-
-    return vMap.getDistanceBetween(c.target, startingTarget, false);
+    return vMap.getDistanceBetween(c.target, initialTarget, false);
 }

@@ -10,8 +10,8 @@ namespace tlk
     class Bot_sly : public Entity
     {
     public:
-        Bot_sly(const VirtualMap& map, const int* round, std::vector<int>* startingOptions) 
-            : Entity(Team::SLY), vMap(map), round(round), startingOptions(startingOptions) { };
+        Bot_sly(const VirtualMap& map, const int* round) 
+            : Entity(Team::SLY), vMap(map), round(round) { };
         virtual ~Bot_sly() { };
         
     protected:
@@ -20,7 +20,7 @@ namespace tlk
     private:
         const VirtualMap& vMap; 
         const int* round = 0;
-        std::vector<int>* startingOptions;
+        int initialTarget = -1;
         
         //give slight edge if more tickets are available
         inline double ticketFactor(ConnectionType type)

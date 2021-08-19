@@ -16,6 +16,8 @@
 
 namespace tlk
 {
+    static std::vector<int> startingPositions = {103, 112, 34, 155, 94, 117, 132, 53, 174, 198, 50, 91, 26, 29, 141, 13, 138, 197};//{58, 34, 14, 29, 52, 94, 78, 66, 86, 105, 100, 137, 154, 157, 135, 144, 180, 199};
+   
     class Map
     {
     public:
@@ -32,6 +34,7 @@ namespace tlk
 
     private:
         std::array<std::unique_ptr<Connections>, 201> gameFields;
+        
     };
 } // namespace tlk
 
