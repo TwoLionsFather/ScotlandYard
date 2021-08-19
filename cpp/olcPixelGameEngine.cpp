@@ -12,10 +12,12 @@ public:
 	SLY_Viewer()
 	{
 		sAppName = "SLY_Viewer";
+		gameMap = new tlk::Map("../assets/connections.txt"); 
 	}
 
 	~SLY_Viewer()
 	{
+		delete gameMap;
 		delete map;
 		delete game;
 	}
@@ -36,7 +38,7 @@ public:
 
 	bool OnUserCreate() override
 	{
-		game = new tlk::Game();
+		game = new tlk::Game(gameMap);
 		map = new olc::Sprite(tlk::ASSETPATH + "slymap.png");
 
 		drawableMap.loadFromFile(tlk::ASSETPATH + "Locations.txt");
@@ -65,12 +67,11 @@ public:
 		if (GetMouse(olc::Mouse::RIGHT).bPressed)
 		{
 			delete game;
-			game = new tlk::Game();
+			game = new tlk::Game(gameMap);
 			game->setup();
 			drawableMap.link(game->getGameLiveInfo());
 			state = tlk::PLAYING;
 		}
-
 
 		for (const tlk::DrawableConneciton& dc : drawableMap.getConnectionHistories())
 		{
@@ -105,6 +106,7 @@ public:
 
 	
 private:
+	tlk::Map* gameMap = nullptr;
 	olc::Sprite* map = nullptr;
 	tlk::Game* game = nullptr;
 

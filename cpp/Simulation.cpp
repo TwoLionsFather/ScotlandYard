@@ -3,10 +3,12 @@
 
 void tlk::Simulation::start()
 {
-    const int gameCount = tlk::GAME_COUNT;
+    tlk::Map map = tlk::Map("../assets/connections.txt");
+
+
     std::ofstream resultFile("/home/tlk/Documents/Code/VSCode/ScotlandYard/assets/simresults.txt", std::ios::app);
 
-    std::cout << gameCount << " Games calculating!" << std::endl;
+    std::cout << tlk::GAME_COUNT << " Games calculating!" << std::endl;
 
     int results[3] = {0, 0, 0};
     std::array<int, 22> length;
@@ -14,9 +16,9 @@ void tlk::Simulation::start()
     srand(time(NULL));
 
     auto begin = std::chrono::high_resolution_clock::now();
-    for (int i = 0; i < gameCount; i++)
+    for (int i = 0; i < tlk::GAME_COUNT; i++)
     {
-        tlk::Game g;
+        tlk::Game g(&map);
         g.setup();
         tlk::Statistics stats = g.play();
 
@@ -45,7 +47,7 @@ void tlk::Simulation::start()
         std::cout << "[" <<  i+1 << " " << length[i] << "] ";
         avg += (double) (length[i] * i);
     }
-    std::cout << "Avg " << avg/(double) gameCount << " Rounds" << std::endl;
+    std::cout << "Avg " << avg/(double) tlk::GAME_COUNT << " Rounds" << std::endl;
 
     resultFile.close();
 

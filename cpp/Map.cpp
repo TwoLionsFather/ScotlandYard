@@ -21,10 +21,14 @@ tlk::Map::Map(const std::string& path)
 {
     std::ifstream file(path, std::ios::in);
 
+    for (int i = 0; i < 201; ++i)
+        gameFields[i] = std::make_unique<Connections>();
+    
+
     if (!file)
         throw std::runtime_error("keine Map im File assetss/connections.txt gefunden!");
     
-
+    
     size_t pos;
     std::string token;
     for (std::string line; std::getline(file, line); )
@@ -34,8 +38,6 @@ tlk::Map::Map(const std::string& path)
         int id = stoi(token);
         line.erase(0, pos + 1);
 
-        if (gameFields.find(id) == gameFields.end())
-            gameFields[id] = std::make_unique<Connections>();
 
         while ((pos = line.find(';')) != std::string::npos) //npos is not found in String
         {
@@ -44,9 +46,7 @@ tlk::Map::Map(const std::string& path)
             char type = token.substr(token.find(' '))[1];
 
             //add reverseedge
-            if (gameFields.find(targetid) == gameFields.end())
-                gameFields[targetid] = std::make_unique<Connections>();
-        
+
             gameFields[targetid]->emplace_back(id, get_type_from_char(type));
             gameFields[id]->emplace_back(targetid, get_type_from_char(type));
 
@@ -59,7 +59,7 @@ tlk::Map::Map(const std::string& path)
 
 tlk::Map::~Map()
 {
-    gameFields.clear();
+
 }
 
 const tlk::Connections& tlk::Map::getOutgoing(const int loc) const
@@ -89,10 +89,11 @@ const tlk::Connections tlk::Map::getMovesFor(const Entity* e, const EntityTracke
 
 std::ostream& operator<<(std::ostream &out, const tlk::Map &rhs)  
 {
-    for (auto& itr : rhs.getGameFields())
+
+    for (int i = 0; i < 201; ++i)
     {
-        out << "node " << itr.first << " with " << itr.second->size() << " connections: " << std::endl;
-        out << *(itr.second.get());
+        out << "node " << i << " with " << rhs.getGameFields()[i]->size() << " connections: " << std::endl;
+        out << *rhs.getGameFields()[i];
         
         out << "---------------------\n";
     }

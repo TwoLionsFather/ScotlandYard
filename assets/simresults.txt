@@ -38,3 +38,9 @@ same as above but sly just uses distance
 Siege SLY: 389 MRX: 611 ERRORS: 0
 [1 0] [2 0] [3 2] [4 57] [5 30] [6 8] [7 11] [8 33] [9 48] [10 20] [11 13] [12 5] [13 8] [14 55] [15 33] [16 20] [17 14] [18 33] [19 81] [20 56] [21 51] [22 60] Avg 8.541 Rounds
 Calculations took: 276443ms
+
+way different than before
+1000 Games calculating!
+Siege SLY: 480 MRX: 520 ERRORS: 0
+[1 0] [2 0] [3 44] [4 12] [5 100] [6 28] [7 7] [8 33] [9 57] [10 57] [11 12] [12 6] [13 10] [14 27] [15 29] [16 16] [17 20] [18 19] [19 23] [20 62] [21 63] [22 55] Avg 7.859 Rounds
+Calculations took: 867521ms

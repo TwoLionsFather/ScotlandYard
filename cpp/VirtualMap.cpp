@@ -49,10 +49,6 @@ int tlk::VirtualMap::getDistanceBetween(const int pos, const int target, const b
 {
     if (pos == target)
         return 0;
-    
-    if (originalMap.getGameFields().find(pos) == originalMap.getGameFields().end()
-    ||  originalMap.getGameFields().find(target) == originalMap.getGameFields().end())
-        throw std::runtime_error("VirtualMap::getDistanceBetween can't do it's job if Location is not part of Map!");
 
     int distance = 0;
     std::unordered_set<int> locationsInRange;

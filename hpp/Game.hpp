@@ -42,7 +42,8 @@ namespace tlk
     class Game
     {
     public:
-        Game();
+        Game() = delete;
+        Game(const Map*  gameMap);
         ~Game();
 
         void setup();
@@ -52,7 +53,7 @@ namespace tlk
         GameLiveInfo getGameLiveInfo() const;
 
     private: 
-        const Map  gameMap;
+        const Map*  gameMap;
         EntityTracker tracker;
         const VirtualMap vMap;
         

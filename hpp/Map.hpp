@@ -25,13 +25,13 @@ namespace tlk
         const tlk::Connections& getOutgoing(const int loc) const;
         const Connections getMovesFor(const Entity* e, const EntityTracker* tracker) const;
 
-        const std::map<int, std::unique_ptr<Connections>>& getGameFields() const
+        const std::array<std::unique_ptr<Connections>, 201>& getGameFields() const
         {
             return gameFields;
         }
 
     private:
-        std::map<int, std::unique_ptr<Connections>> gameFields;
+        std::array<std::unique_ptr<Connections>, 201> gameFields;
     };
 } // namespace tlk
 

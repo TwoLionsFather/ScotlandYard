@@ -1,9 +1,9 @@
 #include "../hpp/Game.hpp"
 
-tlk::Game::Game():
-    gameMap(tlk::Map("../assets/connections.txt"))
+tlk::Game::Game(const Map*  gameMap):
+    gameMap(gameMap)
     , tracker(tlk::EntityTracker())
-    , vMap(gameMap, tracker)
+    , vMap(*gameMap, tracker)
     , round(0)
     , mrx(new tlk::Bot_mrx(vMap, &round))
     , sly_units(std::vector<Entity*>())
@@ -131,7 +131,7 @@ void tlk::Game::playMrx()
 {
     std::pair<const tlk::Connection*, tlk::Ticket> used;
     do {
-        const Connections& options =  gameMap.getMovesFor(mrx, &tracker);
+        const Connections& options =  gameMap->getMovesFor(mrx, &tracker);
         if (options.empty())
         {
             gameState = WON_SLY;
@@ -159,7 +159,7 @@ void tlk::Game::playSly()
         // if (PLAYER_PLAYING)
         //     std::cout << "SLY Unit on: " << tracker.getLocationOf(e) << std::endl;
 
-        const Connections& options =  gameMap.getMovesFor(e, &tracker);
+        const Connections& options =  gameMap->getMovesFor(e, &tracker);
         if (options.empty())
             continue;
         
