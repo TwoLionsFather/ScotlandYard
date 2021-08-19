@@ -18,8 +18,7 @@ namespace tlk
         VirtualMap(const Map& original, EntityTracker& tracker)
             : originalMap(original), tracker(tracker) { };
         ~VirtualMap() { };
-
-        int getInitialTarget (const Entity* e) const;
+        
 
         int getDistanceToMrxReport (int pos) const;
         int getDistanceToMrxReport (const Entity* e) const;

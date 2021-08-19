@@ -20,12 +20,11 @@ namespace tlk
     private:
         const VirtualMap& vMap; 
         const int* round = 0;
-        int initialTarget = -1;
         
         //give slight edge if more tickets are available
         inline double ticketFactor(ConnectionType type)
         {
-            return (*round / 22) *  0.01 * tickets.ticketCount(TicketStack::getTicketFor(type));
+            return (*round / 22) *  0.1 * tickets.ticketCount(TicketStack::getTicketFor(type));
         }
 
         //Connection with highest score is selected!

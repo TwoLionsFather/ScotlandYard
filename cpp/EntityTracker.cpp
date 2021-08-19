@@ -4,14 +4,14 @@
 void tlk::EntityTracker::simulatePosition(const Entity* e, int newPos)
 {
     if (newPos == 0)
-        std::runtime_error("Location 0 shouldn't be possible");
+        throw std::runtime_error("Location 0 shouldn't be possible");
     positions.at(e) = newPos;
 }
 
 void tlk::EntityTracker::updatePosition(const Entity* e, int startingPos)
 {
     if (startingPos == 0)
-        std::runtime_error("Location 0 shouldn't be possible");
+        throw std::runtime_error("Location 0 shouldn't be possible");
 
     bool newEntry = positions.emplace(e, startingPos).second;
 
@@ -26,7 +26,7 @@ void tlk::EntityTracker::updatePosition(const Entity* e, int startingPos)
 void tlk::EntityTracker::updatePosition(const Entity* e, const Connection* move, const Ticket used)
 {
     if (move->target == 0)
-        std::runtime_error("Location 0 shouldn't be possible");
+        throw std::runtime_error("Location 0 shouldn't be possible");
 
     positions.at(e) = move->target;
     entityHistory.at(e).emplace_back(*move);
@@ -51,11 +51,14 @@ int tlk::EntityTracker::getLocationOfMrx() const
 
 std::vector<int> tlk::EntityTracker::getEntityLocations(bool hideMrX) const
 {
-    std::vector<int> location;//TODO use count
+    std::vector<int> location;
     for (const auto& e : positions)
     {
         if (hideMrX && e.first->isMrx())
             continue;
+
+        if (e.second == 0)
+            throw std::runtime_error("Location 0 shouldn't be possible"); 
 
         location.emplace_back(e.second);
     }

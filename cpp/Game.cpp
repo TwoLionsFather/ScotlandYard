@@ -36,24 +36,26 @@ void tlk::Game::setup()
 {    
     srand(std::chrono::high_resolution_clock::now().time_since_epoch().count());
     auto rng = std::default_random_engine(rand());
-    std::shuffle(tlk::startingPositions.begin(), tlk::startingPositions.end(), rng);
+    std::vector<int> initPositions(tlk::startingPositions, tlk::startingPositions + tlk::STARTING_OPTIONS_COUNT);
 
-    tracker->updatePosition(mrx, *tlk::startingPositions.rbegin());
-    tlk::startingPositions.pop_back();
+
+    std::shuffle(initPositions.begin(), initPositions.end(), rng);
+
+    tracker->updatePosition(mrx, *initPositions.rbegin());
+    initPositions.pop_back();
 
     tracker->setMrxLocation(100);    //set more intelegently
 
-    for (int i = 0; i < sly_units.size(); ++i)
+    for (const Entity* e : sly_units)
     {
-        tracker->updatePosition(sly_units[i], *tlk::startingPositions.rbegin());
-        tlk::startingPositions.pop_back();
+        tracker->updatePosition(e, *initPositions.rbegin());
+        initPositions.pop_back();
     }
 
     if (PLAYER_PLAYING)
-        tracker->updatePosition(sly_units[PLAYER_COUNT], *tlk::startingPositions.rbegin());
+        tracker->updatePosition(sly_units[PLAYER_COUNT], *initPositions.rbegin());
 
-    tlk::startingPositions.emplace_back(tracker->getLocationOf(mrx));
-
+    initPositions.emplace_back(tracker->getLocationOf(mrx));
 }
 
 tlk::Statistics tlk::Game::play()
