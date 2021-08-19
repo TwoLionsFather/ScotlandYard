@@ -1,7 +1,12 @@
 #include "../hpp/EntityTracker.hpp"
 
 
-void tlk::EntityTracker::updatePosition(const Entity* e, uint startingPos)
+void tlk::EntityTracker::simulatePosition(const Entity* e, int newPos)
+{
+    positions.at(e) = newPos;
+}
+
+void tlk::EntityTracker::updatePosition(const Entity* e, int startingPos)
 {
     bool newEntry = positions.emplace(e, startingPos).second;
 
@@ -22,12 +27,12 @@ void tlk::EntityTracker::updatePosition(const Entity* e, const Connection* move,
         mrx_publicHistory.emplace_back(used);
 }
 
-uint tlk::EntityTracker::getLocationOf(const Entity* e) const
+int tlk::EntityTracker::getLocationOf(const Entity* e) const
 {
     return positions.at(e);
 }
 
-uint tlk::EntityTracker::getLocationOfMrx() const
+int tlk::EntityTracker::getLocationOfMrx() const
 {
     for (const auto& e : positions)
         if (e.first->isMrx())
@@ -36,9 +41,9 @@ uint tlk::EntityTracker::getLocationOfMrx() const
     throw std::runtime_error("EntityTracker::getLocationOfMrx No MrX was found!");
 }
 
-std::list<uint> tlk::EntityTracker::getEntityLocations(bool hideMrX) const
+std::vector<int> tlk::EntityTracker::getEntityLocations(bool hideMrX) const
 {
-    std::list<uint> location;//TODO use count
+    std::vector<int> location;//TODO use count
     for (const auto& e : positions)
     {
         if (hideMrX && e.first->isMrx())

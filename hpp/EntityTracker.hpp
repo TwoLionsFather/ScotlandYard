@@ -19,21 +19,22 @@ namespace tlk
             entityHistory.clear();
         };
 
-        void updatePosition(const Entity* e, uint startingPos);
+        void updatePosition(const Entity* e, int startingPos);
+        void simulatePosition(const Entity* e, int newPos); //TODO make reverting an option also
         void updatePosition(const Entity* e, const Connection* moved, const Ticket used);
 
-        uint getLocationOfMrx() const;
-        uint getLocationOf(const Entity* e) const;
-        std::list<uint> getEntityLocations(bool hideMrX) const;
+        int getLocationOfMrx() const;
+        int getLocationOf(const Entity* e) const;
+        std::vector<int> getEntityLocations(bool hideMrX) const;
 
-        void setMrxLocation(uint loc)
+        void setMrxLocation(int loc)
         {
             mrxLastSeenLocation = loc;
             if (!mrx_publicHistory.empty())
                 mrx_publicHistory.erase(mrx_publicHistory.cbegin(), --mrx_publicHistory.cend());
         }
 
-        uint getMrxLastSeenLocation() const
+        int getMrxLastSeenLocation() const
         {
             return mrxLastSeenLocation;
         }
@@ -49,10 +50,10 @@ namespace tlk
         }
 
     private:
-        uint mrxLastSeenLocation = 0;
+        int mrxLastSeenLocation = 0;
         std::vector<tlk::Ticket> mrx_publicHistory;
 
-        std::map<const Entity*, uint> positions; //TODO Add count of players to this 
+        std::map<const Entity*, int> positions; //TODO Add count of players to this 
         std::map<const Entity*, Connections> entityHistory;
     };
     

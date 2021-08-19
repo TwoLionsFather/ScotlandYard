@@ -18,7 +18,7 @@ double tlk::Bot_sly::scoreCon(const Connection& c)
 
 double tlk::Bot_sly::minOptionsCount(const Connection& c)
 {
-    return vMap.getMrxPossibleLocationsAfter(this, &c).size();
+    return vMap.getMrxPossibleLocationsAfter(this, c).size();
 }
 
 double tlk::Bot_sly::minDist(const Connection& c)
@@ -28,7 +28,7 @@ double tlk::Bot_sly::minDist(const Connection& c)
 
 double tlk::Bot_sly::minDistStart(const Connection& c)
 {
-    uint startingTarget = (*startingOptions)[0];
+    int startingTarget = (*startingOptions)[0];
 
     double minDist = vMap.getDistanceBetween(this, startingTarget, false);
     for (int pos : *startingOptions)

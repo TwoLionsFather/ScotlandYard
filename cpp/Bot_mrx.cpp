@@ -58,7 +58,7 @@ tlk::Ticket tlk::Bot_mrx::randomTicket(tlk::ConnectionType usedTransportation)
     && tickets.ticketCount(BLACK_Ti) > 0)
         return BLACK_Ti;
     
-    uint rand = std::rand() % 100;
+    int rand = std::rand() % 100;
     if (tickets.ticketCount(BLACK_Ti) > 0
     && rand < 10)
         return BLACK_Ti;

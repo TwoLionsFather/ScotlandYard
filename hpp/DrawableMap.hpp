@@ -66,7 +66,7 @@ namespace tlk
         {
             std::array<olc::vi2d, tlk::PLAYER_COUNT> locs;
             auto locsItr = locs.begin();
-            for (uint ui : gameInfo.tracker->getEntityLocations(true))
+            for (int ui : gameInfo.tracker->getEntityLocations(true))
                 *locsItr++ = locations[ui-1];
             
             return locs;
@@ -122,9 +122,9 @@ namespace tlk
             size_t pos = line.find(",");
 
             token = line.substr(0, pos);
-            uint x = stoi(token);
+            int x = stoi(token);
             token = line.substr(pos+1, line.length());
-            uint y = stoi(token);
+            int y = stoi(token);
 
             locations[lineNo++] = olc::vi2d(x, y);
         }

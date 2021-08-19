@@ -15,27 +15,33 @@ namespace tlk
     class VirtualMap
     {
     public:
-        VirtualMap(const Map& original, const EntityTracker& tracker)
+        VirtualMap(const Map& original, EntityTracker& tracker)
             : originalMap(original), tracker(tracker) { };
         ~VirtualMap() { };
 
-        int getDistanceToMrxReport (uint pos) const;
+        int getDistanceToMrxReport (int pos) const;
         int getDistanceToMrxReport (const Entity* e) const;
         int getDistanceToClosestSly () const;
-        int getDistanceToClosestSly (uint pos) const;
+        int getDistanceToClosestSly (int pos) const;
         int getDistanceToClosestSly (const Entity* e) const;
-        int getDistanceBetween (uint pos, uint target, bool blockUsedPositions) const;
-        int getDistanceBetween( const Entity* e, const uint target, const bool blockUsedPositions) const;
+        int getDistanceBetween (int pos, int target, const bool blockUsed = true) const;
+        int getDistanceBetween( const Entity* e, const int target, const bool blockUsed = true) const;
 
         int countSLYsInRange(const Connection& con, int dist) const;
 
-        std::unordered_set<uint> getMrxPossibleLocationsAfter (int roundCount, bool blockUsedPositions) const;
-        std::unordered_set<uint> getMrxPossibleLocationsAfter (const Entity* ent, const Connection* con) const;
-        std::unordered_set<uint> getPossibleLocationsAfter (uint pos, int roundCount, bool blockUsedPositions) const;
+        std::unordered_set<int> getMrxPossibleLocationsAfter (int roundCount, const bool blockUsed = true) const;
+        std::unordered_set<int> getMrxPossibleLocationsAfter (const Entity* ent, const Connection& con) const;
+        std::unordered_set<int> getPossibleLocationsAfter (int pos, int roundCount, const bool blockUsed = true
+                                                            , const std::optional<std::vector<Ticket>>& tickets = std::nullopt) const;
 
     private:
         const Map& originalMap;
-        const EntityTracker& tracker;
+        EntityTracker& tracker; //TODO Evaluate better option?
+
+        //Per default every Location except MrXs get blocked for first iteration if multiple rounds are calculated
+        std::unordered_set<int> reachableOneRound(const int pos, const bool blockUsed = true, const std::optional<Ticket>& ticket = std::nullopt) const;
+        std::unordered_set<int> getNewLocations(const std::unordered_set<int>& pos, const bool blockUsed = true, const std::optional<Ticket>& ticket = std::nullopt) const;
+        
     };
     
 } // namespace tlk

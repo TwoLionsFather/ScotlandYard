@@ -31,7 +31,7 @@ tlk::Map::Map(const std::string& path)
     {
         pos = line.find(";");
         token = line.substr(0, pos);
-        uint id = stoi(token);
+        int id = stoi(token);
         line.erase(0, pos + 1);
 
         if (gameFields.find(id) == gameFields.end())
@@ -62,10 +62,15 @@ tlk::Map::~Map()
     gameFields.clear();
 }
 
+const tlk::Connections& tlk::Map::getOutgoing(const int loc) const
+{
+    return *gameFields.at(loc);
+}
+
 const tlk::Connections tlk::Map::getMovesFor(const Entity* e, const EntityTracker* tracker) const
 {
     const Connections& options = *gameFields.at(tracker->getLocationOf(e)).get();
-    const std::list<uint>& occPos = tracker->getEntityLocations(true);
+    const std::vector<int>& occPos = tracker->getEntityLocations(true);
 
     if (options.empty())
         throw std::invalid_argument("No options were found for an entity inside of Map::getMovesFor function!!");

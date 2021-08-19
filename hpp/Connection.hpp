@@ -9,10 +9,10 @@ namespace tlk
     //TODO Make const again
     struct Connection
     {
-        Connection (const uint target, const ConnectionType type)
+        Connection (const int target, const ConnectionType type)
             : target(target), type(type) {  };  
 
-        uint target = 0;  
+        int target = 0;  
         ConnectionType type = ConnectionType::UNDEFINED;
     };
     typedef std::vector<Connection> Connections; //TODO Make Const
