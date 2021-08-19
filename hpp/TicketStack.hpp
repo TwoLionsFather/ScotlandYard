@@ -42,7 +42,8 @@ namespace tlk
         bool isAllowedToUse(ConnectionType t) const
         {// either correct ticket type available or use Black Ticket.
             return (counts[getTicketFor(t)] > 0) 
-                || (counts[BLACK_Ti] > 0);
+                || (counts[BLACK_Ti] > 0)
+                || (counts[DOUBLE_Ti] > 0 && t != BOAT);
         }
 
         bool isAdvancedTicketAvailable() const

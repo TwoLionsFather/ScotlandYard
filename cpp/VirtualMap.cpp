@@ -1,16 +1,26 @@
 #include "../hpp/VirtualMap.hpp"
 
-uint tlk::VirtualMap::getDistanceToMrxReport(uint pos) const
+int tlk::VirtualMap::getDistanceToMrxReport(uint pos) const
 {
     return getDistanceBetween(pos, tracker.getMrxLastSeenLocation(), false);
 }
 
-uint tlk::VirtualMap::getDistanceToMrxReport(const Entity* ent) const
+int tlk::VirtualMap::getDistanceToMrxReport(const Entity* ent) const
 {
     return getDistanceToMrxReport(tracker.getLocationOf(ent));
 }
 
-uint tlk::VirtualMap::getDistanceToClosestSly(uint pos) const
+int tlk::VirtualMap::getDistanceToClosestSly() const
+{
+    return getDistanceToClosestSly(tracker.getLocationOfMrx());
+}
+
+int tlk::VirtualMap::getDistanceToClosestSly(const Entity* e) const
+{
+    return getDistanceToClosestSly(tracker.getLocationOf(e));
+}
+
+int tlk::VirtualMap::getDistanceToClosestSly(uint pos) const
 {
     const std::list<uint>& locations = tracker.getEntityLocations(true);
     uint min = 500;
@@ -28,12 +38,12 @@ uint tlk::VirtualMap::getDistanceToClosestSly(uint pos) const
     return min;
 }
 
-uint tlk::VirtualMap::getDistanceBetween(const Entity* e, const uint target, const bool blockUsedPositions) const
+int tlk::VirtualMap::getDistanceBetween(const Entity* e, const uint target, const bool blockUsedPositions) const
 {
     return getDistanceBetween(tracker.getLocationOf(e), target, blockUsedPositions);
 }
 
-uint tlk::VirtualMap::getDistanceBetween(const uint pos, const uint target, const bool blockUsedPositions) const
+int tlk::VirtualMap::getDistanceBetween(const uint pos, const uint target, const bool blockUsedPositions) const
 {
     if (pos == target)
         return 0;
@@ -55,6 +65,21 @@ uint tlk::VirtualMap::getDistanceBetween(const uint pos, const uint target, cons
 
     return distance;
 }
+
+int tlk::VirtualMap::countSLYsInRange(const Connection& con, int dist) const
+{
+    std::unordered_set<uint> unorderedLocs = getPossibleLocationsAfter(con.target, dist, false);
+    std::list<uint> unorderedELocs = tracker.getEntityLocations(true);
+    std::set<uint> checkLocations(unorderedLocs.cbegin(), unorderedLocs.cend());
+    std::set<uint> slyLocations(unorderedELocs.cbegin(), unorderedELocs.cend());
+
+    std::vector<uint> result;
+    result.clear();
+    std::set_intersection(checkLocations.begin(), checkLocations.end(), slyLocations.begin(), slyLocations.end(), std::back_inserter(result)); 
+
+    return result.size();
+}
+
 
 //Limited to 5 rounds to keep pc from dying
 std::unordered_set<uint> tlk::VirtualMap::getPossibleLocationsAfter(const uint pos, int roundCount, bool blockUsedPositions) const
@@ -98,6 +123,11 @@ std::unordered_set<uint> tlk::VirtualMap::getPossibleLocationsAfter(const uint p
     } while (--roundCount > 0);
 
     return initialLocations;
+}
+
+std::unordered_set<uint> tlk::VirtualMap::getMrxPossibleLocationsAfter(int roundCount, bool blockUsedPositions) const
+{
+    return getPossibleLocationsAfter(tracker.getMrxLastSeenLocation(), roundCount, blockUsedPositions);
 }
 
 std::unordered_set<uint> tlk::VirtualMap::getMrxPossibleLocationsAfter(const Entity* ent, const Connection* con) const

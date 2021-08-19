@@ -18,13 +18,14 @@ namespace tlk
         virtual double scoreCon(const Connection& c) override;
         virtual Ticket getTicket(ConnectionType usedTransportation) 
         {
-            return randomGetTicketForMrx(usedTransportation);
+            return smartTicket(usedTransportation);
         };
 
     private:
         const VirtualMap& vMap; 
         const int* round = 0;
 
-        tlk::Ticket randomGetTicketForMrx(tlk::ConnectionType usedTransportation);
+        tlk::Ticket smartTicket(tlk::ConnectionType usedTransportation);
+        tlk::Ticket randomTicket(tlk::ConnectionType usedTransportation);
     };
 } // namespace tlk
