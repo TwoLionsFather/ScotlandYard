@@ -1,5 +1,40 @@
 #include "../hpp/VirtualMap.hpp"
 
+bool tlk::VirtualMap::neighboursContainSLY (const int pos) const
+{
+    std::unordered_set<int> slyPos;
+    for (int i : tracker.getEntityLocations(true))
+    {
+        slyPos.emplace(i);
+    }
+
+    for (const Connection& cond1 : originalMap.getOutgoing(pos))
+    {
+        for (const Connection& cond2 : originalMap.getOutgoing(cond1.target))
+        {
+            if (slyPos.find(cond2.target) != slyPos.end())
+                return true;
+        }
+    }
+
+    return false;
+}
+
+int tlk::VirtualMap::neighboursContainMRXSighting (const int pos) const
+{
+    const int mrxSight = tracker.getMrxLastSeenLocation();
+    for (const Connection& cond1 : originalMap.getOutgoing(pos))
+    {
+        for (const Connection& cond2 : originalMap.getOutgoing(cond1.target))
+        {
+            if (cond2.target == mrxSight)
+                return true;
+        }
+    }
+
+    return false;
+}
+
 int tlk::VirtualMap::getDistanceToMrxReport(int pos) const
 {
     return getDistanceBetween(pos, tracker.getMrxLastSeenLocation(), false);

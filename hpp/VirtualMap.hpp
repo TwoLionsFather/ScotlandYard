@@ -20,19 +20,22 @@ namespace tlk
         ~VirtualMap() { };
         
 
-        int getDistanceToMrxReport (int pos) const;
+        bool neighboursContainSLY (const int pos) const;
+        int neighboursContainMRXSighting (const int pos) const;
+        
+        int getDistanceToMrxReport (const int pos) const;
         int getDistanceToMrxReport (const Entity* e) const;
         int getDistanceToClosestSly () const;
-        int getDistanceToClosestSly (int pos) const;
+        int getDistanceToClosestSly (const int pos) const;
         int getDistanceToClosestSly (const Entity* e) const;
-        int getDistanceBetween (int pos, int target, const bool blockUsed = true) const;
-        int getDistanceBetween( const Entity* e, const int target, const bool blockUsed = true) const;
+        int getDistanceBetween (const int pos, const int target, const bool blockUsed = true) const;
+        int getDistanceBetween(const Entity* e, const int target, const bool blockUsed = true) const;
 
-        int countSLYsInRange(const Connection& con, int dist) const;
+        int countSLYsInRange(const Connection& con, const int dist) const;
 
-        std::unordered_set<int> getMrxPossibleLocationsAfter (int roundCount, const bool blockUsed = true) const;
+        std::unordered_set<int> getMrxPossibleLocationsAfter (const int roundCount, const bool blockUsed = true) const;
         std::unordered_set<int> getMrxPossibleLocationsAfter (const Entity* ent, const Connection& con) const;
-        std::unordered_set<int> getPossibleLocationsAfter (int pos, int roundCount, const bool blockUsed = true
+        std::unordered_set<int> getPossibleLocationsAfter (const int pos, const int roundCount, const bool blockUsed = true
                                                             , const std::optional<std::vector<Ticket>>& tickets = std::nullopt) const;
 
     private:

@@ -2,7 +2,18 @@
 
 double tlk::Bot_mrx::scoreCon(const tlk::Connection& c)
 {
+    //Improved time at cost of all the performance
+    // int score = vMap.neighboursContainSLY(c.target) << 6 
+    //             | vMap.neighboursContainMRXSighting(c.target) << 5
+    //             | vMap.getPossibleLocationsAfter(c.target, 1, true).size();
+
+    // if (tlk::LOG_LEVEL >= HIGH)
+    //     std::cout << "Mrx scored: " << c << " with: " << score << std::endl;
+
+    // return -1 * score;
+
     int roundsTillReveal = 4 - (*round + 1) % 5;
+
     int distanceToClosestSLY = vMap.getDistanceToClosestSly(c.target);
     int outgoingCount = vMap.getPossibleLocationsAfter(c.target, 1, true).size();
 
