@@ -21,15 +21,17 @@ namespace tlk
         
 
         bool neighboursContainSLY (const int pos) const;
-        int neighboursContainMRXSighting (const int pos) const;
+        bool neighboursContainMRXSighting (const int pos) const;
         
-        int getDistanceToMrxReport (const int pos) const;
-        int getDistanceToMrxReport (const Entity* e) const;
-        int getDistanceToClosestSly () const;
-        int getDistanceToClosestSly (const int pos) const;
-        int getDistanceToClosestSly (const Entity* e) const;
-        int getDistanceBetween (const int pos, const int target, const bool blockUsed = true) const;
-        int getDistanceBetween(const Entity* e, const int target, const bool blockUsed = true) const;
+        int getDistanceToMrxReport(const int pos) const;
+        int getDistanceToMrxReport(const Entity* e) const;
+
+        int getDistanceToClosestSly() const;
+        int getDistanceToClosestSly(const int pos) const;
+        int getDistanceToClosestSly(const Entity* e) const;
+
+        int getDistanceBetween(const int pos, const int target) const;
+        int getDistanceBetween(const Entity* e, const int target) const;
 
         int countSLYsInRange(const Connection& con, const int dist) const;
 
@@ -45,7 +47,6 @@ namespace tlk
         //Per default every Location except MrXs get blocked for first iteration if multiple rounds are calculated
         std::unordered_set<int> reachableOneRound(const int pos, const bool blockUsed = true, const std::optional<Ticket>& ticket = std::nullopt) const;
         std::unordered_set<int> getNewLocations(const std::unordered_set<int>& pos, const bool blockUsed = true, const std::optional<Ticket>& ticket = std::nullopt) const;
-        
     };
     
 } // namespace tlk

@@ -28,5 +28,5 @@ double tlk::Bot_sly::minDist(const Connection& c)
 
 double tlk::Bot_sly::minDistStart(const Connection& c)
 {
-    return vMap.getDistanceBetween(c.target, 100, false);
+    return vMap.getDistanceBetween(c.target, 100);
 }
