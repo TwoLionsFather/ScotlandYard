@@ -32,8 +32,9 @@ namespace tlk
 
         int getDistanceBetween(const int pos, const int target) const;
         int getDistanceBetween(const Entity* e, const int target) const;
+        int getDistanceBetween(const int pos, const int target, bool noBoat) const;
 
-        int countSLYsInRange(const Connection& con, const int dist) const;
+        int countSLYsInRange(int pos, const int dist) const;
 
         std::unordered_set<int> getMrxPossibleLocationsAfter (const int roundCount, const bool blockUsed = true) const;
         std::unordered_set<int> getMrxPossibleLocationsAfter (const Entity* ent, const Connection& con) const;

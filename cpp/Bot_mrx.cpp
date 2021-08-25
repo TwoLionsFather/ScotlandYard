@@ -2,30 +2,17 @@
 
 double tlk::Bot_mrx::scoreCon(const tlk::Connection& c)
 {
-    //Improved time at cost of all the performance
-    // int score = vMap.neighboursContainSLY(c.target) << 6 
-    //             | vMap.neighboursContainMRXSighting(c.target) << 5
-    //             | vMap.getPossibleLocationsAfter(c.target, 1, true).size();
-
-    // if (tlk::LOG_LEVEL >= HIGH)
-    //     std::cout << "Mrx scored: " << c << " with: " << score << std::endl;
-
-    // return -1 * score;
-
-    int roundsTillReveal = 4 - (*round + 1) % 5;
+    // int roundsTillReveal = 4 - (*round + 1) % 5;
 
     int distanceToClosestSLY = vMap.getDistanceToClosestSly(c.target);
-    int outgoingCount = vMap.getPossibleLocationsAfter(c.target, 1, true).size();
+    int distanceToMrxReport = vMap.getDistanceToMrxReport(c.target);
+    int outgoingCount = vMap.getPossibleLocationsAfter(c.target, 1, true).size(); // max is 12
+    // int slyCount = vMap.countSLYsInRange(c.target, distanceToClosestSLY); // max is 4
 
-    if (roundsTillReveal > 2 || distanceToClosestSLY > 2)
-        return 0.5 * distanceToClosestSLY + vMap.getDistanceToMrxReport(c.target);
-    
-    if (distanceToClosestSLY > 2)
-        return 0.5 * distanceToClosestSLY + 0.25 * outgoingCount;
-
-
-    int slyCount = vMap.countSLYsInRange(c, distanceToClosestSLY);  //check distance to board center to not get stuck in corners?
-    return distanceToClosestSLY + 0.1 * slyCount + 0.01 * outgoingCount;
+    //use underground in Late game?
+    return distanceToClosestSLY 
+            + distanceToMrxReport * 0.5
+            + outgoingCount / 12 ;
 }
 
 tlk::Ticket tlk::Bot_mrx::smartTicket(tlk::ConnectionType usedTransportation)
@@ -46,7 +33,7 @@ tlk::Ticket tlk::Bot_mrx::smartTicket(tlk::ConnectionType usedTransportation)
 
     int distanceToSLY = vMap.getDistanceToClosestSly();
     if (tickets.ticketCount(DOUBLE_Ti) > 0
-    && distanceToSLY <= 2)
+    && distanceToSLY < 2) //about equal performance of < and <=
         return DOUBLE_Ti;
 
     int possibleLocAfter = vMap.getMrxPossibleLocationsAfter(2, true).size();

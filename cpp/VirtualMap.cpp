@@ -62,7 +62,7 @@ int tlk::VirtualMap::getDistanceToClosestSly(int pos) const
 
     for (int loc : locations)
     {
-        const int dist = getDistanceBetween(pos, loc);
+        const int dist = getDistanceBetween(pos, loc, true);
         if (min > dist)
             min = dist;
     }
@@ -76,6 +76,11 @@ int tlk::VirtualMap::getDistanceBetween(const Entity* e, const int target) const
 }
 
 int tlk::VirtualMap::getDistanceBetween(const int pos, const int target) const
+{
+    return getDistanceBetween(pos, target, true);
+}
+
+int tlk::VirtualMap::getDistanceBetween(const int pos, const int target, bool noBoat) const
 {
     if (pos == target)
         return 0;
@@ -94,6 +99,9 @@ int tlk::VirtualMap::getDistanceBetween(const int pos, const int target) const
                 if (locationsUsed[con.target])
                     continue;
 
+                else if (noBoat && con.type == tlk::BOAT)
+                    continue;
+
                 newLocs.emplace_back(con.target);
                 locationsUsed[con.target] = true;
             }
@@ -108,9 +116,9 @@ int tlk::VirtualMap::getDistanceBetween(const int pos, const int target) const
     return distance;
 }
 
-int tlk::VirtualMap::countSLYsInRange(const Connection& con, int dist) const
+int tlk::VirtualMap::countSLYsInRange(int pos, int dist) const
 {
-    std::unordered_set<int> unorderedLocs = getPossibleLocationsAfter(con.target, dist, false);
+    std::unordered_set<int> unorderedLocs = getPossibleLocationsAfter(pos, dist, false);
     std::vector<int> unorderedELocs = tracker.getEntityLocations(true);
     std::set<int> checkLocations(unorderedLocs.cbegin(), unorderedLocs.cend());
     std::set<int> slyLocations(unorderedELocs.cbegin(), unorderedELocs.cend());
