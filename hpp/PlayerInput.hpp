@@ -64,7 +64,7 @@ namespace tlk::PlayerInput
         do {    
             selection = 0;
             std::cout << "From the current position you have the following options: " << std::endl;
-            for (Connection c : options)
+            for (const Connection& c : options)
                 std::cout << "[" << selection++ << "] " << c << std::endl;
             
             // std::cout << "You have the Following Tickets: " << std::endl;

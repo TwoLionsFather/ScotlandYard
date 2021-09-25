@@ -5,22 +5,14 @@
 
 namespace tlk
 {
-    enum ConnectionType
-    {
-        TAXI,
-        BUS,
-        UNDERGROUND,
-        BOAT,
-        UNDEFINED
-    }; 
-
     enum Ticket
     {
         TAXI_Ti,
         BUS_Ti,
         UNDERGROUND_Ti,
         DOUBLE_Ti,
-        BLACK_Ti
+        BLACK_Ti,
+        NO_TICKET
     };
 
     enum State {
@@ -43,12 +35,12 @@ namespace tlk
         MRX
     };
 
-    static const Debug LOG_LEVEL = NONE;
+    static const Debug LOG_LEVEL = HIGH;
     static const Debug CHRONO_LOG_LEVEL = NONE;
     static const int PLAYER_COUNT = 5;
     static const bool PLAYER_PLAYING = false;
     static const bool GRAPHICAL_INTERFACE = false;
-    static const int GAME_COUNT = std::min(10000, (int) std::pow(10, (4-LOG_LEVEL))); 
+    static const int GAME_COUNT = std::min(100, (int) std::pow(10, (4-LOG_LEVEL))); 
 	static const std::string ASSETPATH = "/home/tlk/Documents/Code/VSCode/ScotlandYard/assets/";
 
     static const int STARTING_OPTIONS_COUNT = 18;

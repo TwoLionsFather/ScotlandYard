@@ -21,7 +21,7 @@ namespace tlk
 
         void updatePosition(const Entity* e, int startingPos);
         void simulatePosition(const Entity* e, int newPos); //TODO make reverting an option also
-        void updatePosition(const Entity* e, const Connection* moved, const Ticket used);
+        void updatePosition(const Entity* e, const Connection& moved, const Ticket used);
 
         int getLocationOfMrx() const;
         int getLocationOf(const Entity* e) const;

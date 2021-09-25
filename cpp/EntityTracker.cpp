@@ -4,14 +4,14 @@
 void tlk::EntityTracker::simulatePosition(const Entity* e, int newPos)
 {
     if (newPos == 0)
-        throw std::runtime_error("Location 0 shouldn't be possible");
+        throw std::runtime_error("EntityTracker::simulatePosition Location 0 shouldn't be possible");
     positions.at(e) = newPos;
 }
 
 void tlk::EntityTracker::updatePosition(const Entity* e, int startingPos)
 {
     if (startingPos == 0)
-        throw std::runtime_error("Location 0 shouldn't be possible");
+        throw std::runtime_error("EntityTracker::updatePosition Location 0 shouldn't be possible");
 
     bool newEntry = positions.emplace(e, startingPos).second;
 
@@ -23,13 +23,13 @@ void tlk::EntityTracker::updatePosition(const Entity* e, int startingPos)
     entityHistory.emplace(e, moves);
 }
 
-void tlk::EntityTracker::updatePosition(const Entity* e, const Connection* move, const Ticket used)
+void tlk::EntityTracker::updatePosition(const Entity* e, const Connection& move, const Ticket used)
 {
-    if (move->target == 0)
-        throw std::runtime_error("Location 0 shouldn't be possible");
+    if (move.target == 0)
+        throw std::runtime_error("EntityTracker::updatePosition Location 0 shouldn't be possible");
 
-    positions.at(e) = move->target;
-    entityHistory.at(e).emplace_back(*move);
+    positions.at(e) = move.target;
+    entityHistory.at(e).emplace_back(move.target, move.type);
 
     if (e->isMrx())
         mrx_publicHistory.emplace_back(used);
@@ -58,7 +58,7 @@ std::vector<int> tlk::EntityTracker::getEntityLocations(bool hideMrX) const
             continue;
 
         if (e.second == 0)
-            throw std::runtime_error("Location 0 shouldn't be possible"); 
+            throw std::runtime_error("EntityTracker::getEntityLocations Location 0 shouldn't be possible"); 
 
         location.emplace_back(e.second);
     }

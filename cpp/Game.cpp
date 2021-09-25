@@ -128,7 +128,6 @@ void tlk::Game::playMrx()
 {
     auto start = std::chrono::high_resolution_clock::now();
 
-    std::pair<const tlk::Connection*, tlk::Ticket> used;
     do {
         const Connections& options =  gameMap->getMovesFor(mrx, tracker);
         if (options.empty())
@@ -136,16 +135,16 @@ void tlk::Game::playMrx()
             gameState = WON_SLY;
             return;
         }
-        used = mrx->move(options);
-
+        const std::pair<const tlk::Connection&, tlk::Ticket> used = mrx->move(options);
+        
         if (tlk::LOG_LEVEL >= tlk::HIGH)
-            std::cout << "MRX Moved to: " << used.first->target << std::endl;
+            std::cout << "MRX Moved to: " << used.first.target << std::endl;
 
         if (tlk::LOG_LEVEL >= tlk::NORMAL || PLAYER_PLAYING)
             std::cout << "MrX used: " << used.second << std::endl;
 
         tracker->updatePosition(mrx, used.first, used.second);
-    } while (used.second == tlk::DOUBLE_Ti);
+    } while (tracker->getMrxHistory().back() == tlk::DOUBLE_Ti);
 
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> elapsed = finish - start;
@@ -160,8 +159,6 @@ void tlk::Game::playMrx()
 void tlk::Game::playSly()
 {
     auto start = std::chrono::high_resolution_clock::now();
-
-    std::pair<const tlk::Connection*, tlk::Ticket> used;
     bool noOfficerMoved = true;
 
     for (Entity* e : sly_units)
@@ -173,16 +170,16 @@ void tlk::Game::playSly()
         if (options.empty())
             continue;
         
-        used = e->move(options);
+        std::pair<const tlk::Connection&, tlk::Ticket> used = e->move(options);
 
         if (tlk::LOG_LEVEL >= tlk::HIGH || PLAYER_PLAYING)
-            std::cout << "SLY Unit Moved to: " << used.first->target << std::endl;
+            std::cout << "SLY Unit Moved to: " << used.first.target << std::endl;
 
         tracker->updatePosition(e, used.first, used.second); 
         mrx->addTicket(used.second);
         noOfficerMoved = false;
 
-        if (tracker->getLocationOf(mrx) == used.first->target)
+        if (tracker->getLocationOf(mrx) == used.first.target)
         {
             gameState = WON_SLY;
             return;

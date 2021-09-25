@@ -21,13 +21,14 @@ namespace tlk
         Entity(Team t): team(t), tickets(TicketStack(t)) { };
         virtual ~Entity() { };
 
-        std::pair<const tlk::Connection*, tlk::Ticket> move(const Connections& options)
+        const std::pair<const tlk::Connection&, tlk::Ticket> move(const Connections& options)
         {
-            const Connection& selected = getSelection(options);
-            Ticket used = getTicket(selected.type);
-            tickets.useTicket(used);
+            std::pair<const Connection&, Ticket> pair(getSelection(options), tlk::NO_TICKET);
 
-            return std::make_pair(&selected, used);
+            pair.second = getTicket(pair.first.type);
+            tickets.useTicket(pair.second);
+
+            return pair;
         }
 
         //If is Mrx tickets get added
@@ -42,9 +43,9 @@ namespace tlk
             return team == tlk::MRX;
         }
 
-        bool isAllowedToUse(ConnectionType type) const
+        bool hasTicketFor(ConnectionType type) const
         {   
-            return tickets.isAllowedToUse(type);
+            return tickets.hasTicketFor(type);
         }
 
     protected:

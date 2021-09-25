@@ -26,7 +26,7 @@ tlk::Map::Map(const std::string& path)
     
 
     if (!file)
-        throw std::runtime_error("keine Map im File assetss/connections.txt gefunden!");
+        throw std::runtime_error("Map::Map keine Map im File assetss/connections.txt gefunden!");
     
     
     size_t pos;
@@ -67,22 +67,26 @@ const tlk::Connections& tlk::Map::getOutgoing(const int loc) const
     return *gameFields.at(loc);
 }
 
+bool isOccupied(int pos, const std::vector<int>& occupied)
+{
+    return occupied.end() != std::find(occupied.begin(), occupied.end(), pos);
+}
+
 const tlk::Connections tlk::Map::getMovesFor(const Entity* e, const EntityTracker* tracker) const
 {
     const Connections& options = *gameFields.at(tracker->getLocationOf(e)).get();
     const std::vector<int>& occPos = tracker->getEntityLocations(true);
 
     if (options.empty())
-        throw std::invalid_argument("No options were found for an entity inside of Map::getMovesFor function!!");
+        throw std::invalid_argument("Map::getMovesFor No options were found for an entity inside of Map::getMovesFor function!!");
     
-
     Connections possible;
-    auto hasTicket = [&e](auto con) {return !e->isAllowedToUse(con.type);};
-    std::remove_copy_if(options.begin(), options.end(), std::back_inserter(possible), hasTicket);
-
-    auto isOccupied = [&occPos] (const auto con) {return occPos.end() != std::find(occPos.begin(), occPos.end(), con.target);};
-    const auto possEnd = std::remove_if(possible.begin(), possible.end(), isOccupied);
-    possible.erase(possEnd, possible.end());
+    for (const Connection& c : options)
+    {
+        if (e->hasTicketFor(c.type) 
+        && !isOccupied(c.target, occPos))
+            possible.emplace_back(c.target, c.type);
+    }
 
     return possible;
 }

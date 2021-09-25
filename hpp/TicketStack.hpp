@@ -3,6 +3,8 @@
 #include "Connection.hpp"
 #include "ConstsAndEnums.hpp"
 
+#include <iostream>
+
 namespace tlk
 {
     class TicketStack
@@ -31,6 +33,9 @@ namespace tlk
 
         void useTicket(tlk::Ticket typeUsed)
         {
+            if (typeUsed == tlk::NO_TICKET)
+                std::cout << "TicketStack::useTicket Type NO_TICKET can't be used for transport! ";
+
             counts[typeUsed]--;
         };
         
@@ -39,7 +44,7 @@ namespace tlk
             counts[typeAdded]++;
         };
 
-        bool isAllowedToUse(ConnectionType t) const
+        bool hasTicketFor(ConnectionType t) const
         {// either correct ticket type available or use Black Ticket.
             return (counts[getTicketFor(t)] > 0) 
                 || (counts[BLACK_Ti] > 0)
