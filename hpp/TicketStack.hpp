@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Connection.hpp"
-#include "ConstsAndEnums.hpp"
+#include "Consts.hpp"
 
 #include <iostream>
 

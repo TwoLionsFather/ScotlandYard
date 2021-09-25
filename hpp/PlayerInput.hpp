@@ -9,7 +9,6 @@ namespace tlk::PlayerInput
     {
         Ticket used = TicketStack::getTicketFor(type);
 
-
         if (!tickets.isAdvancedTicketAvailable())
         {
             std::cout << "Using ticket for: " << used << std::endl;

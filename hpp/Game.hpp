@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ConstsAndEnums.hpp"
+#include "Consts.hpp"
 #include "Map.hpp"
 #include "VirtualMap.hpp"
 #include "EntityTracker.hpp"
@@ -22,7 +22,7 @@ namespace tlk
         , PLAYING
         , ERROR
     };
-    
+
     struct Statistics
     {
         Statistics(State winner, int round) 

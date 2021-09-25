@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../hpp/Game.hpp"
-#include "../hpp/ConstsAndEnums.hpp"
+#include "Game.hpp"
+#include "Consts.hpp"
 
 #include <iostream>
 #include <fstream>

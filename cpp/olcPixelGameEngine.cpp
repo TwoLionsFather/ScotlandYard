@@ -4,7 +4,7 @@
 #include "../hpp/Game.hpp"
 #include "../hpp/Simulation.hpp"
 #include "../hpp/DrawableMap.hpp"
-#include "../hpp/ConstsAndEnums.hpp"
+#include "../hpp/Consts.hpp"
 
 class SLY_Viewer : public olc::PixelGameEngine
 {
