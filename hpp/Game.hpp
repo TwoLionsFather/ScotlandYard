@@ -16,7 +16,13 @@
 
 namespace tlk
 {
-
+    enum State {
+        WON_MRX
+        , WON_SLY
+        , PLAYING
+        , ERROR
+    };
+    
     struct Statistics
     {
         Statistics(State winner, int round) 

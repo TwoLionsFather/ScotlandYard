@@ -6,19 +6,27 @@
 
 namespace tlk
 {
+    enum Team
+    {
+        SLY,
+        MRX
+    };
+
     //Per Default a SLY Entity is described 
     //To set a MRX entity set the Team to MRX
     class Entity
     {
     protected:
+        TicketStack tickets;
+        
         virtual double scoreCon(const Connection& c) { return ((double) random())/rand(); }
-        virtual const Connection& getSelection(const Connections& options) { return getBestSelection(options); }
+        virtual const Connection& getSelection(const Connections& options) { return getHighestScoring(options); }
 
         virtual Ticket getTicket(ConnectionType usedTransportation) { return TicketStack::getTicketFor(usedTransportation); }
 
     public:
-        Entity(): team(tlk::SLY), tickets(TicketStack(tlk::SLY)) { };
-        Entity(Team t): team(t), tickets(TicketStack(t)) { };
+        Entity(): team(tlk::SLY), tickets(TicketStack(isMrx())) { };
+        Entity(Team t): team(t), tickets(TicketStack(isMrx())) { };
         virtual ~Entity() { };
 
         const std::pair<const tlk::Connection&, tlk::Ticket> move(const Connections& options)
@@ -48,24 +56,21 @@ namespace tlk
             return tickets.hasTicketFor(type);
         }
 
-    protected:
-        TicketStack tickets;
-
     private:
         const Team team = SLY;
 
-        const Connection& getBestSelection(const Connections& options)
+        const Connection& getHighestScoring(const Connections& options)
         {
             const Connection* best = &options[0];
-            double bestScore = scoreCon(*best);
+            double highScore = scoreCon(*best);
 
             for (const Connection& con : options)
             {
                 double score = scoreCon(con);
-                if (bestScore < score)
+                if (highScore < score)
                 {
                     best = &con;
-                    bestScore = score;
+                    highScore = score;
                 }
             }
 

@@ -7,15 +7,25 @@
 
 namespace tlk
 {
+    enum Ticket
+    {
+        TAXI_Ti,
+        BUS_Ti,
+        UNDERGROUND_Ti,
+        DOUBLE_Ti,
+        BLACK_Ti,
+        NO_TICKET
+    };
+
     class TicketStack
     {
     public:
         TicketStack() = delete;
-        TicketStack(Team t):
+        TicketStack(bool isMrxTickets):
             counts{0, 0, 0, 0, 0}
         {
             //TODO make better:
-            if (t == tlk::SLY)
+            if (!isMrxTickets)
             {
                 counts[TAXI_Ti] = 10;
                 counts[BUS_Ti] = 8;

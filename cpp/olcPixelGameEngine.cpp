@@ -9,15 +9,13 @@
 class SLY_Viewer : public olc::PixelGameEngine
 {
 public:
-	SLY_Viewer()
+	SLY_Viewer() : gameMap(tlk::Map("assets/connections.txt"))
 	{
 		sAppName = "SLY_Viewer";
-		gameMap = new tlk::Map("../assets/connections.txt"); 
 	}
 
 	~SLY_Viewer()
 	{
-		delete gameMap;
 		delete map;
 		delete game;
 	}
@@ -38,20 +36,26 @@ public:
 
 	bool OnUserCreate() override
 	{
-		game = new tlk::Game(gameMap);
+		game = new tlk::Game(&gameMap);
 		map = new olc::Sprite(tlk::ASSETPATH + "slymap.png");
 
 		drawableMap.loadFromFile(tlk::ASSETPATH + "Locations.txt");
 		game->setup();
 		drawableMap.link(game->getGameLiveInfo());
 
+		backgroundLayer = CreateLayer();
+		SetDrawTarget(backgroundLayer);
+		Clear(olc::BLACK);
+		DrawSprite(0, 0, map);
+		EnableLayer(backgroundLayer, true);
+		SetDrawTarget(nullptr);
+
 		return true;
 	}
 
 	bool OnUserUpdate(float fElapsedTime) override
 	{
-		Clear(olc::BLACK);
-		DrawSprite(0, 0, map);
+		Clear(olc::BLANK);
 		
 		// int idxCount = 1;
 		// for (const olc::vi2d& pos : drawableMap.getLocations())
@@ -67,7 +71,7 @@ public:
 		if (GetMouse(olc::Mouse::RIGHT).bPressed)
 		{
 			delete game;
-			game = new tlk::Game(gameMap);
+			game = new tlk::Game(&gameMap);
 			game->setup();
 			drawableMap.link(game->getGameLiveInfo());
 			state = tlk::PLAYING;
@@ -106,13 +110,14 @@ public:
 
 	
 private:
-	tlk::Map* gameMap = nullptr;
+	tlk::Map gameMap;
 	olc::Sprite* map = nullptr;
 	tlk::Game* game = nullptr;
 
 	tlk::DrawableMap drawableMap;
 	tlk::State state = tlk::PLAYING;
 
+	int backgroundLayer = 0;
 };
 
 int main(int argc, char const *argv[])
