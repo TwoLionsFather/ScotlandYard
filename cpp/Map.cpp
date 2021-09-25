@@ -26,8 +26,10 @@ tlk::Map::Map(const std::string& path)
     
 
     if (!file)
-        throw std::runtime_error("Map::Map keine Map im File assetss/connections.txt gefunden!");
-    
+    {
+        std::cerr << "Map::Map Searching Map at: " << path << std::endl;
+        throw std::runtime_error("Map::Map no Map was found!");
+    }
     
     size_t pos;
     std::string token;
@@ -37,7 +39,6 @@ tlk::Map::Map(const std::string& path)
         token = line.substr(0, pos);
         int id = stoi(token);
         line.erase(0, pos + 1);
-
 
         while ((pos = line.find(';')) != std::string::npos) //npos is not found in String
         {
@@ -53,7 +54,7 @@ tlk::Map::Map(const std::string& path)
             line.erase(0, pos + 1);
         }
     }
-
+    
     file.close();
 }
 

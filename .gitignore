@@ -1,0 +1,5 @@
+obj/**
+o_makefile
+cpp/hellomake.c
+hpp/hellomake.h
+cpp/hellofunc.c
