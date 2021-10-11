@@ -36,24 +36,24 @@ void tlk::Game::setup()
 {    
     srand(std::chrono::high_resolution_clock::now().time_since_epoch().count());
     auto rng = std::default_random_engine(rand());
-    std::vector<int> initPositions(tlk::startingPositions, tlk::startingPositions + tlk::STARTING_OPTIONS_COUNT);
+    std::vector<int> initPositions(tlk::STARTING_POSITIONS, tlk::STARTING_POSITIONS + tlk::STARTING_OPTIONS_COUNT);
 
 
     std::shuffle(initPositions.begin(), initPositions.end(), rng);
 
-    tracker->updatePosition(mrx, *initPositions.rbegin());
+    tracker->setStartingPos(mrx, *initPositions.rbegin());
     initPositions.pop_back();
 
     tracker->setMrxLocation(100);    //set more intelegently
 
     for (const Entity* e : sly_units)
     {
-        tracker->updatePosition(e, *initPositions.rbegin());
+        tracker->setStartingPos(e, *initPositions.rbegin());
         initPositions.pop_back();
     }
 
     if (PLAYER_PLAYING)
-        tracker->updatePosition(sly_units[PLAYER_COUNT], *initPositions.rbegin());
+        tracker->setStartingPos(sly_units[PLAYER_COUNT], *initPositions.rbegin());
 
     initPositions.emplace_back(tracker->getLocationOf(mrx));
 }
@@ -209,4 +209,9 @@ void tlk::Game::printRoundStart()
     for (unsigned int ui : tracker->getEntityLocations(false))
         std::cout << ui << " ";
     std::cout << std::endl;
+}
+
+void tlk::Game::setTickets(const Entity *e, TicketStack tickets)
+{
+    //TODO
 }

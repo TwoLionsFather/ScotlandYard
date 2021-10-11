@@ -60,7 +60,7 @@ namespace tlk
         // void setMrXPos(int pos);
         // void setMrXSighting(int sighting);
         // void setSLYPosition(const Entity *slyUnit, int pos);
-        // void setTickets(const Entity *e, TicketStack tickets); //TODO implement assign operator or copy constructor
+        void setTickets(const Entity *e, TicketStack tickets); //TODO implement assign operator or copy constructor
 
     private: 
         const Map*  gameMap;

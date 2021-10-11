@@ -8,15 +8,15 @@ void tlk::EntityTracker::simulatePosition(const Entity* e, int newPos)
     positions.at(e) = newPos;
 }
 
-void tlk::EntityTracker::updatePosition(const Entity* e, int startingPos)
+void tlk::EntityTracker::setStartingPos(const Entity* e, int startingPos)
 {
     if (startingPos == 0)
-        throw std::runtime_error("EntityTracker::updatePosition Location 0 shouldn't be possible");
+        throw std::runtime_error("EntityTracker::setStartingPos Location 0 shouldn't be possible");
 
     bool newEntry = positions.emplace(e, startingPos).second;
 
     if (!newEntry)
-        throw std::runtime_error("The Position wasn't initialized because the entity was already found inside the map when calling EntityTracker::updatePosition!");
+        throw std::runtime_error("The Position wasn't initialized because the entity was already found inside the map when calling EntityTracker::setStartingPos!");
 
     Connections moves;
     moves.emplace_back(startingPos, tlk::UNDEFINED);

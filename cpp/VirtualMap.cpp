@@ -145,7 +145,7 @@ std::unordered_set<int> tlk::VirtualMap::reachableOneRound(const int pos, const 
         if (!ticket) 
             possibleLocations.emplace(c.target);
 
-        else if (TicketStack::isAllowedConnection(*ticket, c.type))
+        else if (TicketStack::validTicketForType(*ticket, c.type))
             possibleLocations.emplace(c.target);
 
     }

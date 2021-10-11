@@ -19,7 +19,7 @@ namespace tlk
             entityHistory.clear();
         };
 
-        void updatePosition(const Entity* e, int startingPos);
+        void setStartingPos(const Entity* e, int startingPos);
         void simulatePosition(const Entity* e, int newPos); //TODO make reverting an option also
         void updatePosition(const Entity* e, const Connection& moved, const Ticket used);
 
@@ -53,7 +53,7 @@ namespace tlk
         int mrxLastSeenLocation = 0;
         std::vector<tlk::Ticket> mrx_publicHistory;
 
-        std::map<const Entity*, int> positions; //TODO Add count of players to this 
+        std::map<const Entity*, int> positions; 
         std::map<const Entity*, Connections> entityHistory;
     };
     

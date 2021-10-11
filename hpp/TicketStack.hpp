@@ -4,42 +4,31 @@
 #include "Consts.hpp"
 
 #include <iostream>
+#include <array>
 
 namespace tlk
 {
     enum Ticket
     {
-        TAXI_Ti,
-        BUS_Ti,
-        UNDERGROUND_Ti,
-        DOUBLE_Ti,
-        BLACK_Ti,
-        NO_TICKET
+        TAXI_Ti = 0,
+        BUS_Ti = 1,
+        UNDERGROUND_Ti = 2,
+        DOUBLE_Ti = 3,
+        BLACK_Ti = 4,
+        NO_TICKET = 50
     };
 
     class TicketStack
     {
     public:
-        TicketStack() = delete;
-        TicketStack(bool isMrxTickets):
-            counts{0, 0, 0, 0, 0}
-        {
-            //TODO make better:
-            if (!isMrxTickets)
-            {
-                counts[TAXI_Ti] = 10;
-                counts[BUS_Ti] = 8;
-                counts[UNDERGROUND_Ti] = 4;
-            }
-            else
-            {
-                counts[TAXI_Ti] = 4;
-                counts[BUS_Ti] = 3;
-                counts[UNDERGROUND_Ti] = 3;
-                counts[DOUBLE_Ti] = 2;
-                counts[BLACK_Ti] = 3;
-            }
-        };
+        TicketStack()
+            : counts{0, 0, 0, 0, 0} { };
+
+        TicketStack(const std::array<int, 5>& counts)
+            : counts(counts) { };
+
+        TicketStack(bool isMrxTickets)
+            : counts((isMrxTickets)? STARTING_TICKETS_MRX:STARTING_TICKETS_SLY) {  };
 
         void useTicket(tlk::Ticket typeUsed)
         {
@@ -71,7 +60,7 @@ namespace tlk
             return counts[type];
         }
 
-        static bool isAllowedConnection(const Ticket& tick, const ConnectionType& type)
+        static bool validTicketForType(const Ticket& tick, const ConnectionType& type)
         {
             return ((tick == BLACK_Ti)
                 || (tick == DOUBLE_Ti && type != BOAT)
@@ -93,7 +82,7 @@ namespace tlk
         };
 
     private:
-        int counts[5];
+        std::array<int, 5> counts;
     }; 
 }
 
