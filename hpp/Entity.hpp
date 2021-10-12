@@ -27,6 +27,8 @@ namespace tlk
     public:
         Entity(): team(tlk::SLY), tickets(TicketStack(isMrx())) { };
         Entity(Team t): team(t), tickets(TicketStack(isMrx())) { };
+        
+        Entity(Team t, TicketStack tickets): team(t), tickets(tickets) { };
         virtual ~Entity() { };
 
         const std::pair<const tlk::Connection&, tlk::Ticket> move(const Connections& options)

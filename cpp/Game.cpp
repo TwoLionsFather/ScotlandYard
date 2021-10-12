@@ -210,8 +210,3 @@ void tlk::Game::printRoundStart()
         std::cout << ui << " ";
     std::cout << std::endl;
 }
-
-void tlk::Game::setTickets(const Entity *e, TicketStack tickets)
-{
-    //TODO
-}
