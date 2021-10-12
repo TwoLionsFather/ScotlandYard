@@ -57,7 +57,12 @@
         "set": "cpp",
         "forward_list": "cpp",
         "unordered_set": "cpp",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "bitset": "cpp",
+        "compare": "cpp",
+        "concepts": "cpp",
+        "ranges": "cpp",
+        "stop_token": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }

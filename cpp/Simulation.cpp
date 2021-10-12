@@ -3,7 +3,7 @@
 
 void tlk::Simulation::start()
 {
-    tlk::Map map = tlk::Map("assets/connections.txt");
+    tlk::Map map = tlk::Map(tlk::ASSETPATH + "/connections.txt");
 
     std::cout << tlk::GAME_COUNT << " Games calculating!" << std::endl;
 
@@ -37,7 +37,7 @@ void tlk::Simulation::start()
     }
     auto finish = std::chrono::high_resolution_clock::now();
 
-    std::ofstream resultFile("../assets/simresults.txt",  std::ofstream::out | std::ios::app);
+    std::ofstream resultFile(tlk::ASSETPATH + "/simresults.txt",  std::ofstream::out | std::ios::app);
 
     resultFile << tlk::GAME_COUNT << " Games calculated!" << std::endl;
     resultFile << "Siege SLY: " << results[0] << " MRX: " << results[1] << " ERRORS: " << results[2] << std::endl; 

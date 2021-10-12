@@ -12,7 +12,7 @@ namespace tlk
         , HIGH
     };
 
-    static const Debug LOG_LEVEL = HIGH;
+    static const Debug LOG_LEVEL = NONE;
     static const Debug CHRONO_LOG_LEVEL = NONE;
     static const int PLAYER_COUNT = 5;
     static const bool PLAYER_PLAYING = false;
