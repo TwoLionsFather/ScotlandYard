@@ -123,16 +123,16 @@ private:
 
 int main(int argc, char const *argv[])
 {	
-	bool testcompleted = false;
 	if (tlk::RUN_TESTS)
 	{
 		tlk::Map map = tlk::Map(tlk::ASSETPATH + "/connections.txt");
 		tlk::GameDebug sut(&map);
 
-		testcompleted = sut.runTests();
+		bool testcompleted = sut.runTests();
+
+		if (!testcompleted)
+			return 1;
 	}
-	if (!testcompleted)
-		return 1;
 
 	if (tlk::GRAPHICAL_INTERFACE)
 	{

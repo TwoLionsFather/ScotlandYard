@@ -17,20 +17,28 @@ namespace tlk
 
         bool runTests() 
         {
-            tracker.setStartingPos(mrx, 45);
-            tracker.setMrxLocation(45);
-            tracker.setStartingPos(sly_units[0], 32);
-            tracker.setStartingPos(sly_units[1], 60);
-            sly_units.pop_back();
+            // tracker.setStartingPos(mrx, 45);
+            // tracker.setMrxLocation(45);
+            // tracker.setStartingPos(sly_units[0], 32);
+            // tracker.setStartingPos(sly_units[1], 60);
+            // sly_units.pop_back();
+            // sly_units.pop_back();
+
+            tracker.setStartingPos(mrx, 37);
+            tracker.setMrxLocation(23);
+            tracker.setStartingPos(sly_units[0], 22);
+            tracker.setStartingPos(sly_units[1], 67);
+            tracker.setStartingPos(sly_units[2], 38);
             sly_units.pop_back();
 
             round = 3;
             playSingleRound();
             
-            checkMrXLocation(46);
+            // checkMrXLocation(46);
+            checkMrXLocation(36);
             std::cout << "Tests are done" << std::endl;
 
-            return true;
+            return false;
         };
 
     private: 
