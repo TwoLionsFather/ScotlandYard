@@ -22,10 +22,7 @@ namespace tlk
         const int* round = 0;
         
         //give slight edge if more tickets are available
-        inline double ticketFactor(ConnectionType type)
-        {
-            return (*round / 22) *  0.1 * tickets.ticketCount(TicketStack::getTicketFor(type));
-        }
+        double ticketFactor(ConnectionType type);
 
         //Connection with highest score is selected!
         double minDist(const Connection& options);

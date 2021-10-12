@@ -60,7 +60,7 @@ namespace tlk
 
     protected: 
         const Map*  gameMap;
-        EntityTracker* tracker;
+        EntityTracker tracker;
         const VirtualMap vMap;
 
         int round = 0;

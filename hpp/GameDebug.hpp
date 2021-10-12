@@ -5,22 +5,42 @@
         // void setTickets(const Entity *e, TicketStack tickets); //TODO implement assign operator or copy constructor
 
 #include "Game.hpp"
+#include <iostream>
 
 namespace tlk
 {
     class GameDebug : protected Game
     {
     public:
-        GameDebug(const Map*  gameMap) : Game(gameMap) {
-            runTests();
-        };
-        virtual ~GameDebug();
+        GameDebug(const Map*  gameMap) : Game(gameMap) { };
+        virtual ~GameDebug() { };
 
-    private:
-        void runTests() 
+        bool runTests() 
         {
+            tracker.setStartingPos(mrx, 45);
+            tracker.setMrxLocation(45);
+            tracker.setStartingPos(sly_units[0], 32);
+            tracker.setStartingPos(sly_units[1], 60);
+            sly_units.pop_back();
+            sly_units.pop_back();
+
+            round = 3;
+            playSingleRound();
             
-        }
+            checkMrXLocation(46);
+            std::cout << "Tests are done" << std::endl;
+
+            return true;
+        };
+
+    private: 
+
+        void checkMrXLocation(int expected)
+        {
+            if (tracker.getLocationOfMrx() != expected)
+                std::cout << "GameDebug::checkMrXLocation MrX Location: " << tracker.getLocationOfMrx() << " is not " << expected << std::endl;
+        };
+    
     };
 
 } // namespace tlk

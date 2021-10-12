@@ -2,6 +2,7 @@
 #include "../hpp/olcPixelGameEngine.h"
 
 #include "../hpp/Game.hpp"
+#include "../hpp/GameDebug.hpp"
 #include "../hpp/Simulation.hpp"
 #include "../hpp/DrawableMap.hpp"
 #include "../hpp/Consts.hpp"
@@ -122,6 +123,17 @@ private:
 
 int main(int argc, char const *argv[])
 {	
+	bool testcompleted = false;
+	if (tlk::RUN_TESTS)
+	{
+		tlk::Map map = tlk::Map(tlk::ASSETPATH + "/connections.txt");
+		tlk::GameDebug sut(&map);
+
+		testcompleted = sut.runTests();
+	}
+	if (!testcompleted)
+		return 1;
+
 	if (tlk::GRAPHICAL_INTERFACE)
 	{
 		SLY_Viewer demo;
