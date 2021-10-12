@@ -123,3 +123,78 @@ Siege SLY: 99 MRX: 1 ERRORS: 0
 [1 0] [2 0] [3 0] [4 2] [5 12] [6 1] [7 6] [8 7] [9 8] [10 6] [11 4] [12 0] [13 2] [14 1] [15 1] [16 1] [17 2] [18 0] [19 2] [20 0] [21 0] [22 1] Avg 4.57 Rounds
 Calculations took: 1637.32ms
 
+10 Games calculated!
+Siege SLY: 9 MRX: 1 ERRORS: 0
+[1 0] [2 0] [3 0] [4 0] [5 1] [6 0] [7 0] [8 1] [9 1] [10 1] [11 0] [12 0] [13 0] [14 0] [15 0] [16 0] [17 0] [18 0] [19 0] [20 0] [21 0] [22 0] Avg 2.8 Rounds
+Calculations took: 191.122ms
+
+10 Games calculated!
+Siege SLY: 9 MRX: 1 ERRORS: 0
+[1 0] [2 0] [3 0] [4 0] [5 1] [6 2] [7 1] [8 0] [9 0] [10 0] [11 0] [12 0] [13 0] [14 0] [15 1] [16 0] [17 0] [18 0] [19 1] [20 0] [21 0] [22 0] Avg 5.2 Rounds
+Calculations took: 274.084ms
+
+10 Games calculated!
+Siege SLY: 10 MRX: 0 ERRORS: 0
+[1 0] [2 0] [3 0] [4 0] [5 1] [6 0] [7 0] [8 1] [9 2] [10 0] [11 0] [12 0] [13 0] [14 0] [15 0] [16 0] [17 0] [18 0] [19 0] [20 1] [21 0] [22 0] Avg 4.6 Rounds
+Calculations took: 247.303ms
+
+1 Games calculated!
+Siege SLY: 0 MRX: 1 ERRORS: 0
+[1 0] [2 0] [3 0] [4 0] [5 0] [6 0] [7 0] [8 0] [9 0] [10 0] [11 0] [12 0] [13 0] [14 0] [15 0] [16 0] [17 0] [18 0] [19 0] [20 0] [21 0] [22 0] Avg 0 Rounds
+Calculations took: 14.2216ms
+
+1 Games calculated!
+Siege SLY: 1 MRX: 0 ERRORS: 0
+[1 0] [2 0] [3 0] [4 0] [5 0] [6 0] [7 0] [8 0] [9 0] [10 0] [11 1] [12 0] [13 0] [14 0] [15 0] [16 0] [17 0] [18 0] [19 0] [20 0] [21 0] [22 0] Avg 10 Rounds
+Calculations took: 6.83253ms
+
+1 Games calculated!
+Siege SLY: 1 MRX: 0 ERRORS: 0
+[1 0] [2 0] [3 0] [4 0] [5 0] [6 0] [7 0] [8 1] [9 0] [10 0] [11 0] [12 0] [13 0] [14 0] [15 0] [16 0] [17 0] [18 0] [19 0] [20 0] [21 0] [22 0] Avg 7 Rounds
+Calculations took: 4.95157ms
+
+1 Games calculated!
+Siege SLY: 1 MRX: 0 ERRORS: 0
+[1 0] [2 0] [3 0] [4 0] [5 0] [6 0] [7 0] [8 0] [9 1] [10 0] [11 0] [12 0] [13 0] [14 0] [15 0] [16 0] [17 0] [18 0] [19 0] [20 0] [21 0] [22 0] Avg 8 Rounds
+Calculations took: 4.77798ms
+
+100 Games calculated!
+Siege SLY: 56 MRX: 44 ERRORS: 0
+[1 0] [2 0] [3 0] [4 1] [5 13] [6 3] [7 5] [8 7] [9 11] [10 5] [11 3] [12 1] [13 1] [14 4] [15 2] [16 2] [17 1] [18 1] [19 3] [20 2] [21 5] [22 0] Avg 6.7 Rounds
+Calculations took: 658.452ms
+
+100 Games calculated!
+Siege SLY: 53 MRX: 47 ERRORS: 0
+[1 0] [2 0] [3 0] [4 0] [5 10] [6 3] [7 4] [8 9] [9 5] [10 4] [11 3] [12 0] [13 3] [14 1] [15 3] [16 1] [17 3] [18 1] [19 5] [20 6] [21 3] [22 5] Avg 7.88 Rounds
+Calculations took: 722.761ms
+
+100 Games calculated!
+Siege SLY: 49 MRX: 51 ERRORS: 0
+[1 0] [2 0] [3 0] [4 4] [5 4] [6 5] [7 6] [8 4] [9 8] [10 4] [11 6] [12 0] [13 0] [14 0] [15 2] [16 3] [17 4] [18 3] [19 3] [20 10] [21 3] [22 2] Avg 8.11 Rounds
+Calculations took: 714.844ms
+
+100 Games calculated!
+Siege SLY: 58 MRX: 42 ERRORS: 0
+[1 0] [2 0] [3 0] [4 2] [5 16] [6 6] [7 4] [8 4] [9 10] [10 3] [11 3] [12 0] [13 2] [14 3] [15 3] [16 2] [17 3] [18 3] [19 2] [20 2] [21 7] [22 2] Avg 7.79 Rounds
+Calculations took: 641.46ms
+
+100 Games calculated!
+Siege SLY: 51 MRX: 49 ERRORS: 0
+[1 0] [2 0] [3 0] [4 2] [5 7] [6 8] [7 6] [8 2] [9 9] [10 4] [11 1] [12 1] [13 1] [14 2] [15 1] [16 0] [17 2] [18 3] [19 1] [20 5] [21 8] [22 2] Avg 7.03 Rounds
+Calculations took: 716.807ms
+
+100 Games calculated!
+Siege SLY: 66 MRX: 34 ERRORS: 0
+[1 0] [2 0] [3 0] [4 3] [5 3] [6 11] [7 3] [8 4] [9 12] [10 6] [11 5] [12 2] [13 0] [14 4] [15 1] [16 5] [17 2] [18 2] [19 3] [20 7] [21 1] [22 8] Avg 9.26 Rounds
+Calculations took: 677.001ms
+
+100 Games calculated!
+Siege SLY: 56 MRX: 44 ERRORS: 0
+[1 0] [2 0] [3 1] [4 1] [5 11] [6 5] [7 5] [8 2] [9 8] [10 11] [11 2] [12 4] [13 0] [14 2] [15 0] [16 3] [17 0] [18 2] [19 0] [20 5] [21 6] [22 2] Avg 7.07 Rounds
+Calculations took: 1038.11ms
+
+100 Games calculated!
+Siege SLY: 50 MRX: 50 ERRORS: 0
+[1 0] [2 0] [3 0] [4 0] [5 7] [6 7] [7 3] [8 9] [9 10] [10 3] [11 5] [12 0] [13 3] [14 0] [15 2] [16 0] [17 3] [18 4] [19 2] [20 1] [21 4] [22 5] Avg 7.21 Rounds
+Calculations took: 1076.98ms
+

@@ -25,8 +25,8 @@ namespace tlk
         virtual Ticket getTicket(ConnectionType usedTransportation) { return TicketStack::getTicketFor(usedTransportation); }
 
     public:
-        Entity(): team(tlk::SLY), tickets(TicketStack(isMrx())) { };
-        Entity(Team t): team(t), tickets(TicketStack(isMrx())) { };
+        Entity(): team(tlk::SLY), tickets(TicketStack(false)) { };
+        Entity(Team t): team(t), tickets(TicketStack(t == tlk::MRX)) { };
         
         Entity(Team t, TicketStack tickets): team(t), tickets(tickets) { };
         virtual ~Entity() { };

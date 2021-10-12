@@ -50,7 +50,6 @@ void tlk::Simulation::start()
     }
     resultFile << "Avg " << avg/(double) tlk::GAME_COUNT << " Rounds" << std::endl;
 
-
     std::chrono::duration<double, std::milli> elapsed = finish - begin;
     resultFile << "Calculations took: " << elapsed.count() << "ms" << std::endl << std::endl;
 

@@ -15,7 +15,7 @@ namespace tlk
         UNDERGROUND_Ti = 2,
         DOUBLE_Ti = 3,
         BLACK_Ti = 4,
-        NO_TICKET = 50
+        NO_TICKET = 5
     };
 
     class TicketStack
@@ -28,14 +28,23 @@ namespace tlk
             : counts(counts) { };
 
         TicketStack(bool isMrxTickets)
-            : counts((isMrxTickets)? STARTING_TICKETS_MRX:STARTING_TICKETS_SLY) {  };
+            : counts((isMrxTickets)? STARTING_TICKETS_MRX:STARTING_TICKETS_SLY) 
+            { 
+                // std::cout << "Test if working as intendet" << std::endl;
+                // for (int tCount : counts)
+                //     std::cout << "[" << tCount << "]" << " ";
+                // std::cout << std::endl;
+            };
 
         void useTicket(tlk::Ticket typeUsed)
         {
             if (typeUsed == tlk::NO_TICKET)
-                std::cout << "TicketStack::useTicket Type NO_TICKET can't be used for transport! ";
+                std::cout << "TicketStack::useTicket Type NO_TICKET can't be used for transport! " << std::endl;
 
             counts[typeUsed]--;
+
+            if (counts[typeUsed] < 0)
+                throw std::runtime_error("TicketStack::useTicket Ticket count is not allowed to be < 0");
         };
         
         void addTicket(tlk::Ticket typeAdded)
