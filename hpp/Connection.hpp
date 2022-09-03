@@ -51,6 +51,11 @@ namespace tlk
         int target;  
         ConnectionType type;
 
+        Connection getReverse() const
+        {
+            return Connection(target, source, type);
+        };
+
         static ConnectionType get_type_from_char(char type);
     };
     typedef std::vector<Connection> Connections; //TODO Make Const

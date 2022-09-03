@@ -37,6 +37,18 @@ tlk::Map::Map(const std::string& path)
     file.close();
 }
 
+tlk::Connections tlk::Map::getAllConnections() const
+{
+    Connections conns;
+    for (int i = 0; i < 201; ++i)
+    {
+        Connections out = getOutgoing(i);
+        conns.insert(std::end(conns),std::begin(out), std::end(out));
+    }
+
+    return conns;
+}
+
 tlk::ColumnMap::ColumnMap(const std::string& path) : Map(path) 
 {
     for (int i = 0; i < 201; ++i)
@@ -53,7 +65,7 @@ tlk::ColumnMap::ColumnMap(const std::string& path) : Map(path)
 
 void tlk::ColumnMap::addConnection(const Connection& connection)
 {
-    gameFields[connection.target]->push_back(connection);
+    gameFields[connection.target]->push_back(connection.getReverse());
     gameFields[connection.source]->push_back(connection);
 } 
 
@@ -86,9 +98,20 @@ const tlk::Connections tlk::ColumnMap::getMovesFor(const Entity* e, const Entity
     return possible;
 }
 
+std::ostream& operator<<(std::ostream &out, const tlk::Map &rhs)  
+{
+    out << "Map all nodes are:";
+
+    for (tlk::Connection c : rhs.getAllConnections())
+    {
+        out << c << std::endl;
+    }
+
+	return out;
+}
+
 std::ostream& operator<<(std::ostream &out, const tlk::ColumnMap &rhs)  
 {
-
     for (int i = 0; i < 201; ++i)
     {
         out << "node " << i << " with " << rhs.getGameFields()[i]->size() << " connections: " << std::endl;

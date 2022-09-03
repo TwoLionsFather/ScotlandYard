@@ -31,6 +31,8 @@ namespace tlk
         Map(const std::string& path);
         virtual ~Map() { };
         
+
+        tlk::Connections getAllConnections() const;
         virtual const tlk::Connections& getOutgoing(const int loc) const = 0;
         virtual const Connections getMovesFor(const Entity* e, const EntityTracker* tracker) const = 0;
 
@@ -68,4 +70,5 @@ namespace tlk
 
 } // namespace tlk
 
+std::ostream& operator<<(std::ostream &out, const tlk::Map& rhs);
 std::ostream& operator<<(std::ostream &out, const tlk::ColumnMap& rhs);
