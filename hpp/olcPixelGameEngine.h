@@ -5602,6 +5602,7 @@ namespace olc
 // | END OF OLC_PGE_APPLICATION                                                   |
 // O------------------------------------------------------------------------------O
 
+//TODO Find good place for imports
 #pragma once
 #include "Game.hpp"
 #include "GameDebug.hpp"

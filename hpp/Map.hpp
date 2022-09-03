@@ -53,37 +53,13 @@ namespace tlk
         virtual void addConnection(const Connection& connection) = 0;
     };
 
-    class OutgoingLinksMap : public Map
-    {
-    public:
-        OutgoingLinksMap(const std::string& path);
-        ~OutgoingLinksMap() { };
-
-        const tlk::Connections& getOutgoing(const int loc) const;
-        const Connections getMovesFor(const Entity* e, const EntityTracker* tracker) const;
-        int getDistanceBetween(const int pos, const int target, bool noBoat) const;
-
-
-        /**
-         * @brief Method giving access to the internal structure of the Map
-         * 
-         * @return const std::array<std::unique_ptr<Connections>, 201>& Array Containing leavong connections for each node
-         */
-        const std::array<std::unique_ptr<Connections>, 201>& getGameFields() const
-        {
-            return gameFields;
-        }
-
-    private:
-        std::array<std::unique_ptr<Connections>, 201> gameFields;
-        void addConnection(const Connection& connection);
-    };
-
     class TableMap : public Map
     {
     public:
         TableMap(const std::string& path);
-        ~TableMap() { };
+        ~TableMap() { 
+            delete distanceMap;
+        };
 
         const tlk::Connections& getOutgoing(const int loc) const;
         const Connections getMovesFor(const Entity* e, const EntityTracker* tracker) const;
@@ -101,17 +77,15 @@ namespace tlk
 
     private:
         std::array<std::unique_ptr<Connections>, 201> gameFields;
-        std::array<std::array<int, 201>, 201> distanceMap;
+        std::array<int, 20301>* distanceMap;
 
-        void printDistanceTable() const;
-
+        void buildDistanceTable();
+        void printDistanceMap() const;
         int distanceAlgorithm(const int start, const int target);
         void addConnection(const Connection& connection);
-        void buildDistanceTable();
-        void setDistance(const int start, const int end, const int dist);
+        int getDistanceIdx(const int start, const int end) const;
     };
 
 } // namespace tlk
 
 std::ostream& operator<<(std::ostream &out, const tlk::Map& rhs);
-std::ostream& operator<<(std::ostream &out, const tlk::OutgoingLinksMap& rhs);

@@ -54,13 +54,8 @@ tlk::TableMap::TableMap(const std::string& path) : Map(path)
     for (int i = 0; i < 201; ++i)
         gameFields[i] = std::make_unique<Connections>();
 
-    for (int i = 0; i < 201; ++i)
-        for (int j = 0; j < 201; ++j)
-            if (i == j)
-                distanceMap[i][j] = 0;
-            else
-                distanceMap[i][j] = -1;
-    
+    distanceMap = new std::array<int, 20301>();
+    distanceMap->fill(-1);
 
     //TODO fix so connections don't need to be stored twice
     for (Connection c : connectionsFromFile)
@@ -73,30 +68,52 @@ tlk::TableMap::TableMap(const std::string& path) : Map(path)
     buildDistanceTable();
 }
 
+void tlk::TableMap::printDistanceMap() const
+{
+    std::cout << "Distances: from:";
+    for (int i = 1; i < 201; i = i +10)
+    {
+        std::cout << i << " ";
+        for (int j = 1; j < 201; j = j +10)
+        {
+            std::cout << j << ":";
+
+            std::cout << distanceMap->at(getDistanceIdx(i, j)) << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
+int tlk::TableMap::getDistanceIdx(const int start, const int end) const
+{
+    const int total = 200 * 201 /2;
+
+    if (start < end)
+    {
+        const int sumTillCol = (201 - end) * (202 - end) /2;
+        const int diff = end -start;
+        return total -sumTillCol +diff;
+    } 
+    else 
+    {
+        const int sumTillCol = (201 - start) * (202 - start) /2;
+        const int diff = start -end;
+        return total -sumTillCol +diff; 
+    }
+
+    
+    // if (start == 200)
+    // std::cout << " Reverse for " << start << " to " << end << std::endl;
+
+    return getDistanceIdx(end, start);
+}
+
 void tlk::TableMap::addConnection(const Connection& connection)
 {
     gameFields[connection.target]->push_back(connection.getReverse());
     gameFields[connection.source]->push_back(connection);
-
-    setDistance(connection.source, connection.target, 1);
+    distanceMap->at(getDistanceIdx(connection.source, connection.target)) = 1;
 } 
-
-void tlk::TableMap::printDistanceTable() const
-{
-    // for (int from = 0; from < 201; ++from)
-    // {
-    //     // std::cout << "From: " << from << std::endl;
-    //     for (int to = 0; to < 201; ++to)
-    //     {
-    //         int dist = tlk::TableMap::getDistanceBetween(from, to, true); 
-    //         if (dist != -1)
-    //             std::cout << to << ":" << dist << " ";
-    //         else 
-    //             std::cout << ". ";
-    //     }
-    //     std::cout << std::endl;
-    // }
-}
 
 void tlk::TableMap::buildDistanceTable()
 {
@@ -108,15 +125,11 @@ void tlk::TableMap::buildDistanceTable()
                 continue;
 
             //if node distance is already calculated
-            if (distanceMap[start][end-start] != -1)
+            if (getDistanceBetween(start, end, true) != -1)
                 continue;
 
-            // if (start == 1)
-            // {
-            //     std::cout << "buildDistanceTable" << std::endl;
-            // }
-            int distance = distanceAlgorithm(start, end);
-            setDistance(start, end, distance);
+            const int distance = distanceAlgorithm(start, end);
+            distanceMap->at(getDistanceIdx(start, end)) = distance;
         }
         if (start == 108)
             continue;
@@ -152,10 +165,10 @@ int tlk::TableMap::distanceAlgorithm(const int start, const int target)
 
                 newLocs.emplace_back(con.target);
                 locationsUsed[con.target] = true;
-                if (getDistanceBetween(i, con.target, true) == -1)
-                {
-                    setDistance(i, con.target, distance);
-                }
+                // if (getDistanceBetween(i, con.target, true) == -1)
+                // {
+                    distanceMap->at(getDistanceIdx(i, con.target)) = distance;
+                // }
             }
 
         locationsQueue.swap(newLocs);
@@ -200,107 +213,13 @@ const tlk::Connections tlk::TableMap::getMovesFor(const Entity* e, const EntityT
     return possible;
 }
 
-void tlk::TableMap::setDistance(const int start, const int end, const int dist)
+int tlk::TableMap::getDistanceBetween(const int s, const int t, bool noBoat) const
 {
-    distanceMap[start].at(end) = dist;
-    distanceMap[end].at(start) = dist;
-
-    // if (distanceFrom == 1)
-    // {
-    //     std::cout << "TableMap::addDistance between Nodes " << start;
-    //     std::cout << " and " << end << " is " << dist << std::endl; 
-    // }
-}
-
-int tlk::TableMap::getDistanceBetween(const int pos, const int target, bool noBoat) const
-{
-    int distanceFrom = std::min(pos, target);
-    int distanceTo = std::max(pos, target) - distanceFrom;
-    // std::cout << "TableMap::getDistanceBetween  " << distanceFrom << " and " << distanceTo;
-    
-    int distance = distanceMap[distanceFrom][distanceTo];   
-    // std::cout << " is " << distance << std::endl; 
-
-    return distance;
-}
-
-
-tlk::OutgoingLinksMap::OutgoingLinksMap(const std::string& path) : Map(path) 
-{
-    for (int i = 0; i < 201; ++i)
-            gameFields[i] = std::make_unique<Connections>();
-
-    //TODO fix so connections don't need to be stored twice
-    for (Connection c : connectionsFromFile)
-    {
-        addConnection(c);
-    }
-
-    connectionsFromFile.clear();
-};
-
-void tlk::OutgoingLinksMap::addConnection(const Connection& connection)
-{
-    gameFields[connection.target]->push_back(connection.getReverse());
-    gameFields[connection.source]->push_back(connection);
-} 
-
-const tlk::Connections& tlk::OutgoingLinksMap::getOutgoing(const int loc) const
-{
-    return *gameFields.at(loc);
-}
-
-const tlk::Connections tlk::OutgoingLinksMap::getMovesFor(const Entity* e, const EntityTracker* tracker) const
-{
-    const Connections& options = *gameFields.at(tracker->getLocationOf(e)).get();
-    const std::vector<int>& occPos = tracker->getEntityLocations(true);
-
-    if (options.empty())
-        throw std::invalid_argument("Map::getMovesFor No options were found for an entity inside of Map::getMovesFor function!!");
-    
-    Connections possible;
-    for (const Connection& c : options)
-    {
-        if (e->hasTicketFor(c.type) 
-        && !isOccupied(c.target, occPos))
-            possible.emplace_back(c.target, c.type);
-    }
-
-    return possible;
-}
-
-int tlk::OutgoingLinksMap::getDistanceBetween(const int pos, const int target, bool noBoat) const
-{
-    if (pos == target)
+    if (s == t)
         return 0;
 
-    int distance = 1;
-    bool locationsUsed[201] = { false };
-    std::vector<int> locationsQueue, newLocs;
-
-    locationsUsed[pos] = true;
-    locationsQueue.emplace_back(pos);
-
-    do {
-        for (int i : locationsQueue)
-            for (const Connection& con : getOutgoing(i))
-            {
-                if (locationsUsed[con.target])
-                    continue;
-
-                else if (noBoat && con.type == tlk::BOAT)
-                    continue;
-
-                newLocs.emplace_back(con.target);
-                locationsUsed[con.target] = true;
-            }
-
-        locationsQueue.swap(newLocs);
-        newLocs.clear();
-
-        if (distance++ == 200)
-            throw std::runtime_error("OutgoingLinksMap::getDistanceBetween Distance runaway situation!");
-    } while (!locationsUsed[target]);
+    const int distance = distanceMap->at(getDistanceIdx(s, t));   
+    // std::cout << " is " << distance << std::endl; 
 
     return distance;
 }
@@ -312,19 +231,6 @@ std::ostream& operator<<(std::ostream &out, const tlk::Map &rhs)
     for (tlk::Connection c : rhs.getAllConnections())
     {
         out << c << std::endl;
-    }
-
-	return out;
-}
-
-std::ostream& operator<<(std::ostream &out, const tlk::OutgoingLinksMap &rhs)  
-{
-    for (int i = 0; i < 201; ++i)
-    {
-        out << "node " << i << " with " << rhs.getGameFields()[i]->size() << " connections: " << std::endl;
-        out << *rhs.getGameFields()[i];
-        
-        out << "---------------------\n";
     }
 
 	return out;

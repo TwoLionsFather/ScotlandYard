@@ -6,7 +6,7 @@
 class SLY_Viewer : public olc::PixelGameEngine
 {
 public:
-	SLY_Viewer() : gameMap(tlk::OutgoingLinksMap("assets/connections.txt"))
+	SLY_Viewer() : gameMap(tlk::TableMap("assets/connections.txt"))
 	{
 		sAppName = "SLY_Viewer";
 	}
@@ -121,7 +121,7 @@ int main(int argc, char const *argv[])
 {	
 	if (tlk::RUN_TESTS)
 	{
-		const tlk::Map& map = tlk::OutgoingLinksMap(tlk::ASSETPATH + "/connections.txt");
+		const tlk::Map& map = tlk::TableMap(tlk::ASSETPATH + "/connections.txt");
 		tlk::GameDebug sut(&map);
 
 		bool testcompleted = sut.runTests();
