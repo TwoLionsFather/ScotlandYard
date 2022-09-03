@@ -1,11 +1,7 @@
 #define OLC_PGE_APPLICATION
 #include "../hpp/olcPixelGameEngine.h"
 
-#include "../hpp/Game.hpp"
-#include "../hpp/GameDebug.hpp"
-#include "../hpp/Simulation.hpp"
-#include "../hpp/DrawableMap.hpp"
-#include "../hpp/Consts.hpp"
+
 
 class SLY_Viewer : public olc::PixelGameEngine
 {

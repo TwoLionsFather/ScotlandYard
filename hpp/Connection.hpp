@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Consts.hpp"
+
 #include <vector>
 #include <iostream>
 
@@ -25,6 +26,8 @@ namespace tlk
 
         int target;  
         ConnectionType type;
+
+        static ConnectionType get_type_from_char(char type);
     };
     typedef std::vector<Connection> Connections; //TODO Make Const
 }

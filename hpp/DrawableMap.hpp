@@ -2,7 +2,6 @@
 
 #include "olcPixelGameEngine.h"
 
-
 #include <fstream>
 #include <sstream>
 #include <string>

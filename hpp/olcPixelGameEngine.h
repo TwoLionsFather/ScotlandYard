@@ -1,4 +1,5 @@
 #pragma region license_and_help
+
 /*
 	olcPixelGameEngine.h
 
@@ -5600,3 +5601,10 @@ namespace olc
 // O------------------------------------------------------------------------------O
 // | END OF OLC_PGE_APPLICATION                                                   |
 // O------------------------------------------------------------------------------O
+
+#pragma once
+#include "Game.hpp"
+#include "GameDebug.hpp"
+#include "Simulation.hpp"
+#include "DrawableMap.hpp"
+#include "Consts.hpp"

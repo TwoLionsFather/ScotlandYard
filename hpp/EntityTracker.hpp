@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Entity.hpp"
+
 #include <algorithm>
 #include <vector>
 #include <list>

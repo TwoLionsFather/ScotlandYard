@@ -16,9 +16,18 @@
 
 namespace tlk
 {
+    /**
+     * @brief Representation of a Map for the scotland yard game. 
+     * 
+     */
     class Map
     {
     public:
+        /**
+         * @brief Construct a new Map object using a file with all the connections that ar part of the map
+         * 
+         * @param path path to a file conatining map connections
+         */
         Map(const std::string& path);
         ~Map();
         
@@ -32,8 +41,16 @@ namespace tlk
 
     private:
         std::array<std::unique_ptr<Connections>, 201> gameFields;
+        void addConnection(Connection);
         
     };
+
+    class ColumnMap
+    {
+    public:
+        ColumnMap();
+    };
+
 } // namespace tlk
 
 std::ostream& operator<<(std::ostream &out, const tlk::Map& rhs);

@@ -1,5 +1,18 @@
 #include "../hpp/Connection.hpp"
 
+tlk::ConnectionType tlk::Connection::get_type_from_char(char type)
+{
+    switch (type)
+    {
+    case 'T': return tlk::TAXI;
+    case 'B': return tlk::BUS;
+    case 'U': return tlk::UNDERGROUND;
+    case 'H': return tlk::BOAT;
+
+    default: return tlk::UNDEFINED;
+    }
+}
+
 std::ostream& operator<<(std::ostream &out, const tlk::ConnectionType& rhs)
 {
     switch (rhs)

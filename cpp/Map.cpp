@@ -1,20 +1,5 @@
 #include "../hpp/Map.hpp"
 
-#include <iostream>
-
-
-tlk::ConnectionType get_type_from_char(char type)
-{
-    switch (type)
-    {
-    case 'T': return tlk::TAXI;
-    case 'B': return tlk::BUS;
-    case 'U': return tlk::UNDERGROUND;
-    case 'H': return tlk::BOAT;
-
-    default: return tlk::UNDEFINED;
-    }
-}
 
 //Read MAp File and create Paths in both directions ordered by node
 tlk::Map::Map(const std::string& path)
@@ -48,8 +33,8 @@ tlk::Map::Map(const std::string& path)
 
             //add reverseedge
 
-            gameFields[targetid]->emplace_back(id, get_type_from_char(type));
-            gameFields[id]->emplace_back(targetid, get_type_from_char(type));
+            gameFields[targetid]->emplace_back(id, tlk::Connection::get_type_from_char(type));
+            gameFields[id]->emplace_back(targetid, tlk::Connection::get_type_from_char(type));
 
             line.erase(0, pos + 1);
         }
