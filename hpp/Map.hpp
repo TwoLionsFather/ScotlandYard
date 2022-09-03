@@ -31,10 +31,20 @@ namespace tlk
         Map(const std::string& path);
         virtual ~Map() { };
         
-
         tlk::Connections getAllConnections() const;
+
         virtual const tlk::Connections& getOutgoing(const int loc) const = 0;
+        
+        /**
+         * @brief Get the Moves For Entity
+         * 
+         * @param e entity for which to get moves
+         * @param tracker knows entity position
+         * @return * const Connections connections available
+         */
         virtual const Connections getMovesFor(const Entity* e, const EntityTracker* tracker) const = 0;
+
+        virtual int getDistanceBetween(const int pos, const int target, bool noBoat) const = 0;
 
     protected:
         Connections connectionsFromFile;
@@ -51,6 +61,7 @@ namespace tlk
 
         const tlk::Connections& getOutgoing(const int loc) const;
         const Connections getMovesFor(const Entity* e, const EntityTracker* tracker) const;
+        int getDistanceBetween(const int pos, const int target, bool noBoat) const;
 
 
         /**

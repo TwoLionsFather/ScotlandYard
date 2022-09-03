@@ -35,7 +35,6 @@ namespace tlk
 
         int getDistanceBetween(const int pos, const int target) const;
         int getDistanceBetween(const Entity* e, const int target) const;
-        int getDistanceBetween(const int pos, const int target, bool noBoat) const;
 
         int countSLYsInRange(int pos, const int dist) const;
 

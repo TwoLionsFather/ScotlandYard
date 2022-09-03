@@ -62,7 +62,7 @@ int tlk::VirtualMap::getDistanceToClosestSly(int pos) const
 
     for (int loc : locations)
     {
-        const int dist = getDistanceBetween(pos, loc, true);
+        const int dist = originalMap.getDistanceBetween(pos, loc, true);
         if (min > dist)
             min = dist;
     }
@@ -77,43 +77,7 @@ int tlk::VirtualMap::getDistanceBetween(const Entity* e, const int target) const
 
 int tlk::VirtualMap::getDistanceBetween(const int pos, const int target) const
 {
-    return getDistanceBetween(pos, target, true);
-}
-
-int tlk::VirtualMap::getDistanceBetween(const int pos, const int target, bool noBoat) const
-{
-    if (pos == target)
-        return 0;
-
-    int distance = 1;
-    bool locationsUsed[201] = { false };
-    std::vector<int> locationsQueue, newLocs;
-
-    locationsUsed[pos] = true;
-    locationsQueue.emplace_back(pos);
-
-    do {
-        for (int i : locationsQueue)
-            for (const Connection& con : originalMap.getOutgoing(i))
-            {
-                if (locationsUsed[con.target])
-                    continue;
-
-                else if (noBoat && con.type == tlk::BOAT)
-                    continue;
-
-                newLocs.emplace_back(con.target);
-                locationsUsed[con.target] = true;
-            }
-
-        locationsQueue.swap(newLocs);
-        newLocs.clear();
-
-        if (distance++ == 200)
-            throw std::runtime_error("VirtualMap::getDistanceBetween Distance runaway situation!");
-    } while (!locationsUsed[target]);
-
-    return distance;
+    return originalMap.getDistanceBetween(pos, target, true);
 }
 
 int tlk::VirtualMap::countSLYsInRange(int pos, int dist) const
