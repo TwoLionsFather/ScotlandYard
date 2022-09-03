@@ -11,12 +11,20 @@
 
 namespace tlk
 {
+    /**
+     * @brief Simulation of games only using ai and console. Gui will not be displayed
+     * 
+     */
     class Simulation
     {
     public:
         Simulation() { };
         ~Simulation() { };
 
+        /**
+         * @brief Starts simulation process
+         * 
+         */
         void start();
     };
     
