@@ -34,6 +34,9 @@ namespace tlk
         virtual const tlk::Connections& getOutgoing(const int loc) const = 0;
         virtual const Connections getMovesFor(const Entity* e, const EntityTracker* tracker) const = 0;
 
+    protected:
+        Connections connectionsFromFile;
+
     private:
         virtual void addConnection(const Connection& connection) = 0;
     };
@@ -41,10 +44,7 @@ namespace tlk
     class ColumnMap : public Map
     {
     public:
-        ColumnMap(const std::string& path) : Map(path) {
-            for (int i = 0; i < 201; ++i)
-                    gameFields[i] = std::make_unique<Connections>();
-         };
+        ColumnMap(const std::string& path);
         ~ColumnMap() { };
 
         const tlk::Connections& getOutgoing(const int loc) const;

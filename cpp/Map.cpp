@@ -28,8 +28,7 @@ tlk::Map::Map(const std::string& path)
             const char type = token.substr(token.find(' '))[1];
             const tlk::ConnectionType cType = tlk::Connection::get_type_from_char(type);
 
-            Connection c (id, targetid, cType);
-            tlk::Map::addConnection(c);
+            connectionsFromFile.emplace_back(id, targetid, cType);
             
             line.erase(0, pos + 1);
         }
@@ -37,6 +36,20 @@ tlk::Map::Map(const std::string& path)
     
     file.close();
 }
+
+tlk::ColumnMap::ColumnMap(const std::string& path) : Map(path) 
+{
+    for (int i = 0; i < 201; ++i)
+            gameFields[i] = std::make_unique<Connections>();
+
+    //TODO fix so connections don't need to be stored twice
+    for (Connection c : connectionsFromFile)
+    {
+        addConnection(c);
+    }
+
+    connectionsFromFile.clear();
+};
 
 void tlk::ColumnMap::addConnection(const Connection& connection)
 {
