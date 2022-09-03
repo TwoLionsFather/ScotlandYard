@@ -101,14 +101,14 @@ namespace tlk
 
     private:
         std::array<std::unique_ptr<Connections>, 201> gameFields;
-        std::vector<std::vector<int>> distanceMap;
+        std::array<std::array<int, 201>, 201> distanceMap;
 
         void printDistanceTable() const;
 
         int distanceAlgorithm(const int start, const int target);
         void addConnection(const Connection& connection);
         void buildDistanceTable();
-        void addDistance(const int start, const int end, const int dist);
+        void setDistance(const int start, const int end, const int dist);
     };
 
 } // namespace tlk

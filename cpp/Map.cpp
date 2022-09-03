@@ -54,15 +54,13 @@ tlk::TableMap::TableMap(const std::string& path) : Map(path)
     for (int i = 0; i < 201; ++i)
         gameFields[i] = std::make_unique<Connections>();
 
-    distanceMap.reserve(201);
-    distanceMap.emplace_back(NULL);
     for (int i = 0; i < 201; ++i)
-    {
-        std::vector<int> distancesTo(201-i, -1);
-        //Debug output to display halftable
-        //std::cout << "Current Node: " << i << " knows distance to: " << 201-i << std::endl;
-        distanceMap.push_back(distancesTo);
-    }
+        for (int j = 0; j < 201; ++j)
+            if (i == j)
+                distanceMap[i][j] = 0;
+            else
+                distanceMap[i][j] = -1;
+    
 
     //TODO fix so connections don't need to be stored twice
     for (Connection c : connectionsFromFile)
@@ -80,9 +78,7 @@ void tlk::TableMap::addConnection(const Connection& connection)
     gameFields[connection.target]->push_back(connection.getReverse());
     gameFields[connection.source]->push_back(connection);
 
-    addDistance(connection.source, connection.source, 0);
-    addDistance(connection.target, connection.target, 0);
-    addDistance(connection.source, connection.target, 1);
+    setDistance(connection.source, connection.target, 1);
 } 
 
 void tlk::TableMap::printDistanceTable() const
@@ -120,7 +116,7 @@ void tlk::TableMap::buildDistanceTable()
             //     std::cout << "buildDistanceTable" << std::endl;
             // }
             int distance = distanceAlgorithm(start, end);
-            addDistance(start, end, distance);
+            setDistance(start, end, distance);
         }
         if (start == 108)
             continue;
@@ -158,7 +154,7 @@ int tlk::TableMap::distanceAlgorithm(const int start, const int target)
                 locationsUsed[con.target] = true;
                 if (getDistanceBetween(i, con.target, true) == -1)
                 {
-                    addDistance(i, con.target, distance);
+                    setDistance(i, con.target, distance);
                 }
             }
 
@@ -173,21 +169,6 @@ int tlk::TableMap::distanceAlgorithm(const int start, const int target)
     } while (!locationsUsed[target]);
 
     return distance;
-}
-
-void tlk::TableMap::addDistance(const int start, const int end, const int dist)
-{
-    //TODO Check if keying works correctly
-    int distanceFrom = std::min(start, end);
-    int distanceTo = std::max(start, end) - distanceFrom;
-
-    distanceMap[distanceFrom].at(distanceTo) = dist;
-
-    // if (distanceFrom == 1)
-    // {
-    //     std::cout << "TableMap::addDistance between Nodes " << start;
-    //     std::cout << " and " << end << " is " << dist << std::endl; 
-    // }
 }
 
 const tlk::Connections& tlk::TableMap::getOutgoing(const int loc) const
@@ -217,6 +198,18 @@ const tlk::Connections tlk::TableMap::getMovesFor(const Entity* e, const EntityT
     }
 
     return possible;
+}
+
+void tlk::TableMap::setDistance(const int start, const int end, const int dist)
+{
+    distanceMap[start].at(end) = dist;
+    distanceMap[end].at(start) = dist;
+
+    // if (distanceFrom == 1)
+    // {
+    //     std::cout << "TableMap::addDistance between Nodes " << start;
+    //     std::cout << " and " << end << " is " << dist << std::endl; 
+    // }
 }
 
 int tlk::TableMap::getDistanceBetween(const int pos, const int target, bool noBoat) const
