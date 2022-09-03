@@ -1,4 +1,5 @@
 obj/**
+.vscode/**
 o_makefile
 cpp/hellomake.c
 hpp/hellomake.h
