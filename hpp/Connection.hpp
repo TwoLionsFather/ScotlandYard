@@ -19,11 +19,35 @@ namespace tlk
     //TODO Make const again
     struct Connection
     {
+        /**
+         * @brief Construct a new Connection object without defining any porperty
+         * 
+         */
         Connection () 
-            : target(0), type(UNDEFINED) {  };
-        Connection (const int target, const ConnectionType type)
-            : target(target), type(type) {  };  
+            : source(0), target(0), type(UNDEFINED) {  };
 
+        /**
+         * @brief deprecated constructs a Connection only defining a target node. 
+         * This could be considered a directional connection, as it doesn't know its source
+         * 
+         * @param target Target of connection 
+         * @param type  Type of connection
+         */
+        Connection (const int target, const ConnectionType type)
+            : source(0), target(target), type(type) {  };  
+
+        /**
+         * @brief Construct a new Connection object Defines a bidirectional Connection
+         * 
+         * @param source Source of connection
+         * @param target Target of connection
+         * @param type Type of connection
+         */
+        Connection (const int source, const int target, const ConnectionType type)
+            : source(source), target(target), type(type) {  };  
+
+        //TODO turn into final class?
+        int source;
         int target;  
         ConnectionType type;
 

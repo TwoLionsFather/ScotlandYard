@@ -31,7 +31,7 @@ std::ostream& operator<<(std::ostream &out, const tlk::ConnectionType& rhs)
 
 std::ostream& operator<<(std::ostream &out, const tlk::Connection& rhs)
 {
-    out << "Connection to: " << rhs.target << " via: " << rhs.type;
+    out << "Connection from: " << rhs.source << " to: " << rhs.target << " via: " << rhs.type;
     return out;
 }
 

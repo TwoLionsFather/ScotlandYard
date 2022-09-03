@@ -6,10 +6,6 @@ tlk::Map::Map(const std::string& path)
 {
     std::ifstream file(path, std::ios::in);
 
-    for (int i = 0; i < 201; ++i)
-        gameFields[i] = std::make_unique<Connections>();
-    
-
     if (!file)
     {
         std::cerr << "Map::Map Searching Map at: " << path << std::endl;
@@ -28,14 +24,13 @@ tlk::Map::Map(const std::string& path)
         while ((pos = line.find(';')) != std::string::npos) //npos is not found in String
         {
             token = line.substr(0, pos);
-            int targetid = stoi(token);
-            char type = token.substr(token.find(' '))[1];
+            const int targetid = stoi(token);
+            const char type = token.substr(token.find(' '))[1];
+            const tlk::ConnectionType cType = tlk::Connection::get_type_from_char(type);
 
-            //add reverseedge
-
-            gameFields[targetid]->emplace_back(id, tlk::Connection::get_type_from_char(type));
-            gameFields[id]->emplace_back(targetid, tlk::Connection::get_type_from_char(type));
-
+            Connection c (id, targetid, cType);
+            tlk::Map::addConnection(c);
+            
             line.erase(0, pos + 1);
         }
     }
@@ -43,12 +38,13 @@ tlk::Map::Map(const std::string& path)
     file.close();
 }
 
-tlk::Map::~Map()
+void tlk::ColumnMap::addConnection(const Connection& connection)
 {
+    gameFields[connection.target]->push_back(connection);
+    gameFields[connection.source]->push_back(connection);
+} 
 
-}
-
-const tlk::Connections& tlk::Map::getOutgoing(const int loc) const
+const tlk::Connections& tlk::ColumnMap::getOutgoing(const int loc) const
 {
     return *gameFields.at(loc);
 }
@@ -58,7 +54,7 @@ bool isOccupied(int pos, const std::vector<int>& occupied)
     return occupied.end() != std::find(occupied.begin(), occupied.end(), pos);
 }
 
-const tlk::Connections tlk::Map::getMovesFor(const Entity* e, const EntityTracker* tracker) const
+const tlk::Connections tlk::ColumnMap::getMovesFor(const Entity* e, const EntityTracker* tracker) const
 {
     const Connections& options = *gameFields.at(tracker->getLocationOf(e)).get();
     const std::vector<int>& occPos = tracker->getEntityLocations(true);
@@ -77,7 +73,7 @@ const tlk::Connections tlk::Map::getMovesFor(const Entity* e, const EntityTracke
     return possible;
 }
 
-std::ostream& operator<<(std::ostream &out, const tlk::Map &rhs)  
+std::ostream& operator<<(std::ostream &out, const tlk::ColumnMap &rhs)  
 {
 
     for (int i = 0; i < 201; ++i)

@@ -29,11 +29,33 @@ namespace tlk
          * @param path path to a file conatining map connections
          */
         Map(const std::string& path);
-        ~Map();
+        virtual ~Map() { };
         
+        virtual const tlk::Connections& getOutgoing(const int loc) const = 0;
+        virtual const Connections getMovesFor(const Entity* e, const EntityTracker* tracker) const = 0;
+
+    private:
+        virtual void addConnection(const Connection& connection) = 0;
+    };
+
+    class ColumnMap : public Map
+    {
+    public:
+        ColumnMap(const std::string& path) : Map(path) {
+            for (int i = 0; i < 201; ++i)
+                    gameFields[i] = std::make_unique<Connections>();
+         };
+        ~ColumnMap() { };
+
         const tlk::Connections& getOutgoing(const int loc) const;
         const Connections getMovesFor(const Entity* e, const EntityTracker* tracker) const;
 
+
+        /**
+         * @brief Method giving access to the internal structure of the Map
+         * 
+         * @return const std::array<std::unique_ptr<Connections>, 201>& Array Containing leavong connections for each node
+         */
         const std::array<std::unique_ptr<Connections>, 201>& getGameFields() const
         {
             return gameFields;
@@ -41,16 +63,9 @@ namespace tlk
 
     private:
         std::array<std::unique_ptr<Connections>, 201> gameFields;
-        void addConnection(Connection);
-        
-    };
-
-    class ColumnMap
-    {
-    public:
-        ColumnMap();
+        void addConnection(const Connection& connection);
     };
 
 } // namespace tlk
 
-std::ostream& operator<<(std::ostream &out, const tlk::Map& rhs);
+std::ostream& operator<<(std::ostream &out, const tlk::ColumnMap& rhs);
