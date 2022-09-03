@@ -53,11 +53,11 @@ namespace tlk
         virtual void addConnection(const Connection& connection) = 0;
     };
 
-    class ColumnMap : public Map
+    class OutgoingLinksMap : public Map
     {
     public:
-        ColumnMap(const std::string& path);
-        ~ColumnMap() { };
+        OutgoingLinksMap(const std::string& path);
+        ~OutgoingLinksMap() { };
 
         const tlk::Connections& getOutgoing(const int loc) const;
         const Connections getMovesFor(const Entity* e, const EntityTracker* tracker) const;
@@ -79,7 +79,39 @@ namespace tlk
         void addConnection(const Connection& connection);
     };
 
+    class TableMap : public Map
+    {
+    public:
+        TableMap(const std::string& path);
+        ~TableMap() { };
+
+        const tlk::Connections& getOutgoing(const int loc) const;
+        const Connections getMovesFor(const Entity* e, const EntityTracker* tracker) const;
+        int getDistanceBetween(const int pos, const int target, bool noBoat) const;
+
+        /**
+         * @brief Method giving access to the internal structure of the Map
+         * 
+         * @return const std::array<std::unique_ptr<Connections>, 201>& Array Containing leavong connections for each node
+         */
+        const std::array<std::unique_ptr<Connections>, 201>& getGameFields() const
+        {
+            return gameFields;
+        }
+
+    private:
+        std::array<std::unique_ptr<Connections>, 201> gameFields;
+        std::vector<std::vector<int>> distanceMap;
+
+        void printDistanceTable() const;
+
+        int distanceAlgorithm(const int start, const int target);
+        void addConnection(const Connection& connection);
+        void buildDistanceTable();
+        void addDistance(const int start, const int end, const int dist);
+    };
+
 } // namespace tlk
 
 std::ostream& operator<<(std::ostream &out, const tlk::Map& rhs);
-std::ostream& operator<<(std::ostream &out, const tlk::ColumnMap& rhs);
+std::ostream& operator<<(std::ostream &out, const tlk::OutgoingLinksMap& rhs);

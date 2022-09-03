@@ -3,7 +3,7 @@
 
 void tlk::Simulation::start()
 {
-    const tlk::Map& map = tlk::ColumnMap(tlk::ASSETPATH + "/connections.txt");
+    const tlk::Map& map = tlk::TableMap(tlk::ASSETPATH + "/connections.txt");
 
     std::cout << tlk::GAME_COUNT << " Games calculating!" << std::endl;
 
