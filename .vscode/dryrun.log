@@ -1,0 +1,17 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/tlk/Documents/Code/VSCode/ScotlandYard'
+ 
+g++ -c -std=c++17 -o obj/Map.o cpp/Map.cpp 
+g++ -c -std=c++17 -o obj/Simulation.o cpp/Simulation.cpp 
+g++ -c -std=c++17 -o obj/GameDebug.o cpp/GameDebug.cpp 
+g++ -c -std=c++17 -o obj/Bot_mrx.o cpp/Bot_mrx.cpp 
+g++ -c -std=c++17 -o obj/VirtualMap.o cpp/VirtualMap.cpp 
+g++ -c -std=c++17 -o obj/Game.o cpp/Game.cpp 
+g++ -c -std=c++17 -o obj/Connection.o cpp/Connection.cpp 
+g++ -c -std=c++17 -o obj/EntityTracker.o cpp/EntityTracker.cpp 
+g++ -c -std=c++17 -o obj/Bot_sly.o cpp/Bot_sly.cpp 
+g++ -c -std=c++17 -o obj/TicketStack.o cpp/TicketStack.cpp 
+g++ -c -std=c++17 -o obj/olcPixelGameEngine.o cpp/olcPixelGameEngine.cpp 
+g++ -o sly_make obj/Map.o obj/Simulation.o obj/GameDebug.o obj/Bot_mrx.o obj/VirtualMap.o obj/Game.o obj/Connection.o obj/EntityTracker.o obj/Bot_sly.o obj/TicketStack.o obj/olcPixelGameEngine.o  -I hpp -std=c++17 -g -lX11 -lGL -lpthread -lpng -lstdc++fs 
+make: Leaving directory '/home/tlk/Documents/Code/VSCode/ScotlandYard'
+ 

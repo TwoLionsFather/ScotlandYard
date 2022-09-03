@@ -5,7 +5,7 @@ ODIR=obj
 VERBOSE=1
 CC=g++
 CFLAGS=-I $(IDIR) -std=c++17 -g
-LIBS=-lX11 -lGL -lpthread -lpng -lstdc++fs
+LIBS=-lX11 -lGL -lpthread -lpng -lstdc++fs 
 
 DEPS = $(shell find $(IDIR) -name *.hpp)
 

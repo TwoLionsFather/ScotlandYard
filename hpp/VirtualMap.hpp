@@ -6,6 +6,7 @@
 #include "TicketStack.hpp"
 
 #include <algorithm>
+#include <optional>
 #include <list>
 #include <set>
 #include <unordered_set>
