@@ -31,7 +31,12 @@ namespace tlk
         Map(const std::string& path) : path(path) { };
         virtual ~Map() { };
         
-        tlk::Connections getAllConnections() const;
+        /**
+         * @brief Uses every node as a start and adds connections leaving it
+         * 
+         * @return const tlk::Connections list of all directional connections
+         */
+        const tlk::Connections getAllConnections() const;
         virtual const tlk::Connections& getOutgoing(const int loc) const = 0;
         
         /**
@@ -58,13 +63,13 @@ namespace tlk
     {
     public:
         TableMap(const std::string& path);
-        ~TableMap() { 
+        virtual ~TableMap() { 
             delete distanceMap;
         };
 
-        const tlk::Connections& getOutgoing(const int loc) const;
-        const Connections getMovesFor(const Entity* e, const EntityTracker* tracker) const;
-        int getDistanceBetween(const int pos, const int target, bool noBoat) const;
+        virtual const tlk::Connections& getOutgoing(const int loc) const;
+        virtual const Connections getMovesFor(const Entity* e, const EntityTracker* tracker) const;
+        virtual int getDistanceBetween(const int pos, const int target, bool noBoat) const;
 
         /**
          * @brief Method giving access to the internal structure of the Map
@@ -76,12 +81,15 @@ namespace tlk
             return gameFields;
         }
 
+    protected:
+        void buildDistanceTable();
+        void printDistanceMap() const;
+        void printLostDistances() const;
+
     private:
         std::array<std::unique_ptr<Connections>, 201> gameFields;
         std::array<int, 20301>* distanceMap;
 
-        void buildDistanceTable();
-        void printDistanceMap() const;
         int distanceAlgorithm(const int start, const int target);
         void addConnection(const Connection& connection);
         int getDistanceIdx(const int start, const int end) const;

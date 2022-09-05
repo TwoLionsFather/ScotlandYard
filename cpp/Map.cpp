@@ -37,7 +37,7 @@ void tlk::Map::initMap()
     file.close();
 }
 
-tlk::Connections tlk::Map::getAllConnections() const
+const tlk::Connections tlk::Map::getAllConnections() const
 {
     Connections conns;
     for (int i = 0; i < 201; ++i)
@@ -61,6 +61,25 @@ tlk::TableMap::TableMap(const std::string& path) : Map(path)
     initMap(); 
 
     buildDistanceTable();
+}
+
+void tlk::TableMap::printLostDistances() const
+{
+    std::cout << "distanceMap " << std::endl;
+
+    int lost = 0;
+    for (int i = 0; i < distanceMap->size(); ++i)
+    {
+        int val = distanceMap->at(i);
+        if (val == -1)
+            continue;
+        
+        ++lost;
+        std::cout << i << ". ";
+    }
+
+    std::cout << std::endl;
+    std::cout << "Lost Location indices: " << lost << std::endl;
 }
 
 void tlk::TableMap::printDistanceMap() const
@@ -95,8 +114,6 @@ int tlk::TableMap::getDistanceIdx(const int start, const int end) const
         const int diff = start -end;
         return total -sumTillCol +diff; 
     }
-
-    
     // if (start == 200)
     // std::cout << " Reverse for " << start << " to " << end << std::endl;
 
@@ -116,7 +133,7 @@ void tlk::TableMap::buildDistanceTable()
     {
         for (int end = 2; end < 201; ++end)
         {
-            if (end == 108)
+            if (end == 108) //TODO Fix node 108 related issues
                 continue;
 
             //if node distance is already calculated
@@ -126,6 +143,7 @@ void tlk::TableMap::buildDistanceTable()
             const int distance = distanceAlgorithm(start, end);
             distanceMap->at(getDistanceIdx(start, end)) = distance;
         }
+
         if (start == 108)
             continue;
     }
@@ -160,6 +178,7 @@ int tlk::TableMap::distanceAlgorithm(const int start, const int target)
 
                 newLocs.emplace_back(con.target);
                 locationsUsed[con.target] = true;
+                // TODO this doesn't improve performance, might remove
                 // if (getDistanceBetween(i, con.target, true) == -1)
                 // {
                     distanceMap->at(getDistanceIdx(i, con.target)) = distance;
