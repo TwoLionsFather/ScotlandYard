@@ -22,7 +22,7 @@ namespace tlk
             : map(map), mrxLastSeenLocation(0) { };
         ~EntityTracker() 
         {
-            mrx_publicHistory.clear();
+            mrx_ticketHistory.clear();
             entityHistory.clear();
             positions.clear();
         };
@@ -61,6 +61,15 @@ namespace tlk
 
         int getLocationOfMrx() const;
         int getLocationOf(const Entity& e) const;
+
+        /**
+         * @brief Return current location of all entities
+         * TODO make vector constant length and hide mrx if neccecary
+         * 
+         * @param hideMrX if mrx is hidden, his location won't be added
+         * @return const std::vector<int>  locations of entities in current round. 
+         *          If mrx location is not hidden, it is the first location in the vector
+         */
         const std::vector<int> getEntityLocations(bool hideMrX) const;
 
         /**
@@ -72,8 +81,8 @@ namespace tlk
         void setMrxLocation(int loc)
         {
             mrxLastSeenLocation = loc;
-            if (!mrx_publicHistory.empty())
-                mrx_publicHistory.erase(mrx_publicHistory.cbegin(), --mrx_publicHistory.cend());
+            if (!mrx_ticketHistory.empty())
+                mrx_ticketHistory.erase(mrx_ticketHistory.cbegin(), --mrx_ticketHistory.cend());
         }
 
         int getMrxLastSeenLocation() const
@@ -83,7 +92,7 @@ namespace tlk
 
         const std::vector<Ticket>& getMrxHistory() const
         {
-            return mrx_publicHistory;
+            return mrx_ticketHistory;
         }
 
         /**
@@ -116,7 +125,7 @@ namespace tlk
 
     private:
         int mrxLastSeenLocation;
-        std::vector<tlk::Ticket> mrx_publicHistory;
+        std::vector<tlk::Ticket> mrx_ticketHistory;
 
         std::map<const Entity*, int> positions; 
         std::map<const Entity*, Moves> entityHistory;

@@ -32,12 +32,13 @@ void tlk::EntityTracker::setStartingPos(const Entity& e, int startingPos)
 const tlk::Connections tlk::EntityTracker::getMovesFor(const Entity& e) const
 {
     const int loc = positions.at(&e);
+
     Connections options = map.getOutgoing(loc);
 
     options.erase(std::remove_if(std::begin(options)
                                 , std::end(options) 
                                 , [&](const Connection& c) {
-                                    return e.hasTicketFor(c.type);
+                                    return !e.hasTicketFor(c.type);
                                 }), std::end(options)
     );  //remove if makes sure only valid elements are infront of returened iterator
 
@@ -54,7 +55,7 @@ void tlk::EntityTracker::updatePosition(const Entity& e, const Move used)
     entityHistory.at(&e).emplace_back(used);
 
     if (e.isMrx())
-        mrx_publicHistory.emplace_back(used.second);
+        mrx_ticketHistory.emplace_back(used.second);
 }
 
 int tlk::EntityTracker::getLocationOf(const Entity& e) const
@@ -73,16 +74,25 @@ int tlk::EntityTracker::getLocationOfMrx() const
 
 const std::vector<int> tlk::EntityTracker::getEntityLocations(bool hideMrX) const
 {
-    std::vector<int> location;
+    int mrxLocation = 0;
+    std::vector<int> locations;
     for (const auto& e : positions)
     {
-        if (hideMrX && e.first->isMrx())
+        // track his location seperately to place it in a defined location within the vector
+        if (e.first->isMrx())
+        {
+            mrxLocation = e.second;
             continue;
+        }
 
-        if (e.second == 0)
+        if (e.second == 0 || e.second == 108)
             throw std::runtime_error("EntityTracker::getEntityLocations Location 0 shouldn't be possible"); 
 
-        location.emplace_back(e.second);
+        locations.emplace_back(e.second);
     }
-    return location;
+
+    if (!hideMrX)
+        locations.emplace(std::begin(locations), mrxLocation);
+
+    return locations;
 }

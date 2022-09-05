@@ -2,6 +2,9 @@
 
 double tlk::Bot_mrx::scoreCon(const tlk::Connection& c)
 {
+    if (tlk::LOG_LEVEL >= HIGH)
+        std::cout << "Bot_mrx::scoreCon Scoring " << c;
+
     // int round_ptrsTillReveal = 4 - (*round_ptr + 1) % 5;
 
     double distanceToClosestSLY = vMap.getDistanceToClosestSly(c.target);
@@ -14,7 +17,7 @@ double tlk::Bot_mrx::scoreCon(const tlk::Connection& c)
             + outgoingCount / 12;
 
     if (tlk::LOG_LEVEL >= HIGH)
-        std::cout << "Bot_mrx::scoreCon " << score << " Score for " << c << std::endl;
+        std::cout << " Score: " << score << std::endl;
 
     //use underground in Late game?
     return score;

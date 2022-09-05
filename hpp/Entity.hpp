@@ -19,7 +19,11 @@ namespace tlk
     protected:
         TicketStack tickets;
         
-        virtual double scoreCon(const Connection& c) { return ((double) random())/rand(); }
+        virtual double scoreCon(const Connection& c) 
+        { 
+            std::cout << "Entity::scoreCon: scoring " << c << " with random score" << std::endl;
+            return ((double) random())/rand(); 
+        }
         virtual const Connection& getSelection(const Connections& options) { return getHighestScoring(options); }
 
         virtual Ticket getTicket(ConnectionType usedTransportation) { return TicketStack::getTicketFor(usedTransportation); }
@@ -33,11 +37,12 @@ namespace tlk
 
         const tlk::Move move(const Connections& options)
         {
+            std::cout << "Entity::move: move selection started" << std::endl;
             tlk::Move pair(getSelection(options), tlk::NO_TICKET);
+            std::cout << "Entity::move: move selected" << std::endl;
 
             pair.second = getTicket(pair.first.type);
             tickets.useTicket(pair.second);
-
             return pair;
         }
 
@@ -63,12 +68,19 @@ namespace tlk
 
         const Connection& getHighestScoring(const Connections& options)
         {
+
+            std::cout << "Entity::getHighestScoring: started" << std::endl;
             const Connection* best = &options[0];
             double highScore = scoreCon(*best);
+
+
+            std::cout << "Entity::getHighestScoring: scored " << best << " with " << highScore << std::endl;
 
             for (const Connection& con : options)
             {
                 double score = scoreCon(con);
+
+                std::cout << "Entity::getHighestScoring: scored " << con << " with " << score << std::endl;
                 if (highScore < score)
                 {
                     best = &con;

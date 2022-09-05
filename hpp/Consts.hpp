@@ -5,20 +5,20 @@
 
 namespace tlk
 {
-    enum Debug {
+    enum DebugLevel {
         NONE = 0
         , LOW = 1
         , NORMAL = 2
         , HIGH = 3
     };
 
-    static const Debug LOG_LEVEL = NONE;
-    static const Debug CHRONO_LOG_LEVEL = NONE;
+    static const DebugLevel LOG_LEVEL = HIGH;
+    static const DebugLevel CHRONO_LOG_LEVEL = NONE;
     static const int PLAYER_COUNT = 5;
     static const bool RUN_TESTS = 0;
     static const bool PLAYER_PLAYING = 0;
     static const bool GRAPHICAL_INTERFACE = 0; 
-    static const int GAME_COUNT = 1000; 
+    static const int GAME_COUNT = 1; 
     // static const int GAME_COUNT = std::min(10000, (int) std::pow(10, (4-LOG_LEVEL))); 
 	static const std::string ASSETPATH = "/home/tlk/Documents/Code/VSCode/ScotlandYard/assets/";
 

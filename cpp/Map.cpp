@@ -1,5 +1,6 @@
 #include "../hpp/Map.hpp"
 
+//TODO add debug functionalities
 
 //Read Map File and create Paths inside it
 void tlk::Map::initMap()
@@ -60,7 +61,12 @@ tlk::TableMap::TableMap(const std::string& path) : Map(path)
     //This needs to be called here so that a Map Object is constructed and memory initiated
     initMap(); 
 
-    buildDistanceTable();
+    // buildDistanceTable();
+
+    if (tlk::LOG_LEVEL >= tlk::HIGH)
+    {
+        printDistanceMap();
+    }
 }
 
 void tlk::TableMap::printLostDistances() const
@@ -131,6 +137,11 @@ void tlk::TableMap::buildDistanceTable()
 {
     for (int start = 1; start < 201; ++start)
     {
+        if (tlk::LOG_LEVEL >= tlk::NORMAL)
+        {
+            std::cout << "Building distances from: " << start << std::endl;
+        }
+
         for (int end = 2; end < 201; ++end)
         {
             if (end == 108) //TODO Fix node 108 related issues
