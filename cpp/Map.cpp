@@ -1,8 +1,8 @@
 #include "../hpp/Map.hpp"
 
 
-//Read MAp File and create Paths in both directions ordered by node
-tlk::Map::Map(const std::string& path)
+//Read Map File and create Paths inside it
+void tlk::Map::initMap()
 {
     std::ifstream file(path, std::ios::in);
 
@@ -28,7 +28,7 @@ tlk::Map::Map(const std::string& path)
             const char type = token.substr(token.find(' '))[1];
             const tlk::ConnectionType cType = tlk::Connection::get_type_from_char(type);
 
-            connectionsFromFile.emplace_back(id, targetid, cType);
+            addConnection(Connection {id, targetid, cType});
             
             line.erase(0, pos + 1);
         }
@@ -57,13 +57,8 @@ tlk::TableMap::TableMap(const std::string& path) : Map(path)
     distanceMap = new std::array<int, 20301>();
     distanceMap->fill(-1);
 
-    //TODO fix so connections don't need to be stored twice
-    for (Connection c : connectionsFromFile)
-    {
-        addConnection(c);
-    }
-
-    connectionsFromFile.clear();
+    //This needs to be called here so that a Map Object is constructed and memory initiated
+    initMap(); 
 
     buildDistanceTable();
 }

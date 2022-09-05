@@ -28,11 +28,10 @@ namespace tlk
          * 
          * @param path path to a file conatining map connections
          */
-        Map(const std::string& path);
+        Map(const std::string& path) : path(path) { };
         virtual ~Map() { };
         
         tlk::Connections getAllConnections() const;
-
         virtual const tlk::Connections& getOutgoing(const int loc) const = 0;
         
         /**
@@ -47,10 +46,12 @@ namespace tlk
         virtual int getDistanceBetween(const int pos, const int target, bool noBoat) const = 0;
 
     protected:
-        Connections connectionsFromFile;
+        void initMap();
 
     private:
         virtual void addConnection(const Connection& connection) = 0;
+
+        const std::string path;
     };
 
     class TableMap : public Map
