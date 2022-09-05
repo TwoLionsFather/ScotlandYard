@@ -1,21 +1,13 @@
 #pragma once
 
 #include "Consts.hpp"
+#include "GameDefinitions.hpp"
 
 #include <vector>
 #include <iostream>
 
 namespace tlk 
 {
-    enum ConnectionType
-    {
-        TAXI,
-        BUS,
-        UNDERGROUND,
-        BOAT,
-        UNDEFINED
-    }; 
-
     //TODO Make const again
     struct Connection
     {

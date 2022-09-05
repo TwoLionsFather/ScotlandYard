@@ -8,16 +8,6 @@
 
 namespace tlk
 {
-    enum Ticket
-    {
-        TAXI_Ti = 0,
-        BUS_Ti = 1,
-        UNDERGROUND_Ti = 2,
-        DOUBLE_Ti = 3,
-        BLACK_Ti = 4,
-        NO_TICKET = 5
-    };
-
     class TicketStack
     {
     public:
@@ -36,7 +26,7 @@ namespace tlk
                 // std::cout << std::endl;
             };
 
-        void useTicket(tlk::Ticket typeUsed)
+        void useTicket(Ticket typeUsed)
         {
             if (typeUsed == tlk::NO_TICKET)
                 std::cout << "TicketStack::useTicket Type NO_TICKET can't be used for transport! " << std::endl;
@@ -47,7 +37,7 @@ namespace tlk
                 throw std::runtime_error("TicketStack::useTicket Ticket count is not allowed to be < 0");
         };
         
-        void addTicket(tlk::Ticket typeAdded)
+        void addTicket(Ticket typeAdded)
         {
             counts[typeAdded]++;
         };

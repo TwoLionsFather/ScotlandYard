@@ -11,8 +11,8 @@ namespace tlk
     class Bot_mrx : public Entity
     {
     public:
-        Bot_mrx(const VirtualMap& vMap, const int* round) 
-            : Entity(Team::MRX), vMap(vMap), round(round) { };
+        Bot_mrx(const VirtualMap& vMap, const int* round_ptr) 
+            : Entity(Team::MRX), vMap(vMap), round_ptr(round_ptr) { };
         virtual ~Bot_mrx() { };
 
     protected:
@@ -24,7 +24,7 @@ namespace tlk
 
     private:
         const VirtualMap& vMap; 
-        const int* round = 0;
+        const int* round_ptr = 0;
 
         tlk::Ticket smartTicket(tlk::ConnectionType usedTransportation);
         tlk::Ticket randomTicket(tlk::ConnectionType usedTransportation);

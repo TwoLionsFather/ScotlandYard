@@ -31,9 +31,9 @@ namespace tlk
         Entity(Team t, TicketStack tickets): team(t), tickets(tickets) { };
         virtual ~Entity() { };
 
-        const std::pair<const tlk::Connection&, tlk::Ticket> move(const Connections& options)
+        const tlk::Move move(const Connections& options)
         {
-            std::pair<const Connection&, Ticket> pair(getSelection(options), tlk::NO_TICKET);
+            tlk::Move pair(getSelection(options), tlk::NO_TICKET);
 
             pair.second = getTicket(pair.first.type);
             tickets.useTicket(pair.second);

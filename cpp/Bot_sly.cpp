@@ -2,7 +2,7 @@
 
 double tlk::Bot_sly::scoreCon(const Connection& c) 
 {
-    if (*round < 3)
+    if (*round_ptr < 3)
         return -minDistStart(c);
 
     double score = minDist(c) - ticketFactor(c.type);
@@ -18,7 +18,7 @@ double tlk::Bot_sly::scoreCon(const Connection& c)
 
 double tlk::Bot_sly::ticketFactor(ConnectionType type)
 {
-    return 0.1 * *round /22 * tickets.ticketCount(TicketStack::getTicketFor(type));
+    return 0.1 * *round_ptr /22 * tickets.ticketCount(TicketStack::getTicketFor(type));
 }
 
 double tlk::Bot_sly::minOptionsCount(const Connection& c)

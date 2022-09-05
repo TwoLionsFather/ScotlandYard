@@ -3,6 +3,7 @@
 #include "Consts.hpp"
 #include "Map.hpp"
 #include "VirtualMap.hpp"
+#include "Entity.hpp"
 #include "EntityTracker.hpp"
 #include "Player_mrx.hpp"
 #include "Player_sly.hpp"
@@ -36,12 +37,12 @@ namespace tlk
     {
         GameLiveInfo() { };
         GameLiveInfo(const EntityTracker *tracker
-                    , const Entity *mrx
+                    , const Entity* mrx
                     , const std::vector<Entity*> *sly) 
             : tracker(tracker), mrx(mrx), sly(sly) { };
 
         const EntityTracker *tracker = nullptr;
-        const Entity *mrx = nullptr;
+        const Entity* mrx = nullptr;
         const std::vector<Entity*> *sly = nullptr;
     };
 
@@ -49,7 +50,7 @@ namespace tlk
     {
     public:
         Game() = delete;
-        Game(const Map*  gameMap);
+        Game(const Map* map);
         virtual ~Game();
 
         void setup();
@@ -59,13 +60,14 @@ namespace tlk
         GameLiveInfo getGameLiveInfo() const;
 
     protected: 
+        int round = 0;
+
         const Map*  gameMap;
-        EntityTracker tracker;
         const VirtualMap vMap;
 
-        int round = 0;
-        Entity* const mrx;
+        Entity& mrx;
         std::vector<Entity*> sly_units;
+        EntityTracker tracker;
 
         State gameState;
 
@@ -73,4 +75,5 @@ namespace tlk
         void playMrx();
         void playSly();
     };
+
 }

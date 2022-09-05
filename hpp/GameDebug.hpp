@@ -26,9 +26,9 @@ namespace tlk
 
             tracker.setStartingPos(mrx, 37);
             tracker.setMrxLocation(23);
-            tracker.setStartingPos(sly_units[0], 22);
-            tracker.setStartingPos(sly_units[1], 67);
-            tracker.setStartingPos(sly_units[2], 38);
+            tracker.setStartingPos(*sly_units[0], 22);
+            tracker.setStartingPos(*sly_units[1], 67);
+            tracker.setStartingPos(*sly_units[2], 38);
             sly_units.pop_back();
 
             round = 3;

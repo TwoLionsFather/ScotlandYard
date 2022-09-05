@@ -208,24 +208,24 @@ bool isOccupied(int pos, const std::vector<int>& occupied)
     return occupied.end() != std::find(occupied.begin(), occupied.end(), pos);
 }
 
-const tlk::Connections tlk::TableMap::getMovesFor(const Entity* e, const EntityTracker* tracker) const
-{
-    const Connections& options = *gameFields.at(tracker->getLocationOf(e)).get();
-    const std::vector<int>& occPos = tracker->getEntityLocations(true);
+// const tlk::Connections tlk::TableMap::getMovesFor(const Entity* e, const EntityTracker* tracker) const
+// {
+//     const Connections& options = *gameFields.at(tracker->getLocationOf(e)).get();
+//     const std::vector<int>& occPos = tracker->getEntityLocations(true);
 
-    if (options.empty())
-        throw std::invalid_argument("Map::getMovesFor No options were found for an entity inside of Map::getMovesFor function!!");
+//     if (options.empty())
+//         throw std::invalid_argument("Map::getMovesFor No options were found for an entity inside of Map::getMovesFor function!!");
     
-    Connections possible;
-    for (const Connection& c : options)
-    {
-        if (e->hasTicketFor(c.type) 
-        && !isOccupied(c.target, occPos))
-            possible.emplace_back(c.target, c.type);
-    }
+//     Connections possible;
+//     for (const Connection& c : options)
+//     {
+//         if (e->hasTicketFor(c.type) 
+//         && !isOccupied(c.target, occPos))
+//             possible.emplace_back(c.target, c.type);
+//     }
 
-    return possible;
-}
+//     return possible;
+// }
 
 int tlk::TableMap::getDistanceBetween(const int s, const int t, bool noBoat) const
 {

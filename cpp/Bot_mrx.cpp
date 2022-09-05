@@ -2,7 +2,7 @@
 
 double tlk::Bot_mrx::scoreCon(const tlk::Connection& c)
 {
-    // int roundsTillReveal = 4 - (*round + 1) % 5;
+    // int round_ptrsTillReveal = 4 - (*round_ptr + 1) % 5;
 
     double distanceToClosestSLY = vMap.getDistanceToClosestSly(c.target);
     double distanceToMrxReport = vMap.getDistanceToMrxReport(c.target);

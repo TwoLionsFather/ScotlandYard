@@ -1,25 +1,34 @@
 #include "../hpp/Game.hpp"
 
-tlk::Game::Game(const Map*  gameMap):
-    gameMap(gameMap)
-    , tracker(tlk::EntityTracker())
-    , vMap(*gameMap, tracker)
-    , round(0)
-    , mrx(new tlk::Bot_mrx(vMap, &round))
+tlk::Game::Game(const Map*  map):
+    gameMap(map)
+    , tracker(*map)
+    , vMap(*map, tracker)
+    , mrx (*new tlk::Bot_mrx(vMap, &round))
     , sly_units(std::vector<Entity*>())
+    , round(0)
     , gameState(tlk::PLAYING)
-{ 
+{
+    tracker.track(mrx);
+
     for (int i = 1; i < PLAYER_COUNT; ++i)
+    {
         sly_units.emplace_back(new Bot_sly(vMap, &round));
+        tracker.track(**(sly_units.crbegin()));
+    }
 
     if (PLAYER_PLAYING)
+    {
         sly_units.emplace_back(new Player_sly());
+        tracker.track(**(sly_units.crbegin()));
+    }
+
 }
 
 tlk::Game::~Game()
 {
-    vMap.~VirtualMap();
-    delete mrx;
+    //vMap.~VirtualMap(); //TODO check if required
+    delete &mrx;
     for (Entity* e : sly_units)
         delete e;
 
@@ -28,7 +37,7 @@ tlk::Game::~Game()
 
 tlk::GameLiveInfo tlk::Game::getGameLiveInfo() const
 {
-    return GameLiveInfo(&tracker, mrx, &sly_units);
+    return GameLiveInfo(&tracker, &mrx, &sly_units);
 }
 
 void tlk::Game::setup()
@@ -47,12 +56,12 @@ void tlk::Game::setup()
 
     for (const Entity* e : sly_units)
     {
-        tracker.setStartingPos(e, *initPositions.rbegin());
+        tracker.setStartingPos(*e, *initPositions.rbegin());
         initPositions.pop_back();
     }
 
     if (PLAYER_PLAYING)
-        tracker.setStartingPos(sly_units[PLAYER_COUNT], *initPositions.rbegin());
+        tracker.setStartingPos(*sly_units[PLAYER_COUNT], *initPositions.rbegin());
 
     initPositions.emplace_back(tracker.getLocationOf(mrx));
 }
@@ -128,13 +137,13 @@ void tlk::Game::playMrx()
     auto start = std::chrono::high_resolution_clock::now();
 
     do {
-        const Connections& options =  gameMap->getMovesFor(mrx, &tracker);
+        const Connections& options =  tracker.getMovesFor(mrx);
         if (options.empty())
         {
             gameState = WON_SLY;
             return;
         }
-        const std::pair<const tlk::Connection&, tlk::Ticket> used = mrx->move(options);
+        const tlk::Move used = mrx.move(options);
         
         if (tlk::LOG_LEVEL >= tlk::HIGH)
             std::cout << "MRX Moved to: " << used.first.target << std::endl;
@@ -142,7 +151,7 @@ void tlk::Game::playMrx()
         if (tlk::LOG_LEVEL >= tlk::NORMAL || PLAYER_PLAYING)
             std::cout << "MrX used: " << used.second << std::endl;
 
-        tracker.updatePosition(mrx, used.first, used.second);
+        tracker.updatePosition(mrx, used);
     } while (tracker.getMrxHistory().back() == tlk::DOUBLE_Ti);
 
     auto finish = std::chrono::high_resolution_clock::now();
@@ -165,17 +174,17 @@ void tlk::Game::playSly()
         // if (PLAYER_PLAYING)
         //     std::cout << "SLY Unit on: " << tracker->getLocationOf(e) << std::endl;
 
-        const Connections& options =  gameMap->getMovesFor(e, &tracker);
+        const Connections& options =  tracker.getMovesFor(*e);
         if (options.empty())
             continue;
         
-        std::pair<const tlk::Connection&, tlk::Ticket> used = e->move(options);
+        const Move used = e->move(options);
 
         if (tlk::LOG_LEVEL >= tlk::HIGH || PLAYER_PLAYING)
             std::cout << "SLY Unit Moved to: " << used.first.target << std::endl;
 
-        tracker.updatePosition(e, used.first, used.second); 
-        mrx->addTicket(used.second);
+        tracker.updatePosition(*e, used); 
+        mrx.addTicket(used.second);
         noOfficerMoved = false;
 
         if (tracker.getLocationOf(mrx) == used.first.target)

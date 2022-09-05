@@ -37,7 +37,7 @@ bool tlk::VirtualMap::neighboursContainMRXSighting (const int pos) const
 
 int tlk::VirtualMap::getDistanceToMrxReport(const Entity* ent) const
 {
-    return getDistanceToMrxReport(tracker.getLocationOf(ent));
+    return getDistanceToMrxReport(tracker.getLocationOf(*ent));
 }
 
 int tlk::VirtualMap::getDistanceToMrxReport(int pos) const
@@ -52,7 +52,7 @@ int tlk::VirtualMap::getDistanceToClosestSly() const
 
 int tlk::VirtualMap::getDistanceToClosestSly(const Entity* e) const
 {
-    return getDistanceToClosestSly(tracker.getLocationOf(e));
+    return getDistanceToClosestSly(tracker.getLocationOf(*e));
 }
 
 int tlk::VirtualMap::getDistanceToClosestSly(int pos) const
@@ -72,7 +72,7 @@ int tlk::VirtualMap::getDistanceToClosestSly(int pos) const
 
 int tlk::VirtualMap::getDistanceBetween(const Entity* e, const int target) const
 {
-    return getDistanceBetween(tracker.getLocationOf(e), target);
+    return getDistanceBetween(tracker.getLocationOf(*e), target);
 }
 
 int tlk::VirtualMap::getDistanceBetween(const int pos, const int target) const
@@ -165,14 +165,14 @@ std::unordered_set<int> tlk::VirtualMap::getPossibleLocationsAfter(const int pos
 //Should tracker be used to simulate Moves? I think so
 std::unordered_set<int> tlk::VirtualMap::getMrxPossibleLocationsAfter(const Entity* ent, const Connection& c) const
 {
-    const int entOriginalLocation = tracker.getLocationOf(ent);
-    tracker.simulatePosition(ent, c.target);
+    const int entOriginalLocation = tracker.getLocationOf(*ent);
+    tracker.simulatePosition(*ent, c.target);
 
     const std::vector<Ticket>& tickets = tracker.getMrxHistory();
 
     std::unordered_set<int> locations = getPossibleLocationsAfter(c.target, tickets.size(), true, std::make_optional(tickets)); 
 
-    tracker.simulatePosition(ent, entOriginalLocation);
+    tracker.simulatePosition(*ent, entOriginalLocation);
 
     return locations;
 }

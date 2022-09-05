@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Entity.hpp"
-#include "EntityTracker.hpp"
 #include "Connection.hpp"
 #include "TicketStack.hpp"
 
@@ -39,15 +38,6 @@ namespace tlk
         const tlk::Connections getAllConnections() const;
         virtual const tlk::Connections& getOutgoing(const int loc) const = 0;
         
-        /**
-         * @brief Get the Moves For Entity
-         * 
-         * @param e entity for which to get moves
-         * @param tracker knows entity position
-         * @return * const Connections connections available
-         */
-        virtual const Connections getMovesFor(const Entity* e, const EntityTracker* tracker) const = 0;
-
         virtual int getDistanceBetween(const int pos, const int target, bool noBoat) const = 0;
 
     protected:
@@ -68,7 +58,6 @@ namespace tlk
         };
 
         virtual const tlk::Connections& getOutgoing(const int loc) const;
-        virtual const Connections getMovesFor(const Entity* e, const EntityTracker* tracker) const;
         virtual int getDistanceBetween(const int pos, const int target, bool noBoat) const;
 
         /**

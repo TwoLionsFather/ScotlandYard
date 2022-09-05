@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Map.hpp"
 #include "Entity.hpp"
 
 #include <algorithm>
@@ -9,25 +10,65 @@
 
 namespace tlk
 {
+
+    /**
+     * @brief This class knows the current locations of entities and is used to manipulate them
+     * 
+     */
     class EntityTracker
     {
     public:
-        EntityTracker() { };
+        EntityTracker(const Map& map)
+            : map(map), mrxLastSeenLocation(0) { };
         ~EntityTracker() 
         {
             mrx_publicHistory.clear();
-            positions.clear();
             entityHistory.clear();
+            positions.clear();
         };
 
-        void setStartingPos(const Entity* e, int startingPos);
-        void simulatePosition(const Entity* e, int newPos); //TODO make reverting an option also
-        void updatePosition(const Entity* e, const Connection& moved, const Ticket used);
+        void track(const Entity& e);
+
+        /**
+         * @brief Set Starting Position for entity
+         * TODO add Method to initialize Game 
+         * 
+         * @param e  Entity to use
+         * @param startingPos Location where Entity starts
+         */
+        void setStartingPos(const Entity& e, int startingPos);
+
+        /**
+         * @brief Set Position of entity
+         * TODO should not be required
+         * 
+         * @param e Entity to use
+         * @param newPos new Position
+         */
+        void simulatePosition(const Entity& e, int newPos); //TODO make reverting an option also
+        
+        /**
+         * @brief Update Entity with connection, validating connection used
+         * TODO This method should only provide valid options so checking becomes irrelevant
+         * 
+         * @param e Entity to use
+         * @param moved connection used by entity
+         * @param used Ticket used for connection, relevant for Mrx Moves
+         */
+        void updatePosition(const Entity& e, const Move used);
+
+        const Connections getMovesFor(const Entity& e) const;
 
         int getLocationOfMrx() const;
-        int getLocationOf(const Entity* e) const;
-        std::vector<int> getEntityLocations(bool hideMrX) const;
+        int getLocationOf(const Entity& e) const;
+        const std::vector<int> getEntityLocations(bool hideMrX) const;
 
+        /**
+         * @brief Set the Mrx Location publicly 
+         * TODO replace by call to update mrx location. This class knows where he currently is
+         * 
+         * @param loc location of mrx
+         */
         void setMrxLocation(int loc)
         {
             mrxLastSeenLocation = loc;
@@ -45,17 +86,43 @@ namespace tlk
             return mrx_publicHistory;
         }
 
-        const Connections getEntityHistorie(const Entity* e) const
+        /**
+         * @brief Get history of moves by an entity
+         * 
+         * @param e Entity to use
+         * @return a vector containing all moves by entity
+         */
+        // const Moves getEntityHistory(const Entity& e)
+        // {
+        //     return entityHistory.at(e);
+        // }
+
+        /**
+         * @brief Get history of Connections used by an entity
+         * 
+         * @param e Entity to use
+         * @return a vector containing all moves by entity
+         */
+        const Connections getEntityMovesHistory(const Entity& e) const
         {
-            return entityHistory.at(e);
+            Connections conns;
+            for (auto move : entityHistory.at(&e))
+            {
+                conns.push_back(move.first);
+            }
+
+            return conns;
         }
 
     private:
-        int mrxLastSeenLocation = 0;
+        int mrxLastSeenLocation;
         std::vector<tlk::Ticket> mrx_publicHistory;
 
         std::map<const Entity*, int> positions; 
-        std::map<const Entity*, Connections> entityHistory;
+        std::map<const Entity*, Moves> entityHistory;
+        //TODO Make more typedefs for common things
+
+        const Map& map;
     };
     
 } // namespace tlk

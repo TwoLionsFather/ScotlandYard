@@ -34,7 +34,7 @@ namespace tlk
         {
             std::vector<DrawableConneciton> outCons;
 
-            const Connections mrxHist = gameInfo.tracker->getEntityHistorie(gameInfo.mrx);
+            const Connections mrxHist = gameInfo.tracker->getEntityMovesHistory(*gameInfo.mrx);
             for (int i = 1; i < mrxHist.size(); ++i)
             {
                 DrawableConneciton dc;
@@ -46,7 +46,7 @@ namespace tlk
 
             for (const Entity* e : *gameInfo.sly)
             {
-                const Connections mrxHist = gameInfo.tracker->getEntityHistorie(e);
+                const Connections mrxHist = gameInfo.tracker->getEntityMovesHistory(*e);
                 
                 for (int i = 1; i < mrxHist.size(); ++i)
                 {
@@ -73,7 +73,7 @@ namespace tlk
 
         olc::vi2d getMrxLocation() const
         {
-            return locations[gameInfo.tracker->getLocationOf(gameInfo.mrx)-1];
+            return locations[gameInfo.tracker->getLocationOf(*gameInfo.mrx)-1];
         }
 
     private:
