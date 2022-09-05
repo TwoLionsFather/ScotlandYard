@@ -60,7 +60,7 @@ namespace tlk
         GameLiveInfo getGameLiveInfo() const;
 
     protected: 
-        int round = 0;
+        int round;
 
         const Map*  gameMap;
         const VirtualMap vMap;

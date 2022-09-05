@@ -2,11 +2,11 @@
 
 tlk::Game::Game(const Map*  map):
     gameMap(map)
+    , round(0)
     , tracker(*map)
     , vMap(*map, tracker)
     , mrx (*new tlk::Bot_mrx(vMap, &round))
     , sly_units(std::vector<Entity*>())
-    , round(0)
     , gameState(tlk::PLAYING)
 {
     tracker.track(mrx);
@@ -161,6 +161,9 @@ void tlk::Game::playMrx()
             std::cout << "MrX used: " << used.second << std::endl;
 
         tracker.updatePosition(mrx, used);
+        if (tracker.getMrxHistory().back() == tlk::DOUBLE_Ti)
+            round++;
+
     } while (tracker.getMrxHistory().back() == tlk::DOUBLE_Ti);
 
     auto finish = std::chrono::high_resolution_clock::now();

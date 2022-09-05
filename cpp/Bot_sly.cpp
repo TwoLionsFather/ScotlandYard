@@ -3,9 +3,11 @@
 double tlk::Bot_sly::scoreCon(const Connection& c) 
 {
     std::cout << "Bot_sly::scoreCon started" << std::endl;
-    //TODO!!!!!!!!!!!!!! Min distance Start not getting calculated or called correctly
     if (*round_ptr < 3)
+    {
+        std::cout << "Bot_sly::scoreCon in first group mode" << c << std::endl;
         return -minDistStart(c);
+    }
 
 
     std::cout << "Bot_sly::scoreCon No longer in first group mode " << c << std::endl;
