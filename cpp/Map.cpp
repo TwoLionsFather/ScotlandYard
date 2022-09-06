@@ -61,7 +61,7 @@ tlk::TableMap::TableMap(const std::string& path) : Map(path)
     //This needs to be called here so that a Map Object is constructed and memory initiated
     initMap(); 
 
-    // buildDistanceTable();
+    buildDistanceTable();
 
     if (tlk::LOG_LEVEL >= tlk::HIGH)
     {

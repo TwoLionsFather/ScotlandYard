@@ -186,19 +186,16 @@ void tlk::Game::playSly()
         // if (PLAYER_PLAYING)
         //     std::cout << "SLY Unit on: " << tracker->getLocationOf(e) << std::endl;
 
-        std::cout << "Game::playSly: checking for Entity: " << std::endl;
         const Connections& options =  tracker.getMovesFor(*e);
         if (options.empty())
             continue;
         
 
-        std::cout << "Game::playSly: using move from " << options << std::endl;
         const Move used = e->move(options);
 
         if (tlk::LOG_LEVEL >= tlk::HIGH || PLAYER_PLAYING)
             std::cout << "SLY Unit Moved to: " << used.first.target << std::endl;
 
-        std::cout << "Game::playSly: chose move " << used.first << std::endl;
 
         tracker.updatePosition(*e, used); 
         mrx.addTicket(used.second);

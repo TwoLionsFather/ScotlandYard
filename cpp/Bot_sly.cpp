@@ -2,15 +2,11 @@
 
 double tlk::Bot_sly::scoreCon(const Connection& c) 
 {
-    std::cout << "Bot_sly::scoreCon started" << std::endl;
     if (*round_ptr < 3)
     {
-        std::cout << "Bot_sly::scoreCon in first group mode" << c << std::endl;
         return -minDistStart(c);
     }
 
-
-    std::cout << "Bot_sly::scoreCon No longer in first group mode " << c << std::endl;
     double score = minDist(c) - ticketFactor(c.type);
     
     if (tlk::LOG_LEVEL >= HIGH)
@@ -39,6 +35,5 @@ double tlk::Bot_sly::minDist(const Connection& c)
 
 double tlk::Bot_sly::minDistStart(const Connection& c)
 {
-    std::cout << "Bot_sly::minDistStart: scoring " << c << std::endl;
     return vMap.getDistanceBetween(c.target, 100);
 }
