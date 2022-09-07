@@ -61,14 +61,14 @@ tlk::TableMap::TableMap(const std::string& path) : Map(path)
     //This needs to be called here so that a Map Object is constructed and memory initiated
     initMap(); 
 
-    if (false)
+    if (READ_DISTANCES_FROM_FILE)
     {
-        buildDistanceTable();
-        saveToFile();
+        initFromFile();
     }
     else 
     {
-        initFromFile();
+        buildDistanceTable();
+        saveToFile();
     }
 
     if (tlk::LOG_LEVEL >= tlk::HIGH)

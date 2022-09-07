@@ -16,6 +16,8 @@
 
 namespace tlk
 {
+    static const bool READ_DISTANCES_FROM_FILE = 1;
+
     /**
      * @brief Representation of a Map for the scotland yard game. 
      * 
