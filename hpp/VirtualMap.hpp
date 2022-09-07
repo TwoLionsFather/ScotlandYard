@@ -30,18 +30,29 @@ namespace tlk
         int getDistanceToMrxReport(const Entity* e) const;
 
         int getDistanceToClosestSly() const;
-        int getDistanceToClosestSly(const int pos) const;
+        int getDistanceToClosestSly(const int start) const;
         int getDistanceToClosestSly(const Entity* e) const;
 
         int getDistanceBetween(const int pos, const int target) const;
         int getDistanceBetween(const Entity* e, const int target) const;
 
-        int countSLYsInRange(int pos, const int dist) const;
+        int countSLYsInRange(const int pos, const int dist) const;
 
         std::unordered_set<int> getMrxPossibleLocationsAfter (const int roundCount, const bool blockUsed = true) const;
         std::unordered_set<int> getMrxPossibleLocationsAfter (const Entity* ent, const Connection& con) const;
-        std::unordered_set<int> getPossibleLocationsAfter (const int pos, const int roundCount, const bool blockUsed = true
-                                                            , const std::optional<std::vector<Ticket>>& tickets = std::nullopt) const;
+        /**
+         * @brief Get the Possible Locations After a certain ammount of rounds has been played
+         * When simulating blocked locations, tracker data is used to block moves that would end on positions occupied by sly.
+         * This only works up to current round, as future locations of sly units are unknown
+         * TODO Fix potential issues related to this
+         * 
+         * @param start start location search from here
+         * @param roundCount how many rounds to calculate, max 200, negative numbers and 0 return only start location 
+         * @param futureMode future mode doesn't block locations occupied.
+         * @param tickets is optional argument, can be used to simulate entity using specified connection types
+         * @return std::unordered_set<int> set conatining all locations reachable within round
+         */
+        std::unordered_set<int> getPossibleLocationsAfter (const int start, const int roundCount, const bool futureMode = true, const std::optional<std::vector<Ticket>>& tickets = std::nullopt) const;
 
     private:
         const Map& originalMap;

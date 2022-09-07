@@ -123,13 +123,22 @@ namespace tlk
             return conns;
         }
 
+        /**
+         * @brief get The locations where sly units were located at the begining of round
+         * TODO This class has no round information, so this could return different results when called after first sly unit moved...
+         * 
+         * @param roundOffset round offset can be used to look at round - x. min is 0 as this can't predict location of sly
+         * @return const std::vector<int> locations of sly units.
+         */
+        const std::vector<int> getSlyLocations(const int roundOffset) const;
+
     private:
         int mrxLastSeenLocation;
         std::vector<tlk::Ticket> mrx_ticketHistory;
 
+        //TODO double information is stored here
         std::map<const Entity*, int> positions; 
         std::map<const Entity*, Moves> entityHistory;
-        //TODO Make more typedefs for common things
 
         const Map& map;
     };

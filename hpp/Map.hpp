@@ -91,7 +91,7 @@ namespace tlk
         std::array<int, 20301>* distanceMap;
 
         int distanceAlgorithm(const int start, const int target);
-        void addConnection(const Connection& connection);
+        virtual void addConnection(const Connection& connection);
         int getDistanceIdx(const int start, const int end) const;
     };
 

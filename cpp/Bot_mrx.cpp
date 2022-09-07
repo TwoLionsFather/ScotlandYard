@@ -3,7 +3,11 @@
 double tlk::Bot_mrx::scoreCon(const tlk::Connection& c)
 {
     if (tlk::LOG_LEVEL >= HIGH)
-        std::cout << "Bot_mrx::scoreCon Scoring " << c;
+    {
+        std::cout << "Bot_mrx::scoreCon Scoring " << std::endl;
+        std::cout << "Connection: " << c << std::endl;
+    }
+
 
     // int round_ptrsTillReveal = 4 - (*round_ptr + 1) % 5;
 

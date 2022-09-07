@@ -37,7 +37,13 @@ namespace tlk
 
         const tlk::Move move(const Connections& options)
         {
+            if (tlk::LOG_LEVEL >= tlk::HIGH)
+                std::cout << "Entity::move getSelection" << std::endl;
+
             tlk::Move pair(getSelection(options), tlk::NO_TICKET);
+
+            if (tlk::LOG_LEVEL >= tlk::HIGH)
+                std::cout << "Entity::move getTicket" << std::endl;
 
             pair.second = getTicket(pair.first.type);
             tickets.useTicket(pair.second);
@@ -66,7 +72,15 @@ namespace tlk
 
         const Connection& getHighestScoring(const Connections& options)
         {
+            if (tlk::LOG_LEVEL >= tlk::HIGH)
+                std::cout << "Moving Entity::getHighestScoring init with connection " << options[0] << std::endl;
+
+
             const Connection* best = &options[0];
+
+            if (tlk::LOG_LEVEL >= tlk::HIGH)
+                std::cout << "Moving Entity::getHighestScoring scoring connection " << *best << std::endl;
+
             double highScore = scoreCon(*best);
 
             for (const Connection& con : options)

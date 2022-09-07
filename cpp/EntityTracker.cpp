@@ -74,14 +74,16 @@ int tlk::EntityTracker::getLocationOfMrx() const
 
 const std::vector<int> tlk::EntityTracker::getEntityLocations(bool hideMrX) const
 {
-    int mrxLocation = 0;
     std::vector<int> locations;
     for (const auto& e : positions)
     {
-        // track his location seperately to place it in a defined location within the vector
         if (e.first->isMrx())
         {
-            mrxLocation = e.second;
+            if (!hideMrX)
+                locations.emplace(std::begin(locations), e.second);
+            else
+                locations.emplace(std::begin(locations), 0);
+
             continue;
         }
 
@@ -91,8 +93,22 @@ const std::vector<int> tlk::EntityTracker::getEntityLocations(bool hideMrX) cons
         locations.emplace_back(e.second);
     }
 
-    if (!hideMrX)
-        locations.emplace(std::begin(locations), mrxLocation);
+    return locations;
+}
+
+const std::vector<int> tlk::EntityTracker::getSlyLocations(const int roundOffset) const
+{
+    std::vector<int> locations;
+    for (const auto pair : entityHistory)
+    {
+        if (pair.first->isMrx())
+            continue;
+
+        const Connection used = (pair.second.crbegin() + std::abs(roundOffset))->first; 
+
+        locations.emplace_back(used.target);
+        std::cout << "location of sly was: " << locations.back() << std::endl;
+    }
 
     return locations;
 }

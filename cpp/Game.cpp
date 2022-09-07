@@ -111,7 +111,10 @@ tlk::State tlk::Game::playSingleRound()
 {
     round++;
     if (tlk::LOG_LEVEL >= tlk::NORMAL || PLAYER_PLAYING)
+    {
         printRoundStart();
+        std::cout << "Playing MrX:" << std::endl;
+    }
 
     playMrx();
 
@@ -144,14 +147,19 @@ void tlk::Game::playMrx()
 {
     auto start = std::chrono::high_resolution_clock::now();
 
-
     do {
+        if (tlk::LOG_LEVEL >= tlk::HIGH)
+            std::cout << "Getting Moves for Mrx: " << std::endl;
+
         const Connections& options =  tracker.getMovesFor(mrx);
         if (options.empty())
         {
             gameState = WON_SLY;
             return;
         }
+        if (tlk::LOG_LEVEL >= tlk::HIGH)
+            std::cout << "Moving Mrx: " << std::endl;
+
         const tlk::Move used = mrx.move(options);
         
         if (tlk::LOG_LEVEL >= tlk::HIGH)
@@ -162,7 +170,11 @@ void tlk::Game::playMrx()
 
         tracker.updatePosition(mrx, used);
         if (tracker.getMrxHistory().back() == tlk::DOUBLE_Ti)
+        {
             round++;
+            if (tlk::LOG_LEVEL >= tlk::HIGH)
+                std::cout << "Mrx get's another round " << std::endl;
+        }
 
     } while (tracker.getMrxHistory().back() == tlk::DOUBLE_Ti);
 
@@ -185,12 +197,16 @@ void tlk::Game::playSly()
     {
         // if (PLAYER_PLAYING)
         //     std::cout << "SLY Unit on: " << tracker->getLocationOf(e) << std::endl;
+        if (tlk::LOG_LEVEL >= tlk::HIGH)
+            std::cout << "Getting Moves for Sly: " << std::endl;
 
         const Connections& options =  tracker.getMovesFor(*e);
         if (options.empty())
             continue;
         
 
+        if (tlk::LOG_LEVEL >= tlk::HIGH)
+            std::cout << "Moving Sly: " << std::endl;
         const Move used = e->move(options);
 
         if (tlk::LOG_LEVEL >= tlk::HIGH || PLAYER_PLAYING)
