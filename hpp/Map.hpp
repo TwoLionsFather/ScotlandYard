@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Consts.hpp"
 #include "Entity.hpp"
 #include "Connection.hpp"
 #include "TicketStack.hpp"
@@ -43,6 +44,10 @@ namespace tlk
     protected:
         void initMap();
 
+        //TODO work on default implementation
+        virtual void saveToFile() {};
+        virtual void initFromFile() {};
+
     private:
         virtual void addConnection(const Connection& connection) = 0;
 
@@ -71,11 +76,15 @@ namespace tlk
         }
 
     protected:
+        virtual void saveToFile();
+        virtual void initFromFile();
+
         void buildDistanceTable();
         void printDistanceMap() const;
         void printLostDistances() const;
 
     private:
+        //TODO add getter and setter for distances
         std::array<std::unique_ptr<Connections>, 201> gameFields;
         std::array<int, 20301>* distanceMap;
 

@@ -61,7 +61,15 @@ tlk::TableMap::TableMap(const std::string& path) : Map(path)
     //This needs to be called here so that a Map Object is constructed and memory initiated
     initMap(); 
 
-    buildDistanceTable();
+    if (false)
+    {
+        buildDistanceTable();
+        saveToFile();
+    }
+    else 
+    {
+        initFromFile();
+    }
 
     if (tlk::LOG_LEVEL >= tlk::HIGH)
     {
@@ -137,10 +145,9 @@ void tlk::TableMap::buildDistanceTable()
 {
     for (int start = 1; start < 201; ++start)
     {
-        if (tlk::LOG_LEVEL >= tlk::NORMAL)
-        {
+        if (tlk::LOG_LEVEL >= tlk::LOW)
             std::cout << "Building distances from: " << start << std::endl;
-        }
+        
 
         for (int end = 2; end < 201; ++end)
         {
@@ -219,25 +226,6 @@ bool isOccupied(int pos, const std::vector<int>& occupied)
     return occupied.end() != std::find(occupied.begin(), occupied.end(), pos);
 }
 
-// const tlk::Connections tlk::TableMap::getMovesFor(const Entity* e, const EntityTracker* tracker) const
-// {
-//     const Connections& options = *gameFields.at(tracker->getLocationOf(e)).get();
-//     const std::vector<int>& occPos = tracker->getEntityLocations(true);
-
-//     if (options.empty())
-//         throw std::invalid_argument("Map::getMovesFor No options were found for an entity inside of Map::getMovesFor function!!");
-    
-//     Connections possible;
-//     for (const Connection& c : options)
-//     {
-//         if (e->hasTicketFor(c.type) 
-//         && !isOccupied(c.target, occPos))
-//             possible.emplace_back(c.target, c.type);
-//     }
-
-//     return possible;
-// }
-
 int tlk::TableMap::getDistanceBetween(const int s, const int t, bool noBoat) const
 {
     if (s == t)
@@ -247,6 +235,54 @@ int tlk::TableMap::getDistanceBetween(const int s, const int t, bool noBoat) con
     // std::cout << " is " << distance << std::endl; 
 
     return distance;
+}
+
+
+void tlk::TableMap::saveToFile() 
+{
+    //TODO make Filepath constant
+    std::ofstream resultFile(ASSETPATH + "/distanceMap.txt",  std::ofstream::out);
+    
+    for (int i = 1; i < 201; ++i)
+    {
+        for (int j = 1; j < 201; ++j)
+        {
+            resultFile << distanceMap->at(getDistanceIdx(i, j)) << " ";
+        }
+        resultFile << std::endl;
+    }
+    resultFile.close();
+}
+
+void tlk::TableMap::initFromFile() 
+{
+    std::ifstream file(ASSETPATH + "/distanceMap.txt", std::ios::in);
+
+    if (!file)
+    {
+        std::cerr << "Map::Map Searching Map at: " << ASSETPATH + "/distanceMap.txt" << std::endl;
+        throw std::runtime_error("Map::Map no Map was found!");
+    }
+
+    int sourceID = 1;
+    for (std::string line; std::getline(file, line); ++sourceID)
+    {
+        int targetID = 1;
+        size_t pos = line.find(' ');
+        std::string token = line.substr(0, pos);
+        
+        distanceMap->at(getDistanceIdx(sourceID, targetID++)) = stoi(token);
+        line.erase(0, pos + 1);
+
+        while ((pos = line.find(' ')) != std::string::npos) //npos is not found in String
+        {
+            token = line.substr(0, pos);
+            distanceMap->at(getDistanceIdx(sourceID, targetID++)) = stoi(token);
+            line.erase(0, pos + 1);
+        }
+    }
+
+    file.close();
 }
 
 std::ostream& operator<<(std::ostream &out, const tlk::Map &rhs)  

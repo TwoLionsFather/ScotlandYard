@@ -15,7 +15,7 @@ _OBJ = $(subst $(SDIR)/,$(ODIR)/,$(SRC))
 OBJ = $(patsubst %.cpp,%.o,$(_OBJ))
 
 obj/%.o: cpp/%.cpp $(DEPS)
-	$(CC) -c -std=c++17 -o $@ $< 
+	$(CC) -c -std=c++20 -o $@ $< 
 
 sly_make:$(OBJ) 
 	$(CC) -o $@ $^  $(CFLAGS) $(LIBS)
