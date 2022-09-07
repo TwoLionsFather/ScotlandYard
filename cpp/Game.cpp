@@ -152,6 +152,7 @@ void tlk::Game::playMrx()
             std::cout << "Getting Moves for Mrx: " << std::endl;
 
         const Connections& options =  tracker.getMovesFor(mrx);
+
         if (options.empty())
         {
             gameState = WON_SLY;

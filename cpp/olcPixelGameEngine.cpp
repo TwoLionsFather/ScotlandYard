@@ -6,8 +6,9 @@
 class SLY_Viewer : public olc::PixelGameEngine
 {
 public:
-	SLY_Viewer() : gameMap(tlk::TableMap("assets/connections.txt"))
+	SLY_Viewer() : gameMap(new tlk::TableMap("assets/connections.txt"))
 	{
+		//TODO Fix gameMap init Problem!
 		sAppName = "SLY_Viewer";
 	}
 
@@ -32,11 +33,11 @@ public:
 	}
 
 	bool OnUserCreate() override
-	{
+	{        
 		game = new tlk::Game(&gameMap);
 		map = new olc::Sprite(tlk::ASSETPATH + "slymap.png");
-
 		drawableMap.loadFromFile(tlk::ASSETPATH + "Locations.txt");
+
 		game->setup();
 		drawableMap.link(game->getGameLiveInfo());
 
@@ -63,7 +64,11 @@ public:
 
 
 		if (GetMouse(olc::Mouse::LEFT).bPressed && state == tlk::PLAYING)
+		{
+			std::cout << "olc::OnUserUpdate: Starting Round simulation " << std::endl;
 			state = game->playSingleRound();
+			std::cout << "olc::OnUserUpdate: Finished Round simulation " << std::endl;
+		}
 
 		if (GetMouse(olc::Mouse::RIGHT).bPressed)
 		{

@@ -38,7 +38,7 @@ namespace tlk
             for (int i = 1; i < mrxHist.size(); ++i)
             {
                 DrawableConneciton dc;
-                dc.pos1 = locations[mrxHist[i-1].target - 1];
+                dc.pos1 = locations[mrxHist[i].source - 1];
                 dc.pos2 = locations[mrxHist[i].target - 1];
                 dc.p = getColorFor(mrxHist[i].type);
                 outCons.push_back(dc);
@@ -51,7 +51,7 @@ namespace tlk
                 for (int i = 1; i < mrxHist.size(); ++i)
                 {
                     DrawableConneciton dc;
-                    dc.pos1 = locations[mrxHist[i-1].target - 1];
+                    dc.pos1 = locations[mrxHist[i].source - 1];
                     dc.pos2 = locations[mrxHist[i].target - 1];
                     dc.p = getColorFor(mrxHist[i].type);
                     outCons.push_back(dc);

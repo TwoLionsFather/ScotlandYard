@@ -19,7 +19,7 @@ namespace tlk
     {
     public:
         EntityTracker(const Map& map)
-            : map(map), mrxLastSeenLocation(0) { };
+            : map(map), mrxLastSeenLocation(0) {  };
         ~EntityTracker() 
         {
             mrx_ticketHistory.clear();
