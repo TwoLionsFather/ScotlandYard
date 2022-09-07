@@ -72,6 +72,8 @@ namespace tlk
          */
         const std::vector<int> getEntityLocations(bool hideMrX) const;
 
+        const std::vector<int> getSlyLocations() const;
+
         /**
          * @brief Set the Mrx Location publicly 
          * TODO replace by call to update mrx location. This class knows where he currently is

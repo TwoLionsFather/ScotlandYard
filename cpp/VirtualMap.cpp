@@ -3,27 +3,20 @@
 
 bool tlk::VirtualMap::neighboursContainSLY (const int pos) const
 {
-    const std::vector<int> slyPos = tracker.getEntityLocations(true);
+    const std::vector<int> slyPos = tracker.getSlyLocations();
 
-    //TODO implement algo using location of sly units and distance to
-    return std::none_of(std::begin(slyPos) +1, std::end(slyPos),
-        [&](int sly) { return originalMap.getDistanceBetween(pos, sly, true) == 1; });
-
+    //TODO Maybe opposite required?
+    return std::any_of(std::begin(slyPos) +1, std::end(slyPos)
+                    , [&](const int sly) { return originalMap.getDistanceBetween(pos, sly, true) == 1; });
 }
 
 bool tlk::VirtualMap::neighboursContainMRXSighting (const int pos) const
 {
     const int mrxSight = tracker.getMrxLastSeenLocation();
-    for (const Connection& cond1 : originalMap.getOutgoing(pos))
-    {
-        for (const Connection& cond2 : originalMap.getOutgoing(cond1.target))
-        {
-            if (cond2.target == mrxSight)
-                return true;
-        }
-    }
+    const Connections& out = originalMap.getOutgoing(pos);
 
-    return false;
+    return std::any_of(std::begin(out), std::end(out)
+                    , [&](const Connection loc) { return loc.target == mrxSight; } );
 }
 
 int tlk::VirtualMap::getDistanceToMrxReport(const Entity* ent) const
@@ -48,12 +41,14 @@ int tlk::VirtualMap::getDistanceToClosestSly(const Entity* e) const
 
 int tlk::VirtualMap::getDistanceToClosestSly(int pos) const
 {
-    const std::vector<int>& locations = tracker.getEntityLocations(true);
-    const int target =  *std::min(std::begin(locations), std::end(locations)
+    std::vector<int> locations = tracker.getSlyLocations();
+
+    const auto target =  std::min_element(std::begin(locations), std::end(locations)
                         , [&](const auto lA, const auto lB) {
-                            return originalMap.getDistanceBetween(pos, *lA, true);
+                            return originalMap.getDistanceBetween(pos, lA, true) < originalMap.getDistanceBetween(pos, lB, true);
                         });
-    return originalMap.getDistanceBetween(pos, target, true);
+
+    return originalMap.getDistanceBetween(pos, *target, true);
 }
 
 int tlk::VirtualMap::getDistanceBetween(const Entity* e, const int target) const
@@ -68,16 +63,11 @@ int tlk::VirtualMap::getDistanceBetween(const int pos, const int target) const
 
 int tlk::VirtualMap::countSLYsInRange(const int pos, const int dist) const
 {
-    const std::unordered_set<int> locsInRange = getPossibleLocationsAfter(pos, dist, false);
-    const std::vector<int> unorderedELocs = tracker.getEntityLocations(true);
-    std::set<int> checkLocations(std::begin(locsInRange), std::end(locsInRange));
-    std::set<int> slyLocations(std::begin(unorderedELocs), std::end(unorderedELocs));
+    const std::vector<int> slyPos = tracker.getSlyLocations();
 
-    std::vector<int> result;
-    result.clear();
-    std::set_intersection(checkLocations.begin(), checkLocations.end(), slyLocations.begin(), slyLocations.end(), std::back_inserter(result)); 
-
-    return result.size();
+    //TODO Maybe opposite required?
+    return std::count_if(std::begin(slyPos) +1, std::end(slyPos)
+                        , [&](const int sly) { return originalMap.getDistanceBetween(pos, sly, true) <= dist; });
 }
 
 std::unordered_set<int> tlk::VirtualMap::getMrxPossibleLocationsAfter(int roundCount, const bool blockUsed) const
@@ -101,7 +91,7 @@ std::unordered_set<int> tlk::VirtualMap::reachableOneRound(const int pos, const 
     }
         
     if (blockUsed)
-        for (int i : tracker.getEntityLocations(true))
+        for (int i : tracker.getSlyLocations())
             possibleLocations.erase(i);
 
 

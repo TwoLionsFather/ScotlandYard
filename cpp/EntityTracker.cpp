@@ -96,6 +96,13 @@ const std::vector<int> tlk::EntityTracker::getEntityLocations(bool hideMrX) cons
     return locations;
 }
 
+const std::vector<int> tlk::EntityTracker::getSlyLocations() const
+{
+    std::vector<int> slyLocs = getEntityLocations(true);
+    slyLocs.erase(std::begin(slyLocs));
+    return slyLocs;
+}
+
 const std::vector<int> tlk::EntityTracker::getSlyLocations(const int roundOffset) const
 {
     std::vector<int> locations;
