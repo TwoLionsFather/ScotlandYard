@@ -6,7 +6,7 @@
 class SLY_Viewer : public olc::PixelGameEngine
 {
 public:
-	SLY_Viewer() : gameMap(new tlk::TableMap("assets/connections.txt"))
+	SLY_Viewer() : gameMap(*(new tlk::TableMap("assets/connections.txt")))
 	{
 		//TODO Fix gameMap init Problem!
 		sAppName = "SLY_Viewer";

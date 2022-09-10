@@ -221,7 +221,7 @@ const tlk::Connections& tlk::TableMap::getOutgoing(const int loc) const
      if (tlk::LOG_LEVEL >= tlk::HIGH)
         std::cout << "get outgoing from " << loc  << std::endl;
 
-    std::cout << "All connections: " << getAllConnections() << std::endl;
+    // std::cout << "All connections: " << getAllConnections() << std::endl;
     return *gameFields.at(loc);
 }
 
