@@ -35,7 +35,7 @@ namespace tlk
 
     private:
         std::vector<int> startingLocations;
-        void setNextStartOrder(std::ofstream& file);
+        void setNextStartOrder(std::vector<std::array<int, 5>>& file);
     };
     
 } // namespace tlk

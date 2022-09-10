@@ -4,7 +4,7 @@
 void tlk::Simulation::start()
 {
     const tlk::Map& map = tlk::TableMap(tlk::ASSETPATH + "/connections.txt");
-    std::ofstream starts(tlk::ASSETPATH + "/starts.txt",  std::ofstream::out);
+    std::vector<std::array<int, 5>> startingLog;
 
     std::cout << tlk::GAME_COUNT << " Games calculating!" << std::endl;
 
@@ -17,8 +17,8 @@ void tlk::Simulation::start()
     for (int i = 0; i < tlk::GAME_COUNT; i++)
     {
         tlk::Game g(&map);
+        setNextStartOrder(startingLog);
         g.setup(startingLocations);
-        setNextStartOrder(starts);
         tlk::Statistics stats = g.play();
 
         length[stats.finalRound-1]++;
@@ -36,6 +36,7 @@ void tlk::Simulation::start()
             results[2]++;
             break;
         }
+
     }
     auto finish = std::chrono::high_resolution_clock::now();
 
@@ -56,6 +57,14 @@ void tlk::Simulation::start()
     resultFile << "Calculations took: " << elapsed.count() << "ms" << std::endl << std::endl;
 
     resultFile.close();
+
+    std::ofstream starts(tlk::ASSETPATH + "/starts.txt",  std::ofstream::out);
+    for (const std::array<int, 5> locs : startingLog)
+    {
+        for (const int sl : locs)
+            starts << sl << " ";
+        starts << std::endl;
+    }
     starts.close();
 }
 
@@ -112,9 +121,9 @@ bool compareStartingLocations(std::vector<int> veca, std::vector<int> vecb)
 /**
  * @brief Crate a unique starting order that deviates from the last
  * current implementation has one duplicate among 500 games 
- * 
+ * for 10k games 128 games appear twice
  */
-void tlk::Simulation::setNextStartOrder(std::ofstream& file)
+void tlk::Simulation::setNextStartOrder(std::vector<std::array<int, 5>>& log)
 {
     // const std::vector<int> old = startingLocations;
     //TODO optional: This can be set to notify when end of permutations is reached
@@ -127,7 +136,8 @@ void tlk::Simulation::setNextStartOrder(std::ofstream& file)
     std::swap(startingLocations[0], startingLocations[tlk::STARTING_OPTIONS_COUNT -2]);
     std::reverse(std::begin(startingLocations), std::end(startingLocations));
 
+    std::array<int, 5> startingLocs;
     for (int i = 0; i < tlk::PLAYER_COUNT; ++i)
-        file << startingLocations[i] << " ";
-    file << std::endl; 
+        startingLocs[i] = startingLocations[i];
+    log.push_back(startingLocs);
 }

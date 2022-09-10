@@ -20,7 +20,7 @@ namespace tlk
     static const bool RUN_TESTS = 0;
     static const bool PLAYER_PLAYING = 0;
     static const bool GRAPHICAL_INTERFACE = 0; //TODO Fix that
-    static const int GAME_COUNT = 500; 
+    static const int GAME_COUNT = 10000; 
     // static const int GAME_COUNT = std::min(10000, (int) std::pow(10, (4-LOG_LEVEL))); 
 	static const std::string ASSETPATH = "/home/tlk/Documents/Code/VSCode/ScotlandYard/assets/";
 
