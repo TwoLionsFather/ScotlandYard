@@ -8,6 +8,23 @@ tlk::Game::Game(const Map*  map):
     , mrx (*new tlk::Bot_mrx(vMap, &round))
     , sly_units(std::vector<Entity*>())
     , gameState(tlk::PLAYING)
+    , startLocations()
+{
+    initEntities();
+}
+
+tlk::Game::~Game()
+{
+    //vMap.~VirtualMap(); //TODO check if required
+    delete &mrx;
+    for (Entity* e : sly_units)
+        delete e;
+
+    sly_units.clear();
+    startLocations.clear();
+}
+
+void tlk::Game::initEntities()
 {
     tracker.track(mrx);
 
@@ -22,17 +39,6 @@ tlk::Game::Game(const Map*  map):
         sly_units.emplace_back(new Player_sly());
         tracker.track(**(sly_units.crbegin()));
     }
-
-}
-
-tlk::Game::~Game()
-{
-    //vMap.~VirtualMap(); //TODO check if required
-    delete &mrx;
-    for (Entity* e : sly_units)
-        delete e;
-
-    sly_units.clear();
 }
 
 tlk::GameLiveInfo tlk::Game::getGameLiveInfo() const
@@ -44,10 +50,17 @@ void tlk::Game::setup()
 {    
     srand(std::chrono::high_resolution_clock::now().time_since_epoch().count());
     auto rng = std::default_random_engine(rand());
-    std::vector<int> initPositions(tlk::STARTING_POSITIONS, tlk::STARTING_POSITIONS + tlk::STARTING_OPTIONS_COUNT);
+    std::vector<int> initPositions;
 
-
-    std::shuffle(initPositions.begin(), initPositions.end(), rng);
+    if (startLocations.size() == tlk::PLAYER_COUNT)
+    {
+        initPositions = startLocations;
+    }
+    else 
+    {
+        initPositions.insert(std::begin(initPositions), tlk::STARTING_POSITIONS, tlk::STARTING_POSITIONS + tlk::STARTING_OPTIONS_COUNT);
+        std::shuffle(initPositions.begin(), initPositions.end(), rng);
+    }
 
     tracker.setStartingPos(mrx, *initPositions.rbegin());
     initPositions.pop_back();
@@ -62,14 +75,36 @@ void tlk::Game::setup()
 
     if (PLAYER_PLAYING)
         tracker.setStartingPos(*sly_units[PLAYER_COUNT], *initPositions.rbegin());
+}
 
-    initPositions.emplace_back(tracker.getLocationOf(mrx));
+void tlk::Game::setup(const std::vector<int>& startLocations)
+{    
+    srand(std::chrono::high_resolution_clock::now().time_since_epoch().count());
+
+    auto revIt = startLocations.cbegin();
+    tracker.setStartingPos(mrx, *revIt++);
+
+    tracker.setMrxLocation(100);    //TODO: set more intelegently
+
+    for (const Entity* e : sly_units)
+    {
+        tracker.setStartingPos(*e, *revIt++);
+    }
+
+    if (PLAYER_PLAYING)
+        tracker.setStartingPos(*sly_units[PLAYER_COUNT], *revIt);
 }
 
 tlk::Statistics tlk::Game::play()
 {
     if (tlk::LOG_LEVEL >= tlk::LOW)
-        std::cout << "Das Spiel kann beginnen: " << std::endl;
+    {   
+        std::cout << "Das Spiel kann beginnen: ";
+        for (int l : tracker.getEntityLocations(false))
+            std::cout << l << " ";
+        
+        std::cout << '\n';
+    }
 
     auto startG = std::chrono::high_resolution_clock::now();
 

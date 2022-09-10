@@ -16,7 +16,8 @@ void tlk::Simulation::start()
     for (int i = 0; i < tlk::GAME_COUNT; i++)
     {
         tlk::Game g(&map);
-        g.setup();
+        g.setup(startingLocations);
+        setNextStartOrder();
         tlk::Statistics stats = g.play();
 
         length[stats.finalRound-1]++;
@@ -54,4 +55,17 @@ void tlk::Simulation::start()
     resultFile << "Calculations took: " << elapsed.count() << "ms" << std::endl << std::endl;
 
     resultFile.close();
+}
+
+void tlk::Simulation::setNextStartOrder()
+{
+    //TODO optional: This can be set to notify when end of permutations is reached
+    for (int i = 0; i < 500000; ++i)
+    {
+        const bool others = std::next_permutation(std::begin(startingLocations), std::end(startingLocations));
+        if (!others)
+            std::cout << "Simulation::setNextStartOrder: Permutations done!! \n";
+    }
+
+
 }

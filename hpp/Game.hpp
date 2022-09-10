@@ -54,6 +54,7 @@ namespace tlk
         virtual ~Game();
 
         void setup();
+        void setup(const std::vector<int>& startLocations);
         Statistics play();
         State playSingleRound();
 
@@ -68,12 +69,16 @@ namespace tlk
         Entity& mrx;
         std::vector<Entity*> sly_units;
         EntityTracker tracker;
+        std::vector<int> startLocations;
 
         State gameState;
 
         void printRoundStart();
         void playMrx();
         void playSly();
+    
+    private:
+        void initEntities();
     };
 
 }

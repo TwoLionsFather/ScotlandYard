@@ -3,9 +3,11 @@
 #include "Game.hpp"
 #include "Consts.hpp"
 
+#include <algorithm>
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 #include <array>
 
 
@@ -18,7 +20,11 @@ namespace tlk
     class Simulation
     {
     public:
-        Simulation() { };
+        Simulation() { 
+            startingLocations.insert(std::begin(startingLocations)
+            , tlk::STARTING_POSITIONS
+            , tlk::STARTING_POSITIONS + tlk::STARTING_OPTIONS_COUNT);
+        };
         ~Simulation() { };
 
         /**
@@ -26,6 +32,10 @@ namespace tlk
          * 
          */
         void start();
+
+    private:
+        std::vector<int> startingLocations;
+        void setNextStartOrder();
     };
     
 } // namespace tlk
