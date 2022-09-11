@@ -6,7 +6,7 @@
 class SLY_Viewer : public olc::PixelGameEngine
 {
 public:
-	SLY_Viewer() : gameMap(*(new tlk::TableMap("assets/connections.txt")))
+	SLY_Viewer() : gameMap(*(new tlk::DistanceMap("assets/connections.txt")))
 	{
 		//TODO Fix gameMap init Problem!
 		sAppName = "SLY_Viewer";
@@ -126,7 +126,7 @@ int main(int argc, char const *argv[])
 {	
 	if (tlk::RUN_TESTS)
 	{
-		const tlk::Map& map = tlk::TableMap(tlk::ASSETPATH + "/connections.txt");
+		const tlk::Map& map = tlk::DistanceMap(tlk::ASSETPATH + "/connections.txt");
 		tlk::GameDebug sut(&map);
 
 		bool testcompleted = sut.runTests();

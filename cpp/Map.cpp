@@ -50,7 +50,7 @@ const tlk::Connections tlk::Map::getAllConnections() const
     return conns;
 }
 
-tlk::TableMap::TableMap(const std::string& path) : Map(path) 
+tlk::DistanceMap::DistanceMap(const std::string& path) : Map(path) 
 {
     for (int i = 0; i < 201; ++i)
         gameFields[i] = std::make_unique<Connections>();
@@ -77,7 +77,7 @@ tlk::TableMap::TableMap(const std::string& path) : Map(path)
     }
 }
 
-void tlk::TableMap::printLostDistances() const
+void tlk::DistanceMap::printLostDistances() const
 {
     std::cout << "distanceMap " << std::endl;
 
@@ -96,7 +96,7 @@ void tlk::TableMap::printLostDistances() const
     std::cout << "Lost Location indices: " << lost << std::endl;
 }
 
-void tlk::TableMap::printDistanceMap() const
+void tlk::DistanceMap::printDistanceMap() const
 {
     std::cout << "Distances: from:";
     for (int i = 1; i < 201; i = i +10)
@@ -105,14 +105,13 @@ void tlk::TableMap::printDistanceMap() const
         for (int j = 1; j < 201; j = j +10)
         {
             std::cout << j << ":";
-
-            std::cout << distanceMap->at(getDistanceIdx(i, j)) << " ";
+            std::cout << getDistance(i, j) << " ";
         }
         std::cout << std::endl;
     }
 }
 
-int tlk::TableMap::getDistanceIdx(const int start, const int end) const
+int tlk::DistanceMap::getDistanceIdx(const int start, const int end) const
 {
     const int total = 200 * 201 /2;
 
@@ -134,14 +133,14 @@ int tlk::TableMap::getDistanceIdx(const int start, const int end) const
     return getDistanceIdx(end, start);
 }
 
-void tlk::TableMap::addConnection(const Connection& connection)
+void tlk::DistanceMap::addConnection(const Connection& connection)
 {
     gameFields[connection.target]->push_back(connection.getReverse());
     gameFields[connection.source]->push_back(connection);
-    distanceMap->at(getDistanceIdx(connection.source, connection.target)) = 1;
+    setDistance(connection.source, connection.target, 1);
 } 
 
-void tlk::TableMap::buildDistanceTable()
+void tlk::DistanceMap::buildDistanceTable()
 {
     for (int start = 1; start < 201; ++start)
     {
@@ -155,11 +154,10 @@ void tlk::TableMap::buildDistanceTable()
                 continue;
 
             //if node distance is already calculated
-            if (getDistanceBetween(start, end, true) != -1)
-                continue;
+            // if (getDistanceBetween(start, end, true) != -1)
+            //     continue;
 
-            const int distance = distanceAlgorithm(start, end);
-            distanceMap->at(getDistanceIdx(start, end)) = distance;
+            setDistance(start, end, distanceAlgorithm(start, end));
         }
 
         if (start == 108)
@@ -167,7 +165,7 @@ void tlk::TableMap::buildDistanceTable()
     }
 }
 
-int tlk::TableMap::distanceAlgorithm(const int start, const int target)
+int tlk::DistanceMap::distanceAlgorithm(const int start, const int target)
 {
     if (start == target)
         return 0;
@@ -199,7 +197,7 @@ int tlk::TableMap::distanceAlgorithm(const int start, const int target)
                 // TODO this doesn't improve performance, might remove
                 // if (getDistanceBetween(i, con.target, true) == -1)
                 // {
-                    distanceMap->at(getDistanceIdx(i, con.target)) = distance;
+                    setDistance(i, con.target, distance);
                 // }
             }
 
@@ -216,11 +214,8 @@ int tlk::TableMap::distanceAlgorithm(const int start, const int target)
     return distance;
 }
 
-const tlk::Connections& tlk::TableMap::getOutgoing(const int loc) const
+const tlk::Connections& tlk::DistanceMap::getOutgoing(const int loc) const
 {
-     if (tlk::LOG_LEVEL >= tlk::HIGH)
-        std::cout << "get outgoing from " << loc  << std::endl;
-
     // std::cout << "All connections: " << getAllConnections() << std::endl;
     return *gameFields.at(loc);
 }
@@ -230,19 +225,26 @@ bool isOccupied(int pos, const std::vector<int>& occupied)
     return occupied.end() != std::find(occupied.begin(), occupied.end(), pos);
 }
 
-int tlk::TableMap::getDistanceBetween(const int s, const int t, bool noBoat) const
+//TODO implement Boat or remove if no longer required
+int tlk::DistanceMap::getDistanceBetween(const int s, const int t, bool noBoat) const
 {
     if (s == t)
         return 0;
 
-    const int distance = distanceMap->at(getDistanceIdx(s, t));   
-    // std::cout << " is " << distance << std::endl; 
-
-    return distance;
+    return getDistance(s, t);
 }
 
+inline int tlk::DistanceMap::getDistance(const int start, const int end) const
+{
+    return distanceMap->at(getDistanceIdx(start, end));
+}
 
-void tlk::TableMap::saveToFile() 
+inline void tlk::DistanceMap::setDistance(const int start, const int end, const int distance)
+{
+    distanceMap->at(getDistanceIdx(start, end)) = distance;
+}
+
+void tlk::DistanceMap::saveToFile() 
 {
     //TODO make Filepath constant
     std::ofstream resultFile(ASSETPATH + "/distanceMap.txt",  std::ofstream::out);
@@ -251,14 +253,14 @@ void tlk::TableMap::saveToFile()
     {
         for (int j = 1; j < 201; ++j)
         {
-            resultFile << distanceMap->at(getDistanceIdx(i, j)) << " ";
+            resultFile << getDistance(i, j) << " ";
         }
         resultFile << std::endl;
     }
     resultFile.close();
 }
 
-void tlk::TableMap::initFromFile() 
+void tlk::DistanceMap::initFromFile() 
 {
     std::ifstream file(ASSETPATH + "/distanceMap.txt", std::ios::in);
 
@@ -275,13 +277,13 @@ void tlk::TableMap::initFromFile()
         size_t pos = line.find(' ');
         std::string token = line.substr(0, pos);
         
-        distanceMap->at(getDistanceIdx(sourceID, targetID++)) = stoi(token);
+        setDistance(sourceID, targetID++, stoi(token));
         line.erase(0, pos + 1);
 
         while ((pos = line.find(' ')) != std::string::npos) //npos is not found in String
         {
             token = line.substr(0, pos);
-            distanceMap->at(getDistanceIdx(sourceID, targetID++)) = stoi(token);
+            setDistance(sourceID, targetID++, stoi(token));
             line.erase(0, pos + 1);
         }
     }

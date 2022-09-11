@@ -56,11 +56,11 @@ namespace tlk
         const std::string path;
     };
 
-    class TableMap : public Map
+    class DistanceMap : public Map
     {
     public:
-        TableMap(const std::string& path);
-        virtual ~TableMap() { 
+        DistanceMap(const std::string& path);
+        virtual ~DistanceMap() { 
             delete distanceMap;
         };
 
@@ -77,6 +77,7 @@ namespace tlk
             return gameFields;
         }
 
+    //TODO these might become private
     protected:
         virtual void saveToFile();
         virtual void initFromFile();
@@ -84,14 +85,16 @@ namespace tlk
         void buildDistanceTable();
         void printDistanceMap() const;
         void printLostDistances() const;
+        inline int getDistance(const int start, const int end) const;
+        inline void setDistance(const int start, const int end, const int distance);
 
     private:
         //TODO add getter and setter for distances
         std::array<std::unique_ptr<Connections>, 201> gameFields;
         std::array<int, 20301>* distanceMap;
 
-        int distanceAlgorithm(const int start, const int target);
         virtual void addConnection(const Connection& connection);
+        int distanceAlgorithm(const int start, const int target);
         int getDistanceIdx(const int start, const int end) const;
     };
 

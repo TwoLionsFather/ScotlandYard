@@ -14,13 +14,13 @@ namespace tlk
 
     //TODO Array Out of range... some min method is Virt map might run to far...
 
-    static const DebugLevel LOG_LEVEL = LOW;
+    static const DebugLevel LOG_LEVEL = HIGH;
     static const DebugLevel CHRONO_LOG_LEVEL = NONE;
     static const int PLAYER_COUNT = 5;
     static const bool RUN_TESTS = 0;
     static const bool PLAYER_PLAYING = 0;
-    static const bool GRAPHICAL_INTERFACE = 0; //TODO Fix that
-    static const int GAME_COUNT = 10000; 
+    static const bool GRAPHICAL_INTERFACE = 1; //TODO Fix that
+    static const int GAME_COUNT = 1; 
     // static const int GAME_COUNT = std::min(10000, (int) std::pow(10, (4-LOG_LEVEL))); 
 	static const std::string ASSETPATH = "/home/tlk/Documents/Code/VSCode/ScotlandYard/assets/";
 
