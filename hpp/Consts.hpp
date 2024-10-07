@@ -2,6 +2,7 @@
 #include <math.h>
 #include <string>
 #include <map>
+#include <array>
 
 namespace tlk
 {

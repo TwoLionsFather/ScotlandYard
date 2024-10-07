@@ -11,14 +11,16 @@ DEPS = $(shell find $(IDIR) -name *.hpp)
 
 SRC = $(shell find . -name *.cpp)
 
+dummy_build_folder := $(shell mkdir -p $(ODIR))
+
 _OBJ = $(subst $(SDIR)/,$(ODIR)/,$(SRC))
 OBJ = $(patsubst %.cpp,%.o,$(_OBJ))
 
 obj/%.o: cpp/%.cpp $(DEPS)
 	$(CC) -c -std=c++20 -o $@ $< 
 
-sly_make:$(OBJ) 
-	$(CC) -o $@ $^  $(CFLAGS) $(LIBS)
+all:$(OBJ)
+	$(CC) -o sly_make $^  $(CFLAGS) $(LIBS)
 
 .PHONY: clean
 
