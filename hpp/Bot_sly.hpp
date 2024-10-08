@@ -11,11 +11,8 @@ namespace tlk
     class Bot_sly : public Entity
     {
     public:
-        Bot_sly(const VirtualMap& map, const int* round_ptr) 
-            : Entity(Team::SLY), vMap(map), round_ptr(round_ptr) {
-
-             };
-        virtual ~Bot_sly() { };
+        Bot_sly(const VirtualMap& map, const int* round_ptr);
+        virtual ~Bot_sly();
         
     protected:
         virtual double scoreCon(const Connection& c) override;

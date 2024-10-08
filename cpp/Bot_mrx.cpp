@@ -75,3 +75,16 @@ tlk::Ticket tlk::Bot_mrx::randomTicket(tlk::ConnectionType usedTransportation)
     
     return used;
 }
+
+tlk::Ticket tlk::Bot_mrx::getTicket(tlk::ConnectionType usedTransportation) {
+        return smartTicket(usedTransportation);
+}
+
+tlk::Bot_mrx::Bot_mrx(const tlk::VirtualMap &vMap, const int *round_ptr)
+        : Entity(Team::MRX), vMap(vMap), round_ptr(round_ptr) {
+
+}
+
+tlk::Bot_mrx::~Bot_mrx() {
+
+};

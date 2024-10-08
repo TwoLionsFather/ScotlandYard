@@ -141,3 +141,14 @@ void tlk::Simulation::setNextStartOrder(std::vector<std::array<int, 5>>& log)
         startingLocs[i] = startingLocations[i];
     log.push_back(startingLocs);
 }
+
+tlk::Simulation::Simulation()
+{
+    startingLocations.insert(std::begin(startingLocations)
+            , tlk::STARTING_POSITIONS
+            , tlk::STARTING_POSITIONS + tlk::STARTING_OPTIONS_COUNT);
+}
+
+tlk::Simulation::~Simulation() {
+
+}

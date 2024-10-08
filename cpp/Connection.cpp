@@ -13,6 +13,26 @@ tlk::ConnectionType tlk::Connection::get_type_from_char(char type)
     }
 }
 
+tlk::Connection::Connection()
+        : source(0), target(0), type(UNDEFINED) {
+
+}
+
+tlk::Connection::Connection(const int target, const tlk::ConnectionType type)
+        : source(0), target(target), type(type) {
+
+}
+
+tlk::Connection::Connection(const int source, const int target, const tlk::ConnectionType type)
+        : source(source), target(target), type(type) {
+
+}
+
+tlk::Connection tlk::Connection::getReverse() const
+{
+    return Connection(target, source, type);
+}
+
 std::ostream& operator<<(std::ostream &out, const tlk::ConnectionType& rhs)
 {
     switch (rhs)

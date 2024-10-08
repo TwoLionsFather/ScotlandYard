@@ -26,8 +26,7 @@ namespace tlk
 
     struct Statistics
     {
-        Statistics(State winner, int round) 
-            : endState(winner), finalRound(round) { };
+        Statistics(State winner, int round);
         const tlk::State endState = ERROR;
         const int finalRound = 0;
         //Possibly More
@@ -35,11 +34,10 @@ namespace tlk
 
     struct GameLiveInfo
     {
-        GameLiveInfo() { };
+        GameLiveInfo();
         GameLiveInfo(const EntityTracker *tracker
                     , const Entity* mrx
-                    , const std::vector<Entity*> *sly) 
-            : tracker(tracker), mrx(mrx), sly(sly) { };
+                    , const std::vector<Entity*> *sly);
 
         const EntityTracker *tracker = nullptr;
         const Entity* mrx = nullptr;
@@ -50,7 +48,7 @@ namespace tlk
     {
     public:
         Game() = delete;
-        Game(const Map* map);
+        explicit Game(const Map* map);
         virtual ~Game();
 
         void setup();

@@ -133,3 +133,43 @@ const std::vector<int> tlk::EntityTracker::getSlyLocations(const int roundOffset
 
     return locations;
 }
+
+tlk::EntityTracker::~EntityTracker()
+{
+    mrx_ticketHistory.clear();
+    entityHistory.clear();
+    positions.clear();
+}
+
+tlk::EntityTracker::EntityTracker(const tlk::Map &map)
+        : map(map), mrxLastSeenLocation(0) {
+
+}
+
+void tlk::EntityTracker::setMrxLocation(int loc)
+{
+    mrxLastSeenLocation = loc;
+    if (!mrx_ticketHistory.empty())
+        mrx_ticketHistory.erase(mrx_ticketHistory.cbegin(), --mrx_ticketHistory.cend());
+}
+
+int tlk::EntityTracker::getMrxLastSeenLocation() const
+{
+    return mrxLastSeenLocation;
+}
+
+const std::vector<tlk::Ticket> &tlk::EntityTracker::getMrxHistory() const
+{
+    return mrx_ticketHistory;
+}
+
+const tlk::Connections tlk::EntityTracker::getEntityMovesHistory(const tlk::Entity &e) const
+{
+    Connections conns;
+    for (auto move : entityHistory.at(&e))
+    {
+        conns.push_back(move.first);
+    }
+
+    return conns;
+}

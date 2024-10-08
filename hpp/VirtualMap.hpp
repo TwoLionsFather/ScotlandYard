@@ -18,9 +18,8 @@ namespace tlk
     class VirtualMap
     {
     public:
-        VirtualMap(const Map& original, EntityTracker& tracker)
-            : originalMap(original), tracker(tracker) { };
-        ~VirtualMap() { };
+        VirtualMap(const Map& original, EntityTracker& tracker);
+        ~VirtualMap();
         
 
         bool neighboursContainSLY (const int pos) const;

@@ -20,12 +20,8 @@ namespace tlk
     class Simulation
     {
     public:
-        Simulation() { 
-            startingLocations.insert(std::begin(startingLocations)
-            , tlk::STARTING_POSITIONS
-            , tlk::STARTING_POSITIONS + tlk::STARTING_OPTIONS_COUNT);
-        };
-        ~Simulation() { };
+        Simulation();
+        ~Simulation();
 
         /**
          * @brief Starts simulation process

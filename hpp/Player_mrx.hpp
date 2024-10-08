@@ -12,18 +12,12 @@ namespace tlk
     class Player_mrx : public Entity
     {
     public:
-        Player_mrx() : Entity(Team::MRX) { };
-        virtual ~Player_mrx() { };
+        Player_mrx();
+        ~Player_mrx() override;
 
     protected:
-        virtual const Connection& getSelection(const Connections& options) override
-        {
-            return tlk::PlayerInput::consoleSelectMoveFromOptions(options, tickets);
-        }
+        virtual const Connection& getSelection(const Connections& options) override;
 
-        virtual Ticket getTicket(ConnectionType usedTransportation) override
-        {
-            return tlk::PlayerInput::consoleSelectTicket(usedTransportation, tickets);
-        };
+        virtual Ticket getTicket(ConnectionType usedTransportation) override;
     };
 }

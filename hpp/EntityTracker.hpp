@@ -18,14 +18,8 @@ namespace tlk
     class EntityTracker
     {
     public:
-        EntityTracker(const Map& map)
-            : map(map), mrxLastSeenLocation(0) {  };
-        ~EntityTracker() 
-        {
-            mrx_ticketHistory.clear();
-            entityHistory.clear();
-            positions.clear();
-        };
+        explicit EntityTracker(const Map& map);
+        ~EntityTracker() ;
 
         void track(const Entity& e);
 
@@ -80,22 +74,11 @@ namespace tlk
          * 
          * @param loc location of mrx
          */
-        void setMrxLocation(int loc)
-        {
-            mrxLastSeenLocation = loc;
-            if (!mrx_ticketHistory.empty())
-                mrx_ticketHistory.erase(mrx_ticketHistory.cbegin(), --mrx_ticketHistory.cend());
-        }
+        void setMrxLocation(int loc);
 
-        int getMrxLastSeenLocation() const
-        {
-            return mrxLastSeenLocation;
-        }
+        int getMrxLastSeenLocation() const;
 
-        const std::vector<Ticket>& getMrxHistory() const
-        {
-            return mrx_ticketHistory;
-        }
+        const std::vector<Ticket>& getMrxHistory() const;
 
         /**
          * @brief Get history of moves by an entity
@@ -114,16 +97,7 @@ namespace tlk
          * @param e Entity to use
          * @return a vector containing all moves by entity
          */
-        const Connections getEntityMovesHistory(const Entity& e) const
-        {
-            Connections conns;
-            for (auto move : entityHistory.at(&e))
-            {
-                conns.push_back(move.first);
-            }
-
-            return conns;
-        }
+        const Connections getEntityMovesHistory(const Entity& e) const;
 
         /**
          * @brief get The locations where sly units were located at the begining of round

@@ -150,3 +150,12 @@ std::unordered_set<int> tlk::VirtualMap::getMrxPossibleLocationsAfter(const Enti
 
     return locations;
 }
+
+tlk::VirtualMap::VirtualMap(const tlk::Map &original, tlk::EntityTracker &tracker)
+        : originalMap(original), tracker(tracker) {
+
+}
+
+tlk::VirtualMap::~VirtualMap() {
+
+}

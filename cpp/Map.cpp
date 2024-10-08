@@ -50,6 +50,14 @@ const tlk::Connections tlk::Map::getAllConnections() const
     return conns;
 }
 
+tlk::Map::Map(const std::string &path)  : path(path) {
+
+}
+
+tlk::Map::~Map() {
+
+}
+
 tlk::DistanceMap::DistanceMap(const std::string& path) : Map(path) 
 {
     for (int i = 0; i < 201; ++i)
@@ -289,6 +297,11 @@ void tlk::DistanceMap::initFromFile()
     }
 
     file.close();
+}
+
+const std::array<std::unique_ptr<Connections>, 201> &tlk::DistanceMap::getGameFields() const
+{
+    return gameFields;
 }
 
 std::ostream& operator<<(std::ostream &out, const tlk::Map &rhs)  

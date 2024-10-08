@@ -15,8 +15,7 @@ namespace tlk
          * @brief Construct a new Connection object without defining any porperty
          * 
          */
-        Connection () 
-            : source(0), target(0), type(UNDEFINED) {  };
+        Connection () ;
 
         /**
          * @brief deprecated constructs a Connection only defining a target node. 
@@ -25,8 +24,7 @@ namespace tlk
          * @param target Target of connection 
          * @param type  Type of connection
          */
-        Connection (const int target, const ConnectionType type)
-            : source(0), target(target), type(type) {  };  
+        Connection (const int target, const ConnectionType type);
 
         /**
          * @brief Construct a new Connection object Defines a bidirectional Connection
@@ -35,18 +33,14 @@ namespace tlk
          * @param target Target of connection
          * @param type Type of connection
          */
-        Connection (const int source, const int target, const ConnectionType type)
-            : source(source), target(target), type(type) {  };  
+        Connection (const int source, const int target, const ConnectionType type);
 
         //TODO turn into final class?
         int source;
         int target;  
         ConnectionType type;
 
-        Connection getReverse() const
-        {
-            return Connection(target, source, type);
-        };
+        Connection getReverse() const;
 
         static ConnectionType get_type_from_char(char type);
     };

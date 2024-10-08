@@ -30,8 +30,8 @@ namespace tlk
          * 
          * @param path path to a file conatining map connections
          */
-        Map(const std::string& path) : path(path) { };
-        virtual ~Map() { };
+        explicit Map(const std::string& path);
+        virtual ~Map();
         
         /**
          * @brief Uses every node as a start and adds connections leaving it
@@ -72,10 +72,7 @@ namespace tlk
          * 
          * @return const std::array<std::unique_ptr<Connections>, 201>& Array Containing leavong connections for each node
          */
-        const std::array<std::unique_ptr<Connections>, 201>& getGameFields() const
-        {
-            return gameFields;
-        }
+        const std::array<std::unique_ptr<Connections>, 201>& getGameFields() const;
 
     //TODO these might become private
     protected:

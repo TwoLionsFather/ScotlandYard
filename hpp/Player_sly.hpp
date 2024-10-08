@@ -12,14 +12,11 @@ namespace tlk
     class Player_sly : public Entity
     {
     public:
-        Player_sly() : Entity(Team::SLY) { };
-        virtual ~Player_sly() { };
+        Player_sly() ;
+        ~Player_sly() override;
 
     protected:
 
-        virtual const Connection& getSelection(const Connections& options) override
-        {
-            return tlk::PlayerInput::consoleSelectMoveFromOptions(options, tickets);
-        }
+        virtual const Connection& getSelection(const Connections& options) override;
     };
 }

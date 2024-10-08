@@ -276,3 +276,18 @@ void tlk::Game::playSly()
         std::cout << "SLY MOVE Elapsed Time: " << elapsed.count() << " ms" << std::endl;
     }
 }
+
+tlk::Statistics::Statistics(tlk::State winner, int round)
+        : endState(winner), finalRound(round) {
+
+}
+
+tlk::GameLiveInfo::GameLiveInfo(const tlk::EntityTracker *tracker, const tlk::Entity *mrx,
+                                const std::vector<Entity *> *sly)
+        : tracker(tracker), mrx(mrx), sly(sly) {
+
+}
+
+tlk::GameLiveInfo::GameLiveInfo() {
+
+}

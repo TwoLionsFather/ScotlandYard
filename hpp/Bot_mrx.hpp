@@ -11,16 +11,12 @@ namespace tlk
     class Bot_mrx : public Entity
     {
     public:
-        Bot_mrx(const VirtualMap& vMap, const int* round_ptr) 
-            : Entity(Team::MRX), vMap(vMap), round_ptr(round_ptr) { };
-        virtual ~Bot_mrx() { };
+        Bot_mrx(const VirtualMap& vMap, const int* round_ptr);
+        virtual ~Bot_mrx();
 
     protected:
         virtual double scoreCon(const Connection& c) override;
-        virtual Ticket getTicket(ConnectionType usedTransportation) 
-        {
-            return smartTicket(usedTransportation);
-        };
+        virtual Ticket getTicket(ConnectionType usedTransportation) ;
 
     private:
         const VirtualMap& vMap; 

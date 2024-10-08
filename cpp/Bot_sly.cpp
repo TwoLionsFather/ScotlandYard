@@ -37,3 +37,12 @@ double tlk::Bot_sly::minDistStart(const Connection& c)
 {
     return vMap.getDistanceBetween(c.target, 100);
 }
+
+tlk::Bot_sly::Bot_sly(const tlk::VirtualMap &map, const int *round_ptr)
+        : Entity(Team::SLY), vMap(map), round_ptr(round_ptr) {
+
+}
+
+tlk::Bot_sly::~Bot_sly() {
+
+}
