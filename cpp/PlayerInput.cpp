@@ -3,7 +3,7 @@
 //
 #include "../hpp/PlayerInput.hpp"
 
-const tlk::Ticket
+[[maybe_unused]] const tlk::Ticket
 tlk::PlayerInput::consoleSelectTicket(const tlk::ConnectionType &type, const tlk::TicketStack &tickets)
 {
     Ticket used = TicketStack::getTicketFor(type);
@@ -55,7 +55,7 @@ tlk::PlayerInput::consoleSelectTicket(const tlk::ConnectionType &type, const tlk
     return used;
 }
 
-const tlk::Connection &
+[[maybe_unused]] const tlk::Connection &
 tlk::PlayerInput::consoleSelectMoveFromOptions(const tlk::Connections &options, const tlk::TicketStack &tickets)
 {
     int selection;

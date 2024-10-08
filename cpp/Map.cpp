@@ -299,7 +299,7 @@ void tlk::DistanceMap::initFromFile()
     file.close();
 }
 
-const std::array<std::unique_ptr<Connections>, 201> &tlk::DistanceMap::getGameFields() const
+const std::array<std::unique_ptr<tlk::Connections>, 201> &tlk::DistanceMap::getGameFields() const
 {
     return gameFields;
 }

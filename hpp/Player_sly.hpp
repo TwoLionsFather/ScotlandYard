@@ -9,7 +9,7 @@
 
 namespace tlk
 {
-    class Player_sly : public Entity
+    class [[maybe_unused]] Player_sly : public Entity
     {
     public:
         Player_sly() ;
