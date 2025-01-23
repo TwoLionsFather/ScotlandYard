@@ -236,10 +236,26 @@ void tlk::Game::playSly()
         if (tlk::LOG_LEVEL >= tlk::HIGH)
             std::cout << "Getting Moves for Sly: " << std::endl;
 
-        const Connections& options =  tracker.getMovesFor(*e);
+        Connections options = tracker.getMovesFor(*e);
         if (options.empty())
             continue;
-        
+
+        std::unordered_set<Connection, ConnectionHashFunction> move_allowed(options.cbegin(), options.cend());
+
+        for (Entity* e : sly_units) {
+            int location_sly = tracker.getLocationOf(*e);
+
+            for (auto it = move_allowed.begin(); it != move_allowed.end();)
+            {
+                if (it->target == location_sly)
+                    it = move_allowed.erase(it);
+                else
+                    it++;
+            }
+        }
+
+        options.clear();
+        options.insert(options.begin(), move_allowed.begin(), move_allowed.end());
 
         if (tlk::LOG_LEVEL >= tlk::HIGH)
             std::cout << "Moving Sly: " << std::endl;

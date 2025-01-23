@@ -30,8 +30,15 @@ double tlk::Bot_sly::minOptionsCount(const Connection& c)
 
 double tlk::Bot_sly::minDist(const Connection& c)
 {
+    return vMap.getDistanceToMrx(c.target);
+}
+
+/*
+double tlk::Bot_sly::minDist(const Connection& c)
+{
     return vMap.getDistanceToMrxReport(c.target);
 }
+*/
 
 double tlk::Bot_sly::minDistStart(const Connection& c)
 {

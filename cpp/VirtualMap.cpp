@@ -61,6 +61,10 @@ int tlk::VirtualMap::getDistanceBetween(const int pos, const int target) const
     return originalMap.getDistanceBetween(pos, target, true);
 }
 
+double tlk::VirtualMap::getDistanceToMrx(int pos) const {
+    return originalMap.getDistanceBetween(pos, tracker.getLocationOfMrx(), true);
+}
+
 int tlk::VirtualMap::countSLYsInRange(const int pos, const int dist) const
 {
     const std::vector<int> slyPos = tracker.getSlyLocations();
@@ -69,6 +73,8 @@ int tlk::VirtualMap::countSLYsInRange(const int pos, const int dist) const
     return std::count_if(std::begin(slyPos) +1, std::end(slyPos)
                         , [&](const int sly) { return originalMap.getDistanceBetween(pos, sly, true) <= dist; });
 }
+
+
 
 std::unordered_set<int> tlk::VirtualMap::getMrxPossibleLocationsAfter(int roundCount, const bool blockUsed) const
 {
@@ -159,3 +165,4 @@ tlk::VirtualMap::VirtualMap(const tlk::Map &original, tlk::EntityTracker &tracke
 tlk::VirtualMap::~VirtualMap() {
 
 }
+

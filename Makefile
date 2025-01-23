@@ -17,10 +17,10 @@ _OBJ = $(subst $(SDIR)/,$(ODIR)/,$(SRC))
 OBJ = $(patsubst %.cpp,%.o,$(_OBJ))
 
 obj/%.o: cpp/%.cpp $(DEPS)
-	$(CC) -c -std=c++20 -o $@ $< 
+	$(CC) -g -c -std=c++20 -o $@ $<
 
 all:$(OBJ)
-	$(CC) -o sly_make $^  $(CFLAGS) $(LIBS)
+	$(CC) -g -o sly_make $^  $(CFLAGS) $(LIBS)
 
 .PHONY: clean
 

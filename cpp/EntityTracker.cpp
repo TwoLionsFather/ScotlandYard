@@ -29,7 +29,7 @@ void tlk::EntityTracker::setStartingPos(const Entity& e, int startingPos)
     entityHistory.at(&e).emplace_back(Connection{startingPos, tlk::UNDEFINED}, tlk::Ticket::NO_TICKET);
 }
 
-const tlk::Connections tlk::EntityTracker::getMovesFor(const Entity& e) const
+tlk::Connections tlk::EntityTracker::getMovesFor(const Entity& e) const
 {
     if (tlk::LOG_LEVEL >= tlk::HIGH)
         std::cout << "Getting Moves for Entity: " << std::endl;
@@ -52,6 +52,8 @@ const tlk::Connections tlk::EntityTracker::getMovesFor(const Entity& e) const
                                     return !e.hasTicketFor(c.type);
                                 }), std::end(options)
     );  //remove if makes sure only valid elements are infront of returened iterator
+
+
 
     if (tlk::LOG_LEVEL >= tlk::HIGH)
         std::cout << "legal options " << options  << std::endl;

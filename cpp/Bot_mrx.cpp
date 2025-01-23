@@ -2,10 +2,9 @@
 
 double tlk::Bot_mrx::scoreCon(const tlk::Connection& c)
 {
-    if (tlk::LOG_LEVEL >= HIGH)
+    if (tlk::LOG_LEVEL >= NORMAL)
     {
-        std::cout << "Bot_mrx::scoreCon Scoring " << std::endl;
-        std::cout << "Connection: " << c << std::endl;
+        std::cout << "Bot_mrx::scoreCon: Connection: " << c << " ";
     }
     // int round_ptrsTillReveal = 4 - (*round_ptr + 1) % 5;
 
@@ -14,17 +13,15 @@ double tlk::Bot_mrx::scoreCon(const tlk::Connection& c)
     double outgoingCount = vMap.getPossibleLocationsAfter(c.target, 1, true).size(); // max is 12
     // int slyCount = vMap.countSLYsInRange(c.target, distanceToClosestSLY); // max is 4
 
-    double score = distanceToClosestSLY 
-            + distanceToMrxReport * 0.5
-            + outgoingCount / 12;
-
-    if (distanceToClosestSLY <= 1)
-        score =  0;
-
-    if (tlk::LOG_LEVEL >= HIGH)
-        std::cout << " Score: " << score << " d: "<< distanceToClosestSLY << std::endl;
+    double score = distanceToClosestSLY ;
+            //+ distanceToMrxReport * 0.5
+            //+ outgoingCount / 12;
 
     //use underground in Late game?
+    if (tlk::LOG_LEVEL >= NORMAL)
+    {
+        std::cout << "score: " << score << std::endl;
+    }
     return score;
 }
 

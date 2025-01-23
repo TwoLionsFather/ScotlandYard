@@ -51,7 +51,7 @@ namespace tlk
          */
         void updatePosition(const Entity& e, const Move used);
 
-        const Connections getMovesFor(const Entity& e) const;
+        Connections getMovesFor(const Entity& e) const;
 
         int getLocationOfMrx() const;
         int getLocationOf(const Entity& e) const;

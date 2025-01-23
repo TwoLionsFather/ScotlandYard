@@ -15,7 +15,7 @@ namespace tlk
 
     //TODO Array Out of range... some min method is Virt map might run to far...
 
-    static const DebugLevel LOG_LEVEL = HIGH;
+    static const DebugLevel LOG_LEVEL = NORMAL;
     static const DebugLevel CHRONO_LOG_LEVEL = NONE;
     static const int PLAYER_COUNT = 5;
     static const bool RUN_TESTS = 0;

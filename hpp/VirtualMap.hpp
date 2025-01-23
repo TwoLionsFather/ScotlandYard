@@ -53,6 +53,8 @@ namespace tlk
          */
         std::unordered_set<int> getPossibleLocationsAfter (const int start, const int roundCount, const bool futureMode = true, const std::optional<std::vector<Ticket>>& tickets = std::nullopt) const;
 
+        double getDistanceToMrx(int i) const;
+
     private:
         const Map& originalMap;
         EntityTracker& tracker; //TODO Evaluate better option?
